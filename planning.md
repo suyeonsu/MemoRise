@@ -31,5 +31,23 @@ yolov8.py 파일 추가
 ### 2023. 09. 08
 
 ```
+공백
+```
 
+<br>
+
+---
+
+### 2023. 09. 10
+
+```
+[Authentication Work]
+
+1. Send Credential( Http request )
+
+2. Backend API ( Validate Credentials & Generate Auth Token )
+
+3. Response with auth token ( The auth token identifies an authenticated user. It is sent along with future Http requests to protected resources. )
+
+4. Auth token ( Stored on the device )
 ```
