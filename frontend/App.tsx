@@ -13,7 +13,12 @@ import { SafeAreaView, StatusBar } from "react-native";
 import LandingScreen from "./screens/Landing/LandingScreen";
 import LoginScreen from "./screens/User/LoginScreen";
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+  Landing: undefined;
+  Login: undefined;
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 function App(): JSX.Element {
   return (
@@ -21,8 +26,20 @@ function App(): JSX.Element {
       <StatusBar />
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Landing" component={LandingScreen} />
-          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen
+            name="Landing"
+            component={LandingScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
