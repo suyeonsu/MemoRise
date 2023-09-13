@@ -4,6 +4,10 @@ import LinearGradient from "react-native-linear-gradient";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 import { RootStackParamList } from "../../App";
+import {
+  calculateDynamicHeight,
+  calculateDynamicWidth,
+} from "../../constants/dynamicSize";
 
 type LandingScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -15,24 +19,6 @@ type Props = {
 };
 
 const LandingScreen: React.FC<Props> = ({ navigation }) => {
-  // Dimension
-  const screenWidth = Dimensions.get("window").width;
-
-  const baseScreenWidth = 360; // 기준 너비
-  const targetImageWidth = 312; // 기준 너비일 때의 이미지 너비
-
-  const dynamicImageWidth = (screenWidth / baseScreenWidth) * targetImageWidth;
-
-  const targetImageHeight = 57; // 기준 너비일 때의 이미지 높이
-
-  const imageAspectRatio = targetImageWidth / targetImageHeight;
-  const dynamicImageHeight = dynamicImageWidth / imageAspectRatio;
-
-  const imageStyle = {
-    width: dynamicImageWidth,
-    height: dynamicImageHeight,
-  };
-
   // 애니메이션
   const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(50)).current;
@@ -93,3 +79,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
+const imageStyle = {
+  width: calculateDynamicWidth(312),
+  height: calculateDynamicHeight(312, 57, calculateDynamicWidth(312)),
+};

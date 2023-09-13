@@ -1,53 +1,12 @@
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Dimensions,
-  Pressable,
-} from "react-native";
+import { View, Image, StyleSheet, Pressable } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import Colors from "../../constants/colors";
+
+import {
+  calculateDynamicHeight,
+  calculateDynamicWidth,
+} from "../../constants/dynamicSize";
 
 const LandingScreen = () => {
-  // Dimension
-  const screenWidth = Dimensions.get("window").width;
-
-  const baseScreenWidth = 360; // 기준 너비
-  const targetImageWidth = 320; // 기준 너비일 때의 이미지 너비
-  const targetLogoWidth = 253; // 기준 너비일 때의 로고 너비
-  const targetKakaoWidth = 230; // 기준 너비일 때의 카카오 너비
-
-  const dynamicImageWidth = (screenWidth / baseScreenWidth) * targetImageWidth;
-  const dynamicLogoWidth = (screenWidth / baseScreenWidth) * targetLogoWidth;
-  const dynamicKakaoWidth = (screenWidth / baseScreenWidth) * targetKakaoWidth;
-
-  const targetImageHeight = 333; // 기준 너비일 때의 이미지 높이
-  const targetLogoHeight = 48; // 기준 너비일 때의 로고 & 카카오 높이
-
-  const imageAspectRatio = targetImageWidth / targetImageHeight;
-  const logoAspectRatio = targetLogoWidth / targetLogoHeight;
-  const kakaoAspectRatio = targetKakaoWidth / targetLogoHeight;
-
-  const dynamicImageHeight = dynamicImageWidth / imageAspectRatio;
-  const dynamicLogoHeight = dynamicLogoWidth / logoAspectRatio;
-  const dynamicKakaoHeight = dynamicKakaoWidth / kakaoAspectRatio;
-
-  const imageStyle = {
-    width: dynamicImageWidth,
-    height: dynamicImageHeight,
-  };
-
-  const logoStyle = {
-    width: dynamicLogoWidth,
-    height: dynamicLogoHeight,
-  };
-
-  const kakaoStyle = {
-    width: dynamicKakaoWidth,
-    height: dynamicKakaoHeight,
-  };
-
   return (
     <LinearGradient
       //   colors={["#F5F5F5", "red"]}
@@ -95,3 +54,18 @@ const styles = StyleSheet.create({
     bottom: "27%",
   },
 });
+
+const imageStyle = {
+  width: calculateDynamicWidth(320),
+  height: calculateDynamicHeight(320, 333, calculateDynamicWidth(320)),
+};
+
+const logoStyle = {
+  width: calculateDynamicWidth(253),
+  height: calculateDynamicHeight(253, 48, calculateDynamicWidth(253)),
+};
+
+const kakaoStyle = {
+  width: calculateDynamicWidth(230),
+  height: calculateDynamicHeight(230, 48, calculateDynamicWidth(230)),
+};

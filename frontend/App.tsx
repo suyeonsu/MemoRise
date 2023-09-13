@@ -12,10 +12,12 @@ import { SafeAreaView, StatusBar } from "react-native";
 
 import LandingScreen from "./screens/Landing/LandingScreen";
 import LoginScreen from "./screens/User/LoginScreen";
+import SignUpScreen from "./screens/User/SignUpScreen";
 
 export type RootStackParamList = {
   Landing: undefined;
   Login: undefined;
+  SignUp: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -40,6 +42,7 @@ function App(): JSX.Element {
               headerShown: false,
             }}
           />
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
