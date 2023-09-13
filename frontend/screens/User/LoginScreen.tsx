@@ -34,6 +34,7 @@ const LandingScreen = () => {
         }
       }
     } catch (error) {
+      // 변경예정
       console.log(error);
     }
   };
