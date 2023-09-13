@@ -1,5 +1,7 @@
 import { View, Image, StyleSheet, Pressable } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import KakaoLogins from "@react-native-seoul/kakao-login";
+import axios from "axios";
 
 import {
   calculateDynamicHeight,
@@ -7,6 +9,35 @@ import {
 } from "../../constants/dynamicSize";
 
 const LandingScreen = () => {
+  // 카카오 로그인 함수
+  // 로직 : 카카오에 요청 보내서 정보 받아온 후,
+  // 백엔드에 정보 보내서 사용자 검색해서 redirect
+  const loginHandler = async () => {
+    try {
+      // 로그인 진행
+      const result = await KakaoLogins.login();
+
+      if (result.accessToken) {
+        // 사용자 프로필 가져오기
+        const userInfo = await KakaoLogins.getProfile();
+
+        // 백엔드에 요청
+        const response = await axios.post("http://j9b106.p.ssafy.io:8000", {
+          id: userInfo.id,
+          // 추후 추가 예정
+        });
+
+        if (response.data.isNewUser) {
+          // 회원가입
+        } else {
+          // 메인페이지
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <LinearGradient
       //   colors={["#F5F5F5", "red"]}
@@ -25,7 +56,12 @@ const LandingScreen = () => {
             source={require("../../assets/image/logo/logo.png")}
             style={[logoStyle, styles.logo]}
           />
-          <Pressable style={styles.kakao}>
+          <Pressable
+            style={styles.kakao}
+            onPress={() => {
+              loginHandler;
+            }}
+          >
             <Image
               source={require("../../assets/image/kakao.png")}
               style={kakaoStyle}
