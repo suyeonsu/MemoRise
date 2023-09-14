@@ -1,6 +1,9 @@
 import { View, Image, StyleSheet, Pressable } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import KakaoLogins from "@react-native-seoul/kakao-login";
+import KakaoLogins, {
+  login,
+  getProfile,
+} from "@react-native-seoul/kakao-login";
 import axios from "axios";
 
 import {
@@ -15,11 +18,13 @@ const LandingScreen = () => {
   const loginHandler = async () => {
     try {
       // 로그인 진행
-      const result = await KakaoLogins.login();
+      const result = await login();
+      console.log(result);
 
       if (result.accessToken) {
         // 사용자 프로필 가져오기
-        const userInfo = await KakaoLogins.getProfile();
+        const userInfo = await getProfile();
+        console.log(userInfo);
 
         // 백엔드에 요청
         const response = await axios.post("http://j9b106.p.ssafy.io:8000", {
@@ -57,12 +62,7 @@ const LandingScreen = () => {
             source={require("../../assets/image/logo/logo.png")}
             style={[logoStyle, styles.logo]}
           />
-          <Pressable
-            style={styles.kakao}
-            onPress={() => {
-              loginHandler;
-            }}
-          >
+          <Pressable style={styles.kakao} onPress={loginHandler}>
             <Image
               source={require("../../assets/image/kakao.png")}
               style={kakaoStyle}
