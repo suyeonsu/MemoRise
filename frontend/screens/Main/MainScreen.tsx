@@ -8,16 +8,12 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 
 import { BlurView } from "@react-native-community/blur";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
 
 import MainHeader from "../../components/Header/MainHeader";
 import { styles } from "./MainStyle";
-
-import { setCameraActive } from "../../store/cameraSlice";
-import { RootState } from "../../store/store";
 
 const MainScreen = () => {
   // 알림 모달
@@ -39,15 +35,8 @@ const MainScreen = () => {
   const devices = useCameraDevices();
   const device = devices.back;
 
-  // 카메라 활성 상태 관리
-  const dispatch = useDispatch();
-  const isCameraActive = useSelector(
-    (state: RootState) => state.camera.isCameraActive
-  );
   useEffect(() => {
     checkPermission();
-    setCameraActive(true);
-    reloadCamera();
   }, []);
 
   const checkPermission = async () => {
@@ -57,15 +46,8 @@ const MainScreen = () => {
     }
   };
 
-  // 카메라의 key를 위한 state 추가
-  const [cameraKey, setCameraKey] = useState(Math.random().toString());
-
-  const reloadCamera = () => {
-    // 카메라의 key 값을 변경하여 카메라를 리로드
-    setCameraKey(Math.random().toString());
-  };
-
   if (device == null) return <ActivityIndicator />;
+  console.log("메인 페이지 랜더링");
 
   return (
     <View style={{ flex: 1 }}>
@@ -73,18 +55,16 @@ const MainScreen = () => {
         <View style={styles.headerContainer}>
           <MainHeader
             openModal={() => {
-              dispatch(setCameraActive(false)),
-                setNotificationModalVisible(true);
+              setNotificationModalVisible(true);
             }}
           />
         </View>
       )}
       <View style={styles.rootContainer}>
         <Camera
-          key={cameraKey}
           style={StyleSheet.absoluteFill}
           device={device}
-          isActive={isCameraActive}
+          isActive={true}
           photo
         />
         <Pressable
