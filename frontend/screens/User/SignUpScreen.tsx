@@ -42,7 +42,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   const [userNickname, setUserNickname] = useState(tempNickname);
   const [userProfileImg, setUserProfileImg] = useState(tempProfileImg);
 
-  const SignUpHandler = () => {
+  const SignUpHandler = async () => {
     //리덕스 정보 저장
     dispatch(setNickname(userNickname));
 
@@ -53,7 +53,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
       profile: userProfileImg,
     };
 
-    axios
+    await axios
       .post(BACKEND_URL + "/user", userData)
       .then((response) => {
         console.log(response);
