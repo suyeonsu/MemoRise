@@ -31,10 +31,16 @@ type Props = {
 const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   const dispatch = useDispatch();
 
+  // 리덕스에 저장된 사용자 정보 가져오기
   const userEmail = useSelector((state: any) => state.userInfo.email);
+  const tempNickname = useSelector((state: any) => state.userInfo.nickname);
+  const tempProfileImg = useSelector(
+    (state: any) => state.userInfo.profile_img
+  );
 
-  const [userNickname, setUserNickname] = useState("");
-  const [userProfileImg, setUserProfileImg] = useState("");
+  // 닉네임 & 프로필사진 상태관리 (리덕스에 닉네임 & 프로필사진 있다면 초기값으로 사용)
+  const [userNickname, setUserNickname] = useState(tempNickname);
+  const [userProfileImg, setUserProfileImg] = useState(tempProfileImg);
 
   const SignUpHandler = () => {
     //리덕스 정보 저장
