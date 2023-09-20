@@ -15,11 +15,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // 스타일
 import { styles } from "./LoginStyle";
 
-// 통신
-import { loginUserCheckHandler } from "../../util/http";
-
 //리듀서
 import { setEmail, setNickname, setProfileImg } from "../../store/user";
+import { BACKEND_URL } from "../../util/http";
 
 type RootStackParamList = {
   SignUp: undefined;
@@ -48,17 +46,23 @@ const LoginScreen = () => {
         }
 
         // 백엔드에 이메일 정보 보내서 사용자 확인
-        const checkUser = await loginUserCheckHandler(response.email);
+        await axios
+          .post(BACKEND_URL + "/auth", response.email)
+          .then((response) => {
+            const checkUser = response.data;
+            // 기존 사용자 여부에 따라 네비게이션 이동
+            if (checkUser === true) {
+              navigation.navigate("Main");
+            } else {
+              navigation.navigate("SignUp");
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
 
         // 리덕스 : 사용자 이메일값 변경
         dispatch(setEmail(response.email));
-
-        // 기존 사용자 여부에 따라 네비게이션 이동
-        if (checkUser === true) {
-          navigation.navigate("Main");
-        } else {
-          navigation.navigate("SignUp");
-        }
       } catch (error) {
         console.log(error);
       }
