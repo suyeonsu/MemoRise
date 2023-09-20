@@ -1,6 +1,7 @@
 //라이브러리
 import React from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { View, Image, Pressable } from "react-native";
@@ -17,6 +18,9 @@ import { styles } from "./LoginStyle";
 // 통신
 import { loginUserCheckHandler } from "../../util/http";
 
+//리듀서
+import { setEmail } from "../../store/user";
+
 type RootStackParamList = {
   SignUp: undefined;
   Main: undefined;
@@ -26,6 +30,8 @@ const LoginScreen = () => {
   // 네비게이션
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
+  const dispatch = useDispatch();
+
   // 카카오 사용자 정보 조회 함수
   const getProfileHandler = () => {
     const getProfileData = async () => {
@@ -33,6 +39,8 @@ const LoginScreen = () => {
         const response = await getProfile();
         // 백엔드에 이메일 정보 보내서 사용자 확인
         const checkUser = await loginUserCheckHandler(response.email);
+        // 리덕스 : 사용자 이메일값 변경
+        dispatch(setEmail(response.email));
         if (checkUser === true) {
           navigation.navigate("Main");
         } else {
