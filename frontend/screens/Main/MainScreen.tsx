@@ -1,9 +1,23 @@
-import React, { useState } from "react";
-import { View, Text, Modal, Pressable, Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Modal,
+  Pressable,
+  Image,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+
 import { BlurView } from "@react-native-community/blur";
+import { Camera, useCameraDevices } from "react-native-vision-camera";
 
 import MainHeader from "../../components/Header/MainHeader";
 import { styles } from "./MainStyle";
+
+import { setCameraActive } from "../../store/cameraSlice";
+import { RootState } from "../../store/store";
 
 const MainScreen = () => {
   // 알림 모달
@@ -21,14 +35,58 @@ const MainScreen = () => {
     setMemoBtnModalVisible(false);
   };
 
+  // 카메라 허용 권한 확인
+  const devices = useCameraDevices();
+  const device = devices.back;
+
+  // 카메라 활성 상태 관리
+  const dispatch = useDispatch();
+  const isCameraActive = useSelector(
+    (state: RootState) => state.camera.isCameraActive
+  );
+  useEffect(() => {
+    checkPermission();
+    setCameraActive(true);
+    reloadCamera();
+  }, []);
+
+  const checkPermission = async () => {
+    const cameraPermission = await Camera.getCameraPermissionStatus();
+    if (cameraPermission === "denied") {
+      return Camera.requestCameraPermission();
+    }
+  };
+
+  // 카메라의 key를 위한 state 추가
+  const [cameraKey, setCameraKey] = useState(Math.random().toString());
+
+  const reloadCamera = () => {
+    // 카메라의 key 값을 변경하여 카메라를 리로드
+    setCameraKey(Math.random().toString());
+  };
+
+  if (device == null) return <ActivityIndicator />;
+
   return (
     <View style={{ flex: 1 }}>
       {!isNotificationModalVisible && (
         <View style={styles.headerContainer}>
-          <MainHeader openModal={() => setNotificationModalVisible(true)} />
+          <MainHeader
+            openModal={() => {
+              dispatch(setCameraActive(false)),
+                setNotificationModalVisible(true);
+            }}
+          />
         </View>
       )}
       <View style={styles.rootContainer}>
+        <Camera
+          key={cameraKey}
+          style={StyleSheet.absoluteFill}
+          device={device}
+          isActive={isCameraActive}
+          photo
+        />
         <Pressable
           style={styles.btnContainer}
           onPress={() => setMemoBtnModalVisible(true)}
