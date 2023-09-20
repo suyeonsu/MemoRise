@@ -11,7 +11,17 @@ import { styles } from "./LoginStyle";
 const LoginScreen = () => {
   // 카카오 로그인 함수
   const loginHandler = async () => {
-    return await login()
+    await login()
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getProfileHandler = () => {
+    getProfile()
       .then((response) => {
         console.log(response);
       })
@@ -38,7 +48,7 @@ const LoginScreen = () => {
             source={require("../../assets/image/logo/logo.png")}
             style={styles.logo}
           />
-          <Pressable style={styles.kakao} onPress={loginHandler}>
+          <Pressable style={styles.kakao} onPress={() => loginHandler()}>
             <Image
               source={require("../../assets/image/kakao.png")}
               style={styles.kakaoImage}
