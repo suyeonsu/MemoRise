@@ -1,3 +1,5 @@
+//라이브러리
+import React from "react";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -7,8 +9,13 @@ import KakaoLogins, {
   getProfile,
 } from "@react-native-seoul/kakao-login";
 import LinearGradient from "react-native-linear-gradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// 스타일
 import { styles } from "./LoginStyle";
+
+// 통신
+import { loginUserCheckHandler } from "../../util/http";
 
 type RootStackParamList = {
   SignUp: undefined;
@@ -21,35 +28,30 @@ const LoginScreen = () => {
 
   // 카카오 사용자 정보 조회 함수
   const getProfileHandler = () => {
-    getProfile()
-      .then((response) => {
+    const getProfileData = async () => {
+      try {
+        const response = await getProfile();
         // 백엔드에 이메일 정보 보내서 사용자 확인
-        axios
-          .post("http://j9b106.p.ssafy.io:8000/auth", {
-            email: response.email,
-          })
-          .then((response) => {
-            if (response.data === true) {
-              console.log("가입된 회원입니다.");
-              navigation.navigate("Main");
-            } else {
-              console.log("회원가입이 필요한 회원입니다.");
-              navigation.navigate("SignUp");
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-      .catch((error) => {
+        const checkUser = await loginUserCheckHandler(response.email);
+        if (checkUser === true) {
+          navigation.navigate("Main");
+        } else {
+          navigation.navigate("SignUp");
+        }
+      } catch (error) {
         console.log(error);
-      });
+      }
+    };
+
+    getProfileData();
   };
 
   // 카카오 소셜 로그인 함수
   const loginHandler = async () => {
     await login()
       .then((response) => {
+        // 사용자 토큰
+        // 여기에다가 코드 작성
         // 사용자 프로필 정보 조회
         getProfileHandler();
       })
