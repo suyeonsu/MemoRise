@@ -7,14 +7,16 @@ type UserProps = {
   profile_img: string;
 };
 
+const initialState: UserProps = {
+  nickname: "",
+  email: "",
+  profile_img: "",
+};
+
 // 유저 슬라이스
 const userSlice = createSlice({
   name: "user",
-  initialState: {
-    nickname: "",
-    email: "",
-    profile_img: "",
-  },
+  initialState,
   reducers: {
     setNickname: (state, action: PayloadAction<string>) => {
       state.nickname = action.payload;
