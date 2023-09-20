@@ -6,15 +6,18 @@ import LinearGradient from "react-native-linear-gradient";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useDispatch, useSelector } from "react-redux";
 
-//컴포넌트
+// 컴포넌트
 import ConfirmBtn from "../../components/Button/ConfirmBtn";
 import HighlightHeader from "../../components/Header/HighlightHeader";
 import ProfilePic from "../../components/ProfilePic";
 import { RootStackParamList } from "../../App";
 import { styles } from "./UserInputStyle";
 
-//리듀서
+// 리듀서
 import { setNickname, setProfileImg } from "../../store/user";
+
+// 백엔드 URL
+import { BACKEND_URL } from "../../util/http";
 
 type SignUpScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -38,7 +41,19 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     dispatch(setNickname(userNickname));
 
     // 백엔드 연동
-
+    const userData = {
+      email: userEmail,
+      nickname: userNickname,
+      profile: userProfileImg,
+    };
+    axios
+      .post(BACKEND_URL + "/user", userData)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     //메인페이지 이동
     navigation.navigate("Main");
   };
