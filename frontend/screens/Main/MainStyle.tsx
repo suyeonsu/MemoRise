@@ -121,6 +121,12 @@ export const styles = StyleSheet.create({
     paddingBottom: 3,
     paddingLeft: calculateDynamicWidth(10.5),
   },
+  toggleClosedContentContainer: {
+    width: calculateDynamicWidth(81),
+    flexDirection: "row",
+    paddingBottom: 3,
+    paddingLeft: calculateDynamicWidth(10.5),
+  },
   toggleText: {
     fontFamily: "Pretendard-Medium",
     fontSize: calculateDynamicWidth(14),

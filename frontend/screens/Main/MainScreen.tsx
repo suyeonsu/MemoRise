@@ -250,7 +250,7 @@ const MainScreen = () => {
                         <Pressable onPress={() => chooseOpenState(2)}>
                           <View
                             style={[
-                              styles.toggleContentContainer,
+                              styles.toggleClosedContentContainer,
                               { paddingLeft: calculateDynamicWidth(16) },
                             ]}
                           >
