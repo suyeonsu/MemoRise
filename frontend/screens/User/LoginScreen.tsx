@@ -19,7 +19,7 @@ import { styles } from "./LoginStyle";
 import { loginUserCheckHandler } from "../../util/http";
 
 //리듀서
-import { setEmail } from "../../store/user";
+import { setEmail, setNickname, setProfileImg } from "../../store/user";
 
 type RootStackParamList = {
   SignUp: undefined;
@@ -36,11 +36,24 @@ const LoginScreen = () => {
   const getProfileHandler = () => {
     const getProfileData = async () => {
       try {
+        // 사용자 정보 가져오기
         const response = await getProfile();
+
+        // 닉네임 & 프로필사진 여부 판단 후 리덕스 저장
+        if (response.nickname !== null) {
+          dispatch(setNickname(response.nickname));
+        }
+        if (response.profileImageUrl !== null) {
+          dispatch(setProfileImg(response.profileImageUrl));
+        }
+
         // 백엔드에 이메일 정보 보내서 사용자 확인
         const checkUser = await loginUserCheckHandler(response.email);
+
         // 리덕스 : 사용자 이메일값 변경
         dispatch(setEmail(response.email));
+
+        // 기존 사용자 여부에 따라 네비게이션 이동
         if (checkUser === true) {
           navigation.navigate("Main");
         } else {
