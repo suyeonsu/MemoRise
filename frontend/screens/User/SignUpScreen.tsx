@@ -55,6 +55,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
       .catch((error) => {
         console.log(error);
       });
+
     //메인페이지 이동
     navigation.navigate("Main");
   };
