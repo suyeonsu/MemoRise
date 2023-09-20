@@ -46,6 +46,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
       nickname: userNickname,
       profile: userProfileImg,
     };
+
     axios
       .post(BACKEND_URL + "/user", userData)
       .then((response) => {
