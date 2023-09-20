@@ -31,23 +31,27 @@ const MainScreen = () => {
     setMemoBtnModalVisible(false);
   };
 
-  // 카메라 허용 권한 확인
+  // 카메라 로직
+  // 연결된 디바이스 확인
   const devices = useCameraDevices();
+
+  // 후방 카메라
   const device = devices.back;
 
+  // 페이지 첫 렌더링 시 허용 권한 체크
   useEffect(() => {
     checkPermission();
   }, []);
 
+  // 카메라 허용 권한 확인
   const checkPermission = async () => {
-    const cameraPermission = await Camera.getCameraPermissionStatus();
+    const cameraPermission = await Camera.getCameraPermissionStatus(); // 현재 카메라 권한 상태
     if (cameraPermission === "denied") {
-      return Camera.requestCameraPermission();
+      return Camera.requestCameraPermission(); // 카메라 허용 요청
     }
   };
 
-  if (device == null) return <ActivityIndicator />;
-  console.log("메인 페이지 랜더링");
+  if (device == null) return <ActivityIndicator />; // 디바이스가 없을 시 원형 로딩 표시기를 표시
 
   return (
     <View style={{ flex: 1 }}>
