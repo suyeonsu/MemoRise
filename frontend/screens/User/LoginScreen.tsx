@@ -13,14 +13,17 @@ const LoginScreen = () => {
   const getProfileHandler = () => {
     getProfile()
       .then((response) => {
-        console.log(response.email);
         // 백엔드에 이메일 정보 보내서 사용자 확인
         axios
-          .post("http://j9b106.p.ssafy.io:8000/auth/oauth2/code/kakao", {
+          .post("http://j9b106.p.ssafy.io:8000/auth", {
             email: response.email,
           })
           .then((response) => {
-            console.log(response);
+            if (response.data === true) {
+              console.log("가입된 회원입니다.");
+            } else {
+              console.log("회원가입이 필요한 회원입니다.");
+            }
           })
           .catch((error) => {
             console.log(error);
@@ -35,7 +38,6 @@ const LoginScreen = () => {
   const loginHandler = async () => {
     await login()
       .then((response) => {
-        console.log(response.scopes);
         // 사용자 프로필 정보 조회
         getProfileHandler();
       })
