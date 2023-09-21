@@ -55,22 +55,6 @@ export const styles = StyleSheet.create({
     fontFamily: "Pretendard-SemiBold",
     fontSize: calculateDynamicWidth(18),
   },
-  memoBtnContainer: {
-    marginVertical: calculateDynamicWidth(5),
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  memoBtnText: {
-    color: "white",
-    fontFamily: "Pretendard-SemiBold",
-    fontSize: calculateDynamicWidth(18),
-    marginRight: calculateDynamicWidth(10),
-    position: "absolute",
-    left: screenWidth / 2 - calculateDynamicWidth(150),
-  },
-  memoBtnWrap: {
-    marginTop: screenHeight - calculateDynamicWidth(240),
-  },
   memoContainer: {
     width: calculateDynamicWidth(306),
     height: calculateDynamicWidth(306),
@@ -118,18 +102,23 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     borderBottomWidth: 0.8,
     borderBlockColor: "#CCCCCC",
-    paddingBottom: 3,
+    paddingBottom: calculateDynamicWidth(2.5),
     paddingLeft: calculateDynamicWidth(10.5),
   },
   toggleClosedContentContainer: {
     width: calculateDynamicWidth(81),
     flexDirection: "row",
-    paddingBottom: 3,
     paddingLeft: calculateDynamicWidth(10.5),
   },
   toggleText: {
     fontFamily: "Pretendard-Medium",
     fontSize: calculateDynamicWidth(14),
     color: Colors.text,
+  },
+  currentDate: {
+    fontFamily: "Pretendard-Regular",
+    fontSize: calculateDynamicWidth(14),
+    color: "#CCCCCC",
+    marginTop: calculateDynamicWidth(4),
   },
 });

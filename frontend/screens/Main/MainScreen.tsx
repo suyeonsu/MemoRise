@@ -17,6 +17,19 @@ import { styles } from "./MainStyle";
 import { TextInput } from "react-native-gesture-handler";
 import { calculateDynamicWidth } from "../../constants/dynamicSize";
 import Colors from "../../constants/colors";
+import MemoBtnModal from "../../components/Modal/Memo/MemoBtnModal";
+
+// 오늘 날짜 가져오기
+function getFormattedDate(): string {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // 월이 0부터 시작하므로 1을 더해줌
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}. ${month}. ${day}.`;
+}
+
+const currentDate = getFormattedDate();
 
 const MainScreen = () => {
   // 공개 범위 설정
@@ -38,6 +51,8 @@ const MainScreen = () => {
 
   const closeMemoCreateModal = () => {
     setMemoCreateModalVisible(false);
+    setOpenState(0);
+    setToggleOpen(false);
   };
 
   const openMemoCreateModal = () => {
@@ -176,33 +191,10 @@ const MainScreen = () => {
             visible={isMemoBtnModalVisible}
             onRequestClose={closeMemoBtnModal}
           >
-            <View style={styles.memoBtnWrap}>
-              <View style={styles.memoBtnContainer}>
-                <Text style={styles.memoBtnText}>메모 조회하기</Text>
-                <Pressable>
-                  <Image
-                    source={require("../../assets/image/memoreadbtn.png")}
-                    style={styles.addBtn}
-                  />
-                </Pressable>
-              </View>
-              <View style={styles.memoBtnContainer}>
-                <Text style={styles.memoBtnText}>메모 작성하기</Text>
-                <Pressable onPress={openMemoCreateModal}>
-                  <Image
-                    source={require("../../assets/image/memocreatebtn.png")}
-                    style={styles.addBtn}
-                  />
-                </Pressable>
-              </View>
-            </View>
-
-            <Pressable onPress={closeMemoBtnModal} style={styles.btnContainer}>
-              <Image
-                source={require("../../assets/image/cancelbtn.png")}
-                style={styles.addBtn}
-              />
-            </Pressable>
+            <MemoBtnModal
+              openMemoCreateModal={openMemoCreateModal}
+              closeModal={closeMemoBtnModal}
+            />
           </Modal>
         </BlurView>
       )}
@@ -310,7 +302,7 @@ const MainScreen = () => {
                     )}
 
                     {/* 임시 더미 데이터 */}
-                    <Text>오늘 2023. 09. 04.</Text>
+                    <Text style={styles.currentDate}>{currentDate}</Text>
                   </View>
                   <TextInput />
                 </View>
