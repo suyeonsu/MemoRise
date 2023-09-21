@@ -111,7 +111,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           })
           .then((response: any) => {
             // 요청 성공 시, 리덕스 및 상태관리 (사용자 이미지 S3링크로 저장)
-            const tempS3URL = S3_URL + response.data[0].savedFileName;
+            const tempS3URL = S3_URL + response.data[0].savedFileName; // console확인해서 코드 변경!!
             console.log(tempS3URL);
             setUserProfileImg(tempS3URL);
             dispatch(setProfileImg(tempS3URL));
