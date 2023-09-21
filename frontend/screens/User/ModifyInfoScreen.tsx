@@ -4,6 +4,7 @@ import { useState } from "react";
 import { View, Text, Image, TextInput } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
+import { launchImageLibrary } from "react-native-image-picker";
 
 // 컴포넌트
 import GoBackHeader from "../../components/Header/GoBackHeader";
@@ -23,6 +24,63 @@ import { BACKEND_URL, S3_URL } from "../../util/http";
 
 const ModifyInfoScreen = () => {
   const dispatch = useDispatch();
+
+  // 리덕스에 저장된 사용자 정보 가져오기
+  const tempNickname = useSelector(
+    (state: RootState) => state.userInfo.nickname
+  );
+  const tempProfileImg = useSelector(
+    (state: RootState) => state.userInfo.profile_img
+  );
+
+  // 닉네임 & 프로필사진 상태관리 (리덕스에 닉네임 & 프로필사진 있다면 초기값으로 사용)
+  const [userNickname, setUserNickname] = useState(tempNickname);
+  const [userProfileImg, setUserProfileImg] = useState(tempProfileImg);
+
+  // 사용자 프로필 사진 가져오기 (사용자 앨범 접근)
+  const selectProfileImageHanlder = () => {
+    launchImageLibrary(
+      {
+        mediaType: "photo",
+        maxWidth: 512,
+        maxHeight: 512,
+        includeBase64: true,
+      },
+      (response: any) => {
+        if (response.didCancel) {
+          return;
+        } else if (response.errorCode) {
+          console.log("Image Error : " + response.errorCode);
+        }
+
+        // 백엔드 연동을 위한 Form Data
+        const formData = new FormData();
+        formData.append("files", {
+          uri: response.assets[0].uri,
+          type: response.assets[0].type,
+          name: response.assets[0].fileName,
+        });
+
+        // S3에 사진 업로드
+        axios
+          .post(BACKEND_URL + "/user/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response: any) => {
+            // 요청 성공 시, 리덕스 및 상태관리 (사용자 이미지 S3링크로 저장)
+            const tempS3URL = S3_URL + response.data[0].savedFileName;
+            console.log(tempS3URL);
+            setUserProfileImg(tempS3URL);
+            dispatch(setProfileImg(tempS3URL));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    );
+  };
 
   // 정보 수정 완료 함수
   const ConfirmHandler = () => {};
