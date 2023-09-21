@@ -59,8 +59,8 @@ export const styles = StyleSheet.create({
     width: calculateDynamicWidth(306),
     height: calculateDynamicWidth(306),
     maxHeight: calculateDynamicWidth(306),
-    overflow: "scroll",
     borderRadius: calculateDynamicWidth(15),
+    overflow: "scroll",
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -120,5 +120,26 @@ export const styles = StyleSheet.create({
     fontSize: calculateDynamicWidth(14),
     color: "#CCCCCC",
     marginTop: calculateDynamicWidth(4),
+  },
+  memoInnerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  memoInnerBtnContainer: {
+    flexDirection: "row",
+  },
+  addPic: {
+    width: calculateDynamicWidth(21),
+    height: calculateDynamicWidth(20),
+    marginRight: calculateDynamicWidth(10),
+  },
+  confirm: {
+    width: calculateDynamicWidth(21),
+    height: calculateDynamicWidth(15.21),
+  },
+  memoContent: {
+    fontFamily: "Pretendard-Regular",
+    fontSize: calculateDynamicWidth(18),
+    color: Colors.text,
   },
 });

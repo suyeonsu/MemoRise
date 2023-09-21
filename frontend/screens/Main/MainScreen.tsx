@@ -7,6 +7,7 @@ import {
   Image,
   ActivityIndicator,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { BlurView } from "@react-native-community/blur";
@@ -32,6 +33,9 @@ function getFormattedDate(): string {
 const currentDate = getFormattedDate();
 
 const MainScreen = () => {
+  // 메모 작성 내용
+  const [memoContent, setMemoContent] = useState("");
+
   // 공개 범위 설정
   // 0: 전체공개, 1: 일부공개, 2: 비공개
   const [openState, setOpenState] = useState(0);
@@ -231,80 +235,93 @@ const MainScreen = () => {
               >
                 <View style={{ padding: calculateDynamicWidth(15) }}>
                   {/* 공개 범위 설정 버튼 */}
-                  <View>
-                    {openState === 0 && (
-                      <Pressable onPress={selectOpenState}>
-                        <Image
-                          source={require("../../assets/image/public.png")}
-                          style={styles.openState}
-                        />
-                      </Pressable>
-                    )}
-                    {openState === 1 && (
-                      <Pressable onPress={selectOpenState}>
-                        <Image
-                          source={require("../../assets/image/restrict.png")}
-                          style={styles.openState}
-                        />
-                      </Pressable>
-                    )}
-                    {openState === 2 && (
-                      <Pressable onPress={selectOpenState}>
-                        <Image
-                          source={require("../../assets/image/closed.png")}
-                          style={styles.openState}
-                        />
-                      </Pressable>
-                    )}
-                    {isToggleOpen && (
-                      <View style={styles.toggleContainer}>
-                        <Pressable onPress={() => chooseOpenState(0)}>
-                          <View style={styles.toggleContentContainer}>
-                            <Text style={styles.toggleText}>전체공개</Text>
-                            {openState === 0 && (
-                              <View style={styles.blueDotContainer}>
-                                <View style={styles.blueDot}></View>
-                              </View>
-                            )}
-                          </View>
+                  <View style={styles.memoInnerContainer}>
+                    <View>
+                      {openState === 0 && (
+                        <Pressable onPress={selectOpenState}>
+                          <Image
+                            source={require("../../assets/image/public.png")}
+                            style={styles.openState}
+                          />
                         </Pressable>
-                        <Pressable onPress={() => chooseOpenState(1)}>
-                          <View style={styles.toggleContentContainer}>
-                            <Text style={styles.toggleText}>일부공개</Text>
-                            {openState === 1 && (
-                              <View style={styles.blueDotContainer}>
-                                <View style={styles.blueDot}></View>
-                              </View>
-                            )}
-                          </View>
+                      )}
+                      {openState === 1 && (
+                        <Pressable onPress={selectOpenState}>
+                          <Image
+                            source={require("../../assets/image/restrict.png")}
+                            style={styles.openState}
+                          />
                         </Pressable>
-                        <Pressable onPress={() => chooseOpenState(2)}>
-                          <View
-                            style={[
-                              styles.toggleClosedContentContainer,
-                              { paddingLeft: calculateDynamicWidth(16) },
-                            ]}
-                          >
-                            <Text style={styles.toggleText}>비공개</Text>
-                            {openState === 2 && (
-                              <View style={styles.blueDotContainer}>
-                                <View
-                                  style={[
-                                    styles.blueDot,
-                                    { backgroundColor: Colors.text },
-                                  ]}
-                                ></View>
-                              </View>
-                            )}
-                          </View>
+                      )}
+                      {openState === 2 && (
+                        <Pressable onPress={selectOpenState}>
+                          <Image
+                            source={require("../../assets/image/closed.png")}
+                            style={styles.openState}
+                          />
                         </Pressable>
-                      </View>
-                    )}
+                      )}
+                      {isToggleOpen && (
+                        <View style={styles.toggleContainer}>
+                          <Pressable onPress={() => chooseOpenState(0)}>
+                            <View style={styles.toggleContentContainer}>
+                              <Text style={styles.toggleText}>전체공개</Text>
+                              {openState === 0 && (
+                                <View style={styles.blueDotContainer}>
+                                  <View style={styles.blueDot}></View>
+                                </View>
+                              )}
+                            </View>
+                          </Pressable>
+                          <Pressable onPress={() => chooseOpenState(1)}>
+                            <View style={styles.toggleContentContainer}>
+                              <Text style={styles.toggleText}>일부공개</Text>
+                              {openState === 1 && (
+                                <View style={styles.blueDotContainer}>
+                                  <View style={styles.blueDot}></View>
+                                </View>
+                              )}
+                            </View>
+                          </Pressable>
+                          <Pressable onPress={() => chooseOpenState(2)}>
+                            <View
+                              style={[
+                                styles.toggleClosedContentContainer,
+                                { paddingLeft: calculateDynamicWidth(16) },
+                              ]}
+                            >
+                              <Text style={styles.toggleText}>비공개</Text>
+                              {openState === 2 && (
+                                <View style={styles.blueDotContainer}>
+                                  <View
+                                    style={[
+                                      styles.blueDot,
+                                      { backgroundColor: Colors.text },
+                                    ]}
+                                  ></View>
+                                </View>
+                              )}
+                            </View>
+                          </Pressable>
+                        </View>
+                      )}
 
-                    {/* 임시 더미 데이터 */}
-                    <Text style={styles.currentDate}>{currentDate}</Text>
+                      <Text style={styles.currentDate}>{currentDate}</Text>
+                    </View>
+                    <View style={styles.memoInnerBtnContainer}>
+                      <Image
+                        source={require("../../assets/icons/addpic.png")}
+                        style={styles.addPic}
+                      />
+                      <Image
+                        source={require("../../assets/icons/confirm.png")}
+                        style={styles.confirm}
+                      />
+                    </View>
                   </View>
-                  <TextInput />
+                  <ScrollView>
+                    <TextInput style={styles.memoContent} multiline={true} />
+                  </ScrollView>
                 </View>
               </LinearGradient>
             </View>
