@@ -21,8 +21,20 @@ import { setNickname, setProfileImg } from "../../store/user";
 
 // 백엔드 URL
 import { BACKEND_URL, S3_URL } from "../../util/http";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../../App";
 
-const ModifyInfoScreen = () => {
+// 타입
+type ModifyInfoScreenProp = StackNavigationProp<
+  RootStackParamList,
+  "ModifyInfo"
+>;
+
+type Props = {
+  navigation: ModifyInfoScreenProp;
+};
+
+const ModifyInfoScreen: React.FC<Props> = ({ navigation }) => {
   const dispatch = useDispatch();
 
   // 리덕스에 저장된 사용자 정보 가져오기
@@ -83,7 +95,32 @@ const ModifyInfoScreen = () => {
   };
 
   // 정보 수정 완료 함수
-  const ConfirmHandler = () => {};
+  const ConfirmHandler = async () => {
+    // 사용자 닉네임 리덕스 저장
+    dispatch(setNickname(userNickname));
+
+    //백엔드 연동에 필요한 데이터
+    const userData = {
+      nickname: userNickname,
+      profile: userProfileImg,
+    };
+
+    // 백엔드 연동
+    await axios
+      .put(BACKEND_URL + "/user", userData)
+      .then((response) => {
+        console.log(response);
+        if (response.data.success === true) {
+          navigation.navigate("Menu");
+        } else {
+          console.log("회원정보 수정 중 에러가 발생했습니다.");
+          navigation.navigate("NotFound");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <LinearGradient
@@ -109,7 +146,11 @@ const ModifyInfoScreen = () => {
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.text}>닉네임</Text>
-            <TextInput style={styles.input} />
+            <TextInput
+              style={styles.input}
+              value={userNickname}
+              onChangeText={setUserNickname}
+            />
             <Text style={styles.infoText}>
               한글, 영어, 숫자만 사용할 수 있어요. (최대 10자)
             </Text>

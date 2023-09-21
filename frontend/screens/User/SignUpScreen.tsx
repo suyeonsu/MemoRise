@@ -69,6 +69,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           navigation.navigate("Main");
         } else {
           console.log("회원가입 중 에러가 발생했습니다.");
+          navigation.navigate("NotFound");
         }
       })
       .catch((error) => {
