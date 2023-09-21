@@ -12,6 +12,7 @@ import {
 import LinearGradient from "react-native-linear-gradient";
 import { BlurView } from "@react-native-community/blur";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
+import { useIsFocused } from "@react-navigation/native";
 
 import MainHeader from "../../components/Header/MainHeader";
 import { styles } from "./MainStyle";
@@ -33,8 +34,19 @@ function getFormattedDate(): string {
 const currentDate = getFormattedDate();
 
 const MainScreen = () => {
+  const isFocused = useIsFocused();
   // 메모 작성 내용
   const [memoContent, setMemoContent] = useState("");
+  const [enteredMemo, setEnteredMemo] = useState("");
+
+  const memoInputHandler = (enteredText: string) => {
+    setEnteredMemo(enteredText);
+  };
+
+  const memoConfirmHandler = () => {
+    setMemoContent(enteredMemo);
+    setMemoCreateModalVisible(false);
+  };
 
   // 공개 범위 설정
   // 0: 전체공개, 1: 일부공개, 2: 비공개
@@ -116,7 +128,7 @@ const MainScreen = () => {
         <Camera
           style={StyleSheet.absoluteFill}
           device={device}
-          isActive={true}
+          isActive={isFocused}
           photo
         />
         <Pressable
@@ -309,18 +321,29 @@ const MainScreen = () => {
                       <Text style={styles.currentDate}>{currentDate}</Text>
                     </View>
                     <View style={styles.memoInnerBtnContainer}>
-                      <Image
-                        source={require("../../assets/icons/addpic.png")}
-                        style={styles.addPic}
-                      />
-                      <Image
-                        source={require("../../assets/icons/confirm.png")}
-                        style={styles.confirm}
-                      />
+                      <Pressable>
+                        <Image
+                          source={require("../../assets/icons/addpic.png")}
+                          style={styles.addPic}
+                        />
+                      </Pressable>
+                      <Pressable onPress={memoConfirmHandler}>
+                        <View>
+                          <Image
+                            source={require("../../assets/icons/confirm.png")}
+                            style={styles.confirm}
+                          />
+                        </View>
+                      </Pressable>
                     </View>
                   </View>
                   <ScrollView>
-                    <TextInput style={styles.memoContent} multiline={true} />
+                    <TextInput
+                      style={styles.memoContent}
+                      multiline={true}
+                      onChangeText={memoInputHandler}
+                      value={enteredMemo}
+                    />
                   </ScrollView>
                 </View>
               </LinearGradient>
