@@ -261,6 +261,19 @@ const MainScreen = () => {
               style={{ flex: 1, backgroundColor: "transparent" }}
               onPress={openMemoCancelModal}
             />
+            {/* 유저 or 그룹 태그 */}
+            {openState === 1 && (
+              <View style={styles.tagContainer}>
+                <View style={styles.tagSearchContainer}>
+                  <Text style={styles.tagText}>@</Text>
+                  <TextInput
+                    style={styles.tagText}
+                    placeholder="태그할 닉네임이나 그룹명을 입력해 주세요"
+                    placeholderTextColor="rgba(44, 44, 44, 0.5)"
+                  />
+                </View>
+              </View>
+            )}
             <View style={styles.memoContainer}>
               <LinearGradient
                 colors={["#FFFFFF", "#F5F5F5"]}

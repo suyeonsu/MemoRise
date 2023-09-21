@@ -56,7 +56,7 @@ export default AlertModal;
 
 const styles = StyleSheet.create({
   modalContainer: {
-    backgroundColor: "#efefef",
+    backgroundColor: "#E9E9E9",
     justifyContent: "center",
     alignItems: "center",
     width: calculateDynamicWidth(225) + 60,

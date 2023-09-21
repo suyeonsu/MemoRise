@@ -142,4 +142,35 @@ export const styles = StyleSheet.create({
     fontSize: calculateDynamicWidth(18),
     color: Colors.text,
   },
+  tagContainer: {
+    width: calculateDynamicWidth(306),
+    height: calculateDynamicWidth(50),
+    borderRadius: calculateDynamicWidth(15),
+    backgroundColor: "#ECECEC",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: [
+      {
+        translateY: -(
+          calculateDynamicWidth(306) / 2 +
+          calculateDynamicWidth(50)
+        ),
+      },
+      { translateX: -calculateDynamicWidth(306) / 2 },
+    ],
+    zIndex: 1,
+    elevation: 4,
+    paddingHorizontal: calculateDynamicWidth(10),
+    justifyContent: "center",
+  },
+  tagText: {
+    fontFamily: "Pretendard-Regular",
+    fontSize: calculateDynamicWidth(14),
+    color: Colors.text,
+  },
+  tagSearchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
 });
