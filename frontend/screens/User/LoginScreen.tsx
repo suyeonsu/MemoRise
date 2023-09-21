@@ -49,8 +49,9 @@ const LoginScreen = () => {
       })
       .then((response) => {
         const checkUser = response.data;
+        console.log(checkUser);
         // 기존 사용자 여부에 따라 네비게이션 이동
-        if (checkUser === true) {
+        if (checkUser.success === true) {
           navigation.navigate("Main");
         } else {
           navigation.navigate("SignUp");

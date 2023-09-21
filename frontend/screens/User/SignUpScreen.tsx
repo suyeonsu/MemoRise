@@ -46,6 +46,8 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     //리덕스 정보 저장
     dispatch(setNickname(userNickname));
 
+    console.log(userEmail, userNickname, userProfileImg);
+
     // 백엔드 연동
     const userData = {
       email: userEmail,
@@ -56,14 +58,17 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     await axios
       .post(BACKEND_URL + "/user", userData)
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
+        //메인페이지 이동
+        if (response.data.success === true) {
+          navigation.navigate("Main");
+        } else {
+          console.log("회원가입 중 에러가 발생했습니다.");
+        }
       })
       .catch((error) => {
         console.log(error);
       });
-
-    //메인페이지 이동
-    navigation.navigate("Main");
   };
 
   return (
