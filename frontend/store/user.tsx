@@ -36,4 +36,5 @@ const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { setNickname, setEmail, setProfileImg } = userSlice.actions;
+export const { setUserId, setNickname, setEmail, setProfileImg } =
+  userSlice.actions;
