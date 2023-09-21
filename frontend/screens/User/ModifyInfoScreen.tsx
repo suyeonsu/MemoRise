@@ -22,6 +22,9 @@ import { setNickname, setProfileImg } from "../../store/user";
 import { BACKEND_URL, S3_URL } from "../../util/http";
 
 const ModifyInfoScreen = () => {
+  const dispatch = useDispatch();
+
+  // 정보 수정 완료 함수
   const ConfirmHandler = () => {};
 
   return (
