@@ -1,10 +1,25 @@
+// 라이브러리
+import axios from "axios";
+import { useState } from "react";
 import { View, Text, Image, TextInput } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import { useDispatch, useSelector } from "react-redux";
 
+// 컴포넌트
 import GoBackHeader from "../../components/Header/GoBackHeader";
-import { styles } from "./UserInputStyle";
 import ProfilePic from "../../components/ProfilePic";
 import ConfirmBtn from "../../components/Button/ConfirmBtn";
+
+// 리덕스
+import { RootState } from "../../store/store";
+
+// 스타일
+import { styles } from "./UserInputStyle";
+
+import { setNickname, setProfileImg } from "../../store/user";
+
+// 백엔드 URL
+import { BACKEND_URL, S3_URL } from "../../util/http";
 
 const ModifyInfoScreen = () => {
   const ConfirmHandler = () => {};
