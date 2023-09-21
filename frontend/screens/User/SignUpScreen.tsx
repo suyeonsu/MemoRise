@@ -59,6 +59,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     await axios
       .post(BACKEND_URL + "/user", userData)
       .then((response) => {
+        console.log(response);
         //메인페이지 이동
         if (response.data.success === true) {
           navigation.navigate("Main");
@@ -104,7 +105,9 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           })
           .then((response: any) => {
             // 요청 성공 시, 리덕스 및 상태관리 (사용자 이미지 S3링크로 저장)
-            setUserProfileImg(S3_URL + response.savedFileName);
+            const tempS3URL = S3_URL + response.data[0].savedFileName;
+            console.log(tempS3URL);
+            setUserProfileImg(tempS3URL);
             dispatch(setProfileImg(userProfileImg));
           })
           .catch((error) => {
