@@ -96,7 +96,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
 
         // 백엔드 연동을 위한 Form Data
         const formData = new FormData();
-        formData.append("files", {
+        formData.append("file", {
           uri: response.assets[0].uri,
           type: response.assets[0].type,
           name: response.assets[0].fileName,
