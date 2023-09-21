@@ -35,7 +35,13 @@ function getFormattedDate(): string {
 const currentDate = getFormattedDate();
 
 const MainScreen = () => {
+  // 태그 검색 기능
+  const [tagSearchText, setTagSearchText] = useState("");
+
+  const tagSearchHandler = () => {};
+
   const isFocused = useIsFocused();
+
   // 메모 작성 내용
   const [memoContent, setMemoContent] = useState("");
   const [enteredMemo, setEnteredMemo] = useState("");
@@ -175,7 +181,6 @@ const MainScreen = () => {
             bottom: 0,
           }}
           blurType="dark"
-          blurAmount={4}
         >
           <Modal
             transparent={true}
@@ -221,7 +226,6 @@ const MainScreen = () => {
             zIndex: 2,
           }}
           blurType="dark"
-          blurAmount={4}
         >
           <Modal
             transparent={true}
@@ -249,7 +253,6 @@ const MainScreen = () => {
             zIndex: 2,
           }}
           blurType="dark"
-          blurAmount={4}
         >
           <Modal
             transparent={true}
@@ -268,8 +271,12 @@ const MainScreen = () => {
                   <Text style={styles.tagText}>@</Text>
                   <TextInput
                     style={styles.tagText}
-                    placeholder="태그할 닉네임이나 그룹명을 입력해 주세요"
+                    placeholder="태그할 닉네임이나 그룹명을 입력해 주세요  "
                     placeholderTextColor="rgba(44, 44, 44, 0.5)"
+                    value={tagSearchText}
+                    onChangeText={setTagSearchText}
+                    returnKeyType="search"
+                    onSubmitEditing={tagSearchHandler}
                   />
                 </View>
               </View>
