@@ -56,6 +56,7 @@ const LoginScreen = () => {
         const checkUser = response.data;
         // 기존 사용자 여부에 따라 네비게이션 이동
         if (checkUser.success === true) {
+          // 유저 아이디 리덕스에 저장
           dispatch(setUserId(checkUser.userSeq));
           navigation.navigate("Main");
         } else {
