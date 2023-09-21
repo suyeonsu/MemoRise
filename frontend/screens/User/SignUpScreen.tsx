@@ -5,6 +5,7 @@ import { View, Text, Image, TextInput } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useDispatch, useSelector } from "react-redux";
+import { launchImageLibrary } from "react-native-image-picker";
 
 // 컴포넌트
 import ConfirmBtn from "../../components/Button/ConfirmBtn";
