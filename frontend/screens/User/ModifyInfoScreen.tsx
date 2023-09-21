@@ -1,7 +1,7 @@
 // 라이브러리
 import axios from "axios";
 import { useState } from "react";
-import { View, Text, Image, TextInput } from "react-native";
+import { View, Text, Image, TextInput, Pressable } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
 import { launchImageLibrary } from "react-native-image-picker";
@@ -99,10 +99,12 @@ const ModifyInfoScreen = () => {
           <View style={{ alignItems: "center" }}>
             <View style={styles.profilebox}>
               <ProfilePic />
-              <Image
-                source={require("../../assets/icons/album.png")}
-                style={styles.album}
-              />
+              <Pressable onPress={() => selectProfileImageHanlder()}>
+                <Image
+                  source={require("../../assets/icons/album.png")}
+                  style={styles.album}
+                />
+              </Pressable>
             </View>
           </View>
           <View style={styles.inputBox}>
