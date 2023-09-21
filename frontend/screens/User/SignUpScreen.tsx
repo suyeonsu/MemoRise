@@ -1,7 +1,7 @@
 // 라이브러리
 import axios from "axios";
 import React, { useState } from "react";
-import { View, Text, Image, TextInput } from "react-native";
+import { View, Text, Image, TextInput, Pressable } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,7 +18,7 @@ import { styles } from "./UserInputStyle";
 import { setNickname, setProfileImg } from "../../store/user";
 
 // 백엔드 URL
-import { BACKEND_URL } from "../../util/http";
+import { BACKEND_URL, S3_URL } from "../../util/http";
 
 type SignUpScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -72,6 +72,51 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
       });
   };
 
+  // 사용자 프로필 사진 가져오기 (사용자 앨범 접근)
+  const selectProfileImageHanlder = () => {
+    launchImageLibrary(
+      {
+        mediaType: "photo",
+        maxWidth: 512,
+        maxHeight: 512,
+        includeBase64: true,
+      },
+      (response: any) => {
+        console.log(response.assets[0].uri);
+        console.log(response.assets[0].type);
+        console.log(response.assets[0].fileName);
+        if (response.didCancel) {
+          return;
+        } else if (response.errorCode) {
+          console.log("Image Error : " + response.errorCode);
+        }
+
+        // 백엔드 연동을 위한 Form Data
+        const formData = new FormData();
+        formData.append("files", {
+          uri: response.assets[0].uri,
+          type: response.assets[0].type,
+          name: response.assets[0].fileName,
+        });
+
+        // 백엔드에 사진 업로드
+        axios
+          .post(BACKEND_URL + "/user/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response: any) => {
+            console.log(response);
+            setUserProfileImg(S3_URL + response.savedFileName);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    );
+  };
+
   return (
     <LinearGradient
       // colors={["#F5F5F5", "red"]}
@@ -86,10 +131,12 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           <View style={{ alignItems: "center" }}>
             <View style={styles.profilebox}>
               <ProfilePic />
-              <Image
-                source={require("../../assets/icons/album.png")}
-                style={styles.album}
-              />
+              <Pressable onPress={() => selectProfileImageHanlder()}>
+                <Image
+                  source={require("../../assets/icons/album.png")}
+                  style={styles.album}
+                />
+              </Pressable>
             </View>
           </View>
           <View style={styles.inputBox}>
