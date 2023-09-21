@@ -59,7 +59,6 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     await axios
       .post(BACKEND_URL + "/user", userData)
       .then((response) => {
-        console.log(response.data);
         //메인페이지 이동
         if (response.data.success === true) {
           navigation.navigate("Main");
@@ -82,9 +81,6 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
         includeBase64: true,
       },
       (response: any) => {
-        console.log(response.assets[0].uri);
-        console.log(response.assets[0].type);
-        console.log(response.assets[0].fileName);
         if (response.didCancel) {
           return;
         } else if (response.errorCode) {
@@ -99,7 +95,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           name: response.assets[0].fileName,
         });
 
-        // 백엔드에 사진 업로드
+        // S3에 사진 업로드
         axios
           .post(BACKEND_URL + "/user/upload", formData, {
             headers: {
@@ -107,8 +103,9 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
             },
           })
           .then((response: any) => {
-            console.log(response);
+            // 요청 성공 시, 리덕스 및 상태관리 (사용자 이미지 S3링크로 저장)
             setUserProfileImg(S3_URL + response.savedFileName);
+            dispatch(setProfileImg(userProfileImg));
           })
           .catch((error) => {
             console.log(error);
