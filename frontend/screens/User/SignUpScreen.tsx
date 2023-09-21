@@ -12,6 +12,8 @@ import ConfirmBtn from "../../components/Button/ConfirmBtn";
 import HighlightHeader from "../../components/Header/HighlightHeader";
 import ProfilePic from "../../components/ProfilePic";
 import { RootStackParamList } from "../../App";
+
+// 리덕스 type
 import { RootState } from "../../store/store";
 
 // 스타일
