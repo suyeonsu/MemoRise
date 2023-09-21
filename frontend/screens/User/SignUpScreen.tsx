@@ -12,6 +12,8 @@ import ConfirmBtn from "../../components/Button/ConfirmBtn";
 import HighlightHeader from "../../components/Header/HighlightHeader";
 import ProfilePic from "../../components/ProfilePic";
 import { RootStackParamList } from "../../App";
+
+// 스타일
 import { styles } from "./UserInputStyle";
 
 // 리듀서
@@ -47,8 +49,6 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     //리덕스 정보 저장
     dispatch(setNickname(userNickname));
 
-    console.log(userEmail, userNickname, userProfileImg);
-
     // 백엔드 연동
     const userData = {
       email: userEmail,
@@ -59,7 +59,6 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
     await axios
       .post(BACKEND_URL + "/user", userData)
       .then((response) => {
-        console.log(response);
         //메인페이지 이동
         if (response.data.success === true) {
           navigation.navigate("Main");
@@ -108,7 +107,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
             const tempS3URL = S3_URL + response.data[0].savedFileName;
             console.log(tempS3URL);
             setUserProfileImg(tempS3URL);
-            dispatch(setProfileImg(userProfileImg));
+            dispatch(setProfileImg(tempS3URL));
           })
           .catch((error) => {
             console.log(error);
@@ -131,6 +130,12 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
           <View style={{ alignItems: "center" }}>
             <View style={styles.profilebox}>
               <ProfilePic />
+              {userProfileImg ? (
+                <Image
+                  source={{ uri: userProfileImg }}
+                  style={styles.userImage}
+                />
+              ) : null}
               <Pressable onPress={() => selectProfileImageHanlder()}>
                 <Image
                   source={require("../../assets/icons/album.png")}
