@@ -20,6 +20,7 @@ import { TextInput } from "react-native-gesture-handler";
 import { calculateDynamicWidth } from "../../constants/dynamicSize";
 import Colors from "../../constants/colors";
 import MemoBtnModal from "../../components/Modal/Memo/MemoBtnModal";
+import AlertModal from "../../components/Modal/AlertModal";
 
 // 오늘 날짜 가져오기
 function getFormattedDate(): string {
@@ -74,6 +75,27 @@ const MainScreen = () => {
   const openMemoCreateModal = () => {
     setMemoBtnModalVisible(false);
     setMemoCreateModalVisible(true);
+  };
+
+  // 메모 작성 중 취소 확인 모달
+  const [isMemoCancelModalVisible, setMemoCancelModalVisible] = useState(false);
+
+  const openMemoCancelModal = () => {
+    setMemoCancelModalVisible(true);
+  };
+
+  // 취소 버튼 눌렀을 때
+  const closeMemoCancelModal = () => {
+    setMemoCancelModalVisible(false);
+  };
+
+  // 확인 버튼 눌렀을 때
+  const memoCancelConfirm = () => {
+    setEnteredMemo("");
+    setOpenState(0);
+    setToggleOpen(false);
+    setMemoCancelModalVisible(false);
+    setMemoCreateModalVisible(false);
   };
 
   // 알림 모달
@@ -224,6 +246,7 @@ const MainScreen = () => {
             left: 0,
             right: 0,
             bottom: 0,
+            zIndex: 2,
           }}
           blurType="dark"
           blurAmount={4}
@@ -236,7 +259,7 @@ const MainScreen = () => {
           >
             <Pressable
               style={{ flex: 1, backgroundColor: "transparent" }}
-              onPress={closeMemoCreateModal}
+              onPress={openMemoCancelModal}
             />
             <View style={styles.memoContainer}>
               <LinearGradient
@@ -350,6 +373,17 @@ const MainScreen = () => {
             </View>
           </Modal>
         </BlurView>
+      )}
+
+      {/* 메모 작성 중 취소 확인 모달 */}
+      {isMemoCancelModalVisible && (
+        <AlertModal
+          modalVisible={isMemoCancelModalVisible}
+          closeModal={closeMemoCancelModal}
+          onConfirm={memoCancelConfirm}
+          contentText="메모 작성을 취소하시겠습니까?"
+          btnText="확인"
+        />
       )}
     </View>
   );
