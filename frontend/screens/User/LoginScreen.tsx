@@ -44,7 +44,9 @@ const LoginScreen = () => {
 
     // 백엔드에 이메일 정보 보내서 사용자 확인
     await axios
-      .post(BACKEND_URL + "/auth", response.email)
+      .post(BACKEND_URL + "/auth", {
+        email: response.email,
+      })
       .then((response) => {
         const checkUser = response.data;
         // 기존 사용자 여부에 따라 네비게이션 이동
