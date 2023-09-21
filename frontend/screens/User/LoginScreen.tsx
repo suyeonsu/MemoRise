@@ -16,7 +16,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "./LoginStyle";
 
 //리듀서
-import { setEmail, setNickname, setProfileImg } from "../../store/user";
+import {
+  setEmail,
+  setNickname,
+  setProfileImg,
+  setUserId,
+} from "../../store/user";
 import { BACKEND_URL } from "../../util/http";
 
 type RootStackParamList = {
@@ -51,6 +56,7 @@ const LoginScreen = () => {
         const checkUser = response.data;
         // 기존 사용자 여부에 따라 네비게이션 이동
         if (checkUser.success === true) {
+          dispatch(setUserId(checkUser.userSeq));
           navigation.navigate("Main");
         } else {
           navigation.navigate("SignUp");
