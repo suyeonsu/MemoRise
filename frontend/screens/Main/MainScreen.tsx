@@ -25,6 +25,7 @@ import Colors from "../../constants/colors";
 import MemoBtnModal from "../../components/Modal/Memo/MemoBtnModal";
 import AlertModal from "../../components/Modal/AlertModal";
 import { BACKEND_URL, S3_URL } from "../../util/http";
+import MemoItem from "../../components/Modal/Memo/MemoItem";
 
 const screenHeight = Dimensions.get("window").height;
 
