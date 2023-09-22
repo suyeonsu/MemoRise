@@ -13,11 +13,14 @@ import HighlightHeader from "../../components/Header/HighlightHeader";
 import ProfilePic from "../../components/ProfilePic";
 import { RootStackParamList } from "../../App";
 
+// 리덕스 type
+import { RootState } from "../../store/store";
+
 // 스타일
 import { styles } from "./UserInputStyle";
 
 // 리듀서
-import { setNickname, setProfileImg } from "../../store/user";
+import { setNickname, setProfileImg, setUserId } from "../../store/user";
 
 // 백엔드 URL
 import { BACKEND_URL, S3_URL } from "../../util/http";
@@ -35,10 +38,12 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
   const dispatch = useDispatch();
 
   // 리덕스에 저장된 사용자 정보 가져오기
-  const userEmail = useSelector((state: any) => state.userInfo.email);
-  const tempNickname = useSelector((state: any) => state.userInfo.nickname);
+  const userEmail = useSelector((state: RootState) => state.userInfo.email);
+  const tempNickname = useSelector(
+    (state: RootState) => state.userInfo.nickname
+  );
   const tempProfileImg = useSelector(
-    (state: any) => state.userInfo.profile_img
+    (state: RootState) => state.userInfo.profile_img
   );
 
   // 닉네임 & 프로필사진 상태관리 (리덕스에 닉네임 & 프로필사진 있다면 초기값으로 사용)
@@ -61,9 +66,11 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
       .then((response) => {
         //메인페이지 이동
         if (response.data.success === true) {
+          dispatch(setUserId(response.data.userSeq));
           navigation.navigate("Main");
         } else {
           console.log("회원가입 중 에러가 발생했습니다.");
+          navigation.navigate("NotFound");
         }
       })
       .catch((error) => {
@@ -89,7 +96,7 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
 
         // 백엔드 연동을 위한 Form Data
         const formData = new FormData();
-        formData.append("files", {
+        formData.append("file", {
           uri: response.assets[0].uri,
           type: response.assets[0].type,
           name: response.assets[0].fileName,
@@ -103,8 +110,9 @@ const SignUpScreen: React.FC<Props> = ({ navigation }) => {
             },
           })
           .then((response: any) => {
+            console.log(response);
             // 요청 성공 시, 리덕스 및 상태관리 (사용자 이미지 S3링크로 저장)
-            const tempS3URL = S3_URL + response.data[0].savedFileName;
+            const tempS3URL = S3_URL + response.data.savedFileName;
             console.log(tempS3URL);
             setUserProfileImg(tempS3URL);
             dispatch(setProfileImg(tempS3URL));
