@@ -53,6 +53,7 @@ const MainScreen = () => {
       { 권소정: "flfk33@naver.com" },
     ]);
     setSearchResultVisible(false);
+    setTagSearchText("");
   };
 
   // 태그 검색 기능
@@ -129,6 +130,7 @@ const MainScreen = () => {
     setMemoCancelModalVisible(false);
     setMemoCreateModalVisible(false);
     setTagSearchText("");
+    setTaggedMember([]);
   };
 
   // 알림 모달
@@ -310,47 +312,82 @@ const MainScreen = () => {
             )}
             {/* 유저 태그(결과값 O) */}
             {/* 더미 데이터 */}
-            {openState === 1 && !isSearchResultVisible && taggedMember[0] && (
+            {openState === 1 && taggedMember[0] && (
               <>
-                <Pressable
-                  style={[
-                    styles.tagContainer,
-                    {
-                      flexDirection: "row",
+                <ScrollView horizontal style={styles.tagResultBox}>
+                  <View
+                    style={{
                       justifyContent: "flex-start",
                       alignItems: "center",
-                    },
-                  ]}
-                >
-                  <LinearGradient
-                    colors={["#DDEAFF", "#C2D8FF"]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                    style={styles.taggedMemberContainer}
+                      flexDirection: "row",
+                    }}
                   >
-                    <Text style={styles.tagText}>
-                      @ {Object.keys(taggedMember[0])[0]}
-                    </Text>
-                    <Image
-                      source={require("../../assets/icons/cancel_sm.png")}
-                      style={styles.cancelIcon}
-                    />
-                  </LinearGradient>
-                  <LinearGradient
-                    colors={["#DDEAFF", "#C2D8FF"]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                    style={styles.taggedMemberContainer}
-                  >
-                    <Text style={styles.tagText}>
-                      @ {Object.keys(taggedMember[0])[0]}
-                    </Text>
-                    <Image
-                      source={require("../../assets/icons/cancel_sm.png")}
-                      style={styles.cancelIcon}
-                    />
-                  </LinearGradient>
-                </Pressable>
+                    <LinearGradient
+                      colors={["#DDEAFF", "#C2D8FF"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 0, y: 1 }}
+                      style={styles.taggedMemberContainer}
+                    >
+                      <Text style={styles.tagText}>
+                        @ {Object.keys(taggedMember[0])[0]}
+                      </Text>
+                      <Pressable>
+                        <Image
+                          source={require("../../assets/icons/cancel_sm.png")}
+                          style={styles.cancelIcon}
+                        />
+                      </Pressable>
+                    </LinearGradient>
+                    <LinearGradient
+                      colors={["#DDEAFF", "#C2D8FF"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 0, y: 1 }}
+                      style={styles.taggedMemberContainer}
+                    >
+                      <Text style={styles.tagText}>
+                        @ {Object.keys(taggedMember[0])[0]}
+                      </Text>
+                      <Pressable>
+                        <Image
+                          source={require("../../assets/icons/cancel_sm.png")}
+                          style={styles.cancelIcon}
+                        />
+                      </Pressable>
+                    </LinearGradient>
+                    <LinearGradient
+                      colors={["#DDEAFF", "#C2D8FF"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 0, y: 1 }}
+                      style={styles.taggedMemberContainer}
+                    >
+                      <Text style={styles.tagText}>
+                        @ {Object.keys(taggedMember[0])[0]}
+                      </Text>
+                      <Pressable>
+                        <Image
+                          source={require("../../assets/icons/cancel_sm.png")}
+                          style={styles.cancelIcon}
+                        />
+                      </Pressable>
+                    </LinearGradient>
+                    <LinearGradient
+                      colors={["#DDEAFF", "#C2D8FF"]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 0, y: 1 }}
+                      style={styles.taggedMemberContainer}
+                    >
+                      <Text style={styles.tagText}>
+                        @ {Object.keys(taggedMember[0])[0]}
+                      </Text>
+                      <Pressable>
+                        <Image
+                          source={require("../../assets/icons/cancel_sm.png")}
+                          style={styles.cancelIcon}
+                        />
+                      </Pressable>
+                    </LinearGradient>
+                  </View>
+                </ScrollView>
               </>
             )}
             {/* 검색 결과 */}

@@ -222,4 +222,22 @@ export const styles = StyleSheet.create({
     height: calculateDynamicWidth(10),
     marginLeft: calculateDynamicWidth(5),
   },
+  tagResultBox: {
+    width: calculateDynamicWidth(306),
+    height: calculateDynamicWidth(50),
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: [
+      {
+        translateY: -(
+          calculateDynamicWidth(306) / 2 +
+          calculateDynamicWidth(100)
+        ),
+      },
+      { translateX: -calculateDynamicWidth(306) / 2 },
+    ],
+    zIndex: 1,
+    paddingHorizontal: calculateDynamicWidth(10),
+  },
 });
