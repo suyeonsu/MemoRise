@@ -208,4 +208,18 @@ export const styles = StyleSheet.create({
     zIndex: 1,
     marginTop: -screenHeight,
   },
+  taggedMemberContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    elevation: 4,
+    height: calculateDynamicWidth(26),
+    borderRadius: calculateDynamicWidth(50),
+    paddingHorizontal: calculateDynamicWidth(8),
+    marginRight: calculateDynamicWidth(5),
+  },
+  cancelIcon: {
+    width: calculateDynamicWidth(10),
+    height: calculateDynamicWidth(10),
+    marginLeft: calculateDynamicWidth(5),
+  },
 });

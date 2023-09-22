@@ -22,6 +22,11 @@ import Colors from "../../constants/colors";
 import MemoBtnModal from "../../components/Modal/Memo/MemoBtnModal";
 import AlertModal from "../../components/Modal/AlertModal";
 
+// 태그된 회원 타입
+type Member = {
+  [name: string]: string;
+};
+
 // 오늘 날짜 가져오기
 function getFormattedDate(): string {
   const date = new Date();
@@ -35,6 +40,21 @@ function getFormattedDate(): string {
 const currentDate = getFormattedDate();
 
 const MainScreen = () => {
+  const isFocused = useIsFocused();
+
+  // 태그된 회원 리스트
+  // 더미 데이터
+  const [taggedMember, setTaggedMember] = useState<Member[]>([]);
+
+  // 검색 결과에서 태그할 유저 터치 시 실행
+  const addTaggedMember = () => {
+    setTaggedMember((prevData) => [
+      ...prevData,
+      { 권소정: "flfk33@naver.com" },
+    ]);
+    setSearchResultVisible(false);
+  };
+
   // 태그 검색 기능
   const [tagSearchText, setTagSearchText] = useState("");
   const [isSearchResultVisible, setSearchResultVisible] = useState(false);
@@ -47,8 +67,6 @@ const MainScreen = () => {
     setSearchResultVisible(false);
     setTagSearchText("");
   };
-
-  const isFocused = useIsFocused();
 
   // 메모 작성 내용
   const [memoContent, setMemoContent] = useState("");
@@ -273,7 +291,7 @@ const MainScreen = () => {
               style={{ flex: 1, backgroundColor: "transparent" }}
               onPress={openMemoCancelModal}
             />
-            {/* 유저 or 그룹 태그 */}
+            {/* 유저 태그(empty) */}
             {openState === 1 && !isSearchResultVisible && (
               <View style={styles.tagContainer}>
                 <View style={styles.tagSearchContainer}>
@@ -289,6 +307,51 @@ const MainScreen = () => {
                   />
                 </View>
               </View>
+            )}
+            {/* 유저 태그(결과값 O) */}
+            {/* 더미 데이터 */}
+            {openState === 1 && !isSearchResultVisible && taggedMember[0] && (
+              <>
+                <Pressable
+                  style={[
+                    styles.tagContainer,
+                    {
+                      flexDirection: "row",
+                      justifyContent: "flex-start",
+                      alignItems: "center",
+                    },
+                  ]}
+                >
+                  <LinearGradient
+                    colors={["#DDEAFF", "#C2D8FF"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}
+                    style={styles.taggedMemberContainer}
+                  >
+                    <Text style={styles.tagText}>
+                      @ {Object.keys(taggedMember[0])[0]}
+                    </Text>
+                    <Image
+                      source={require("../../assets/icons/cancel_sm.png")}
+                      style={styles.cancelIcon}
+                    />
+                  </LinearGradient>
+                  <LinearGradient
+                    colors={["#DDEAFF", "#C2D8FF"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}
+                    style={styles.taggedMemberContainer}
+                  >
+                    <Text style={styles.tagText}>
+                      @ {Object.keys(taggedMember[0])[0]}
+                    </Text>
+                    <Image
+                      source={require("../../assets/icons/cancel_sm.png")}
+                      style={styles.cancelIcon}
+                    />
+                  </LinearGradient>
+                </Pressable>
+              </>
             )}
             {/* 검색 결과 */}
             {isSearchResultVisible && (
@@ -319,13 +382,16 @@ const MainScreen = () => {
                     />
                   </View>
                   {/* 더미데이터 */}
-                  <Pressable style={styles.tagResultInnerContainer}>
+                  <Pressable
+                    style={styles.tagResultInnerContainer}
+                    onPress={addTaggedMember}
+                  >
                     <Text style={styles.tagText}>
                       권소정 <Text style={styles.email}> flfk33@naver.com</Text>
                     </Text>
                   </Pressable>
                   <Pressable style={styles.tagResultInnerContainer}>
-                    <Text style={styles.tagText}>
+                    <Text style={styles.tagText} onPress={addTaggedMember}>
                       권소정{" "}
                       <Text style={styles.email}> bijoucastle@naver.com</Text>
                     </Text>
