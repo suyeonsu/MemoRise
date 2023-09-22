@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { BlurView } from "@react-native-community/blur";
@@ -25,10 +26,16 @@ import MemoBtnModal from "../../components/Modal/Memo/MemoBtnModal";
 import AlertModal from "../../components/Modal/AlertModal";
 import { BACKEND_URL, S3_URL } from "../../util/http";
 
+const screenHeight = Dimensions.get("window").height;
+
 // 태그된 회원 타입
 type Member = {
   [name: string]: string;
 };
+
+// 첨부 이미지 크기
+const MAX_WIDTH = calculateDynamicWidth(286);
+const MAX_HEIGHT = screenHeight / 2;
 
 // 오늘 날짜 가져오기
 function getFormattedDate(): string {
@@ -44,17 +51,6 @@ const currentDate = getFormattedDate();
 
 const MainScreen = () => {
   const isFocused = useIsFocused();
-
-  // 사진 상세
-  const [isFullImageVisible, setFullImageVisible] = useState(false);
-
-  const openFullImage = () => {
-    setFullImageVisible(true);
-  };
-
-  const closeFullImage = () => {
-    setFullImageVisible(false);
-  };
 
   // 사진 첨부
   const [uploadedPic, setUploadedPic] = useState("");
@@ -99,6 +95,44 @@ const MainScreen = () => {
           });
       }
     );
+  };
+
+  // 사진 상세
+  const [isFullImageVisible, setFullImageVisible] = useState(false);
+  const [imageWidth, setImageWidth] = useState(MAX_WIDTH);
+  const [imageHeight, setImageHeight] = useState(MAX_HEIGHT);
+
+  useEffect(() => {
+    if (uploadedPic) {
+      // 원본 이미지의 크기를 가져옵니다.
+      Image.getSize(uploadedPic, (width, height) => {
+        // 원본 이미지의 비율을 계산합니다.
+        const aspectRatio = width / height;
+
+        // 비율을 유지하면서 크기를 조절합니다.
+        if (width > height) {
+          setImageWidth(MAX_WIDTH);
+          setImageHeight(MAX_WIDTH / aspectRatio);
+        } else {
+          setImageHeight(MAX_HEIGHT);
+          setImageWidth(MAX_HEIGHT * aspectRatio);
+        }
+      });
+    }
+  }, [uploadedPic]);
+
+  const openFullImage = () => {
+    setFullImageVisible(true);
+  };
+
+  const closeFullImage = () => {
+    setFullImageVisible(false);
+  };
+
+  // 사진 삭제
+  const deleteUploadedPic = () => {
+    setUploadedPic("");
+    setFullImageVisible(false);
   };
 
   // 태그된 회원 리스트
@@ -348,15 +382,55 @@ const MainScreen = () => {
             visible={isMemoCreateModalVisible}
             onRequestClose={closeMemoCreateModal}
           >
+            {/* 첨부 사진 상세 조회 */}
             {isFullImageVisible && (
               <>
                 <Pressable
-                  style={styles.uploadedImgBg}
+                  style={[
+                    styles.uploadedImgBg,
+                    { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 2 },
+                  ]}
                   onPress={closeFullImage}
                 />
+                {/* 첨부 사진 삭제 버튼 */}
+                <Pressable
+                  onPress={deleteUploadedPic}
+                  style={[
+                    styles.binContainer,
+                    {
+                      transform: [
+                        {
+                          translateY: -(
+                            imageHeight / 2 +
+                            calculateDynamicWidth(26)
+                          ),
+                        },
+                        {
+                          translateX:
+                            imageWidth / 2 - calculateDynamicWidth(20),
+                        },
+                      ],
+                    },
+                  ]}
+                >
+                  <Image
+                    source={require("../../assets/icons/bin.png")}
+                    style={styles.bin}
+                  />
+                </Pressable>
                 <Image
                   source={{ uri: uploadedPic }}
-                  style={styles.uploadedFullImg}
+                  style={[
+                    styles.uploadedFullImg,
+                    {
+                      width: imageWidth,
+                      height: imageHeight,
+                      transform: [
+                        { translateY: -imageHeight / 2 },
+                        { translateX: -imageWidth / 2 },
+                      ],
+                    },
+                  ]}
                 />
               </>
             )}

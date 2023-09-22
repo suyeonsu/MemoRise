@@ -110,25 +110,31 @@ export const styles = StyleSheet.create({
 
   // 첨부 사진 상세 스타일
   uploadedFullImg: {
-    width: calculateDynamicWidth(257),
-    height: calculateDynamicWidth(206),
-    zIndex: 1,
+    zIndex: 2,
     borderRadius: calculateDynamicWidth(10),
     position: "absolute",
     top: "50%",
     left: "50%",
-    transform: [
-      { translateY: -calculateDynamicWidth(257) / 2 },
-      { translateX: -calculateDynamicWidth(206) / 2 },
-    ],
   },
 
   // 첨부 사진 상세 뒷 배경
   uploadedImgBg: {
     flex: 1,
-    backgroundColor: "red",
+    backgroundColor: "transparent",
     zIndex: 1,
     marginBottom: -screenHeight,
+  },
+
+  // 첨부 사진 삭제 아이콘
+  bin: {
+    width: calculateDynamicWidth(15.61),
+    height: calculateDynamicWidth(16),
+  },
+  binContainer: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    zIndex: 3,
   },
 
   // 공개 설정 관련 스타일
