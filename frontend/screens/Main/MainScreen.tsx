@@ -45,6 +45,17 @@ const currentDate = getFormattedDate();
 const MainScreen = () => {
   const isFocused = useIsFocused();
 
+  // 사진 상세
+  const [isFullImageVisible, setFullImageVisible] = useState(false);
+
+  const openFullImage = () => {
+    setFullImageVisible(true);
+  };
+
+  const closeFullImage = () => {
+    setFullImageVisible(false);
+  };
+
   // 사진 첨부
   const [uploadedPic, setUploadedPic] = useState("");
 
@@ -337,6 +348,18 @@ const MainScreen = () => {
             visible={isMemoCreateModalVisible}
             onRequestClose={closeMemoCreateModal}
           >
+            {isFullImageVisible && (
+              <>
+                <Pressable
+                  style={styles.uploadedImgBg}
+                  onPress={closeFullImage}
+                />
+                <Image
+                  source={{ uri: uploadedPic }}
+                  style={styles.uploadedFullImg}
+                />
+              </>
+            )}
             <Pressable
               style={{ flex: 1, backgroundColor: "transparent" }}
               onPress={openMemoCancelModal}
@@ -585,7 +608,10 @@ const MainScreen = () => {
                   </View>
                   <ScrollView>
                     {uploadedPic && (
-                      <Pressable style={{ alignItems: "center" }}>
+                      <Pressable
+                        style={{ alignItems: "center" }}
+                        onPress={openFullImage}
+                      >
                         <Image
                           source={{ uri: uploadedPic }}
                           style={styles.uploadedImg}
