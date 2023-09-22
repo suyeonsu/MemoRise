@@ -9,13 +9,16 @@ const screenHeight = Dimensions.get("window").height;
 export const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    backgroundColor: "pink",
   },
+
+  // 헤더
   headerContainer: {
     position: "absolute",
     zIndex: 1,
     width: screenWidth,
   },
+
+  // 메인 버튼
   btnContainer: {
     position: "absolute",
     bottom: calculateDynamicWidth(20),
@@ -26,6 +29,8 @@ export const styles = StyleSheet.create({
     width: calculateDynamicWidth(55),
     height: calculateDynamicWidth(55),
   },
+
+  // 알림 모달 관련 스타일
   header: {
     height: 97,
     justifyContent: "center",
@@ -55,6 +60,8 @@ export const styles = StyleSheet.create({
     fontFamily: "Pretendard-SemiBold",
     fontSize: calculateDynamicWidth(18),
   },
+
+  // 메모 모달 관련 스타일
   memoContainer: {
     width: calculateDynamicWidth(306),
     height: calculateDynamicWidth(306),
@@ -69,6 +76,31 @@ export const styles = StyleSheet.create({
       { translateX: -calculateDynamicWidth(306) / 2 },
     ],
   },
+  memoInnerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  memoContent: {
+    fontFamily: "Pretendard-Regular",
+    fontSize: calculateDynamicWidth(18),
+    color: Colors.text,
+  },
+
+  // 메모 우측 상단 버튼 관련 스타일
+  memoInnerBtnContainer: {
+    flexDirection: "row",
+  },
+  addPic: {
+    width: calculateDynamicWidth(21),
+    height: calculateDynamicWidth(20),
+    marginRight: calculateDynamicWidth(10),
+  },
+  confirm: {
+    width: calculateDynamicWidth(21),
+    height: calculateDynamicWidth(15.21),
+  },
+
+  // 공개 설정 관련 스타일
   openState: {
     width: calculateDynamicWidth(81),
     height: calculateDynamicWidth(23),
@@ -115,33 +147,16 @@ export const styles = StyleSheet.create({
     fontSize: calculateDynamicWidth(14),
     color: Colors.text,
   },
+
+  // 날짜 관련 스타일
   currentDate: {
     fontFamily: "Pretendard-Regular",
     fontSize: calculateDynamicWidth(14),
     color: "#CCCCCC",
     marginTop: calculateDynamicWidth(4),
   },
-  memoInnerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  memoInnerBtnContainer: {
-    flexDirection: "row",
-  },
-  addPic: {
-    width: calculateDynamicWidth(21),
-    height: calculateDynamicWidth(20),
-    marginRight: calculateDynamicWidth(10),
-  },
-  confirm: {
-    width: calculateDynamicWidth(21),
-    height: calculateDynamicWidth(15.21),
-  },
-  memoContent: {
-    fontFamily: "Pretendard-Regular",
-    fontSize: calculateDynamicWidth(18),
-    color: Colors.text,
-  },
+
+  // 태그 관련 스타일
   tagContainer: {
     width: calculateDynamicWidth(306),
     height: calculateDynamicWidth(50),
