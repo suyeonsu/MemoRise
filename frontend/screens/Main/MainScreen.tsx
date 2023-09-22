@@ -13,6 +13,8 @@ import LinearGradient from "react-native-linear-gradient";
 import { BlurView } from "@react-native-community/blur";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
 import { useIsFocused } from "@react-navigation/native";
+import { launchImageLibrary } from "react-native-image-picker";
+import axios from "axios";
 
 import MainHeader from "../../components/Header/MainHeader";
 import { styles } from "./MainStyle";
@@ -21,6 +23,7 @@ import { calculateDynamicWidth } from "../../constants/dynamicSize";
 import Colors from "../../constants/colors";
 import MemoBtnModal from "../../components/Modal/Memo/MemoBtnModal";
 import AlertModal from "../../components/Modal/AlertModal";
+import { BACKEND_URL, S3_URL } from "../../util/http";
 
 // 태그된 회원 타입
 type Member = {
@@ -41,6 +44,51 @@ const currentDate = getFormattedDate();
 
 const MainScreen = () => {
   const isFocused = useIsFocused();
+
+  // 사진 첨부
+  const [uploadedPic, setUploadedPic] = useState("");
+
+  const selectImageHanlder = () => {
+    launchImageLibrary(
+      {
+        mediaType: "photo",
+        includeBase64: true,
+      },
+      (response: any) => {
+        if (response.didCancel) {
+          return;
+        } else if (response.errorCode) {
+          console.log("Image Error : " + response.errorCode);
+        }
+
+        // 백엔드 연동을 위한 Form Data
+        const formData = new FormData();
+        formData.append("file", {
+          uri: response.assets[0].uri,
+          type: response.assets[0].type,
+          name: response.assets[0].fileName,
+        });
+
+        // S3에 사진 업로드
+        axios
+          .post(BACKEND_URL + "/user/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((response: any) => {
+            console.log(response);
+            // 요청 성공 시, 리덕스 및 상태관리 (사용자 이미지 S3링크로 저장)
+            const tempS3URL = S3_URL + response.data.savedFileName;
+            console.log(tempS3URL);
+            setUploadedPic(tempS3URL);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    );
+  };
 
   // 태그된 회원 리스트
   // 더미 데이터
@@ -519,7 +567,7 @@ const MainScreen = () => {
                       <Text style={styles.currentDate}>{currentDate}</Text>
                     </View>
                     <View style={styles.memoInnerBtnContainer}>
-                      <Pressable>
+                      <Pressable onPress={selectImageHanlder}>
                         <Image
                           source={require("../../assets/icons/addpic.png")}
                           style={styles.addPic}
@@ -536,6 +584,14 @@ const MainScreen = () => {
                     </View>
                   </View>
                   <ScrollView>
+                    {uploadedPic && (
+                      <Pressable style={{ alignItems: "center" }}>
+                        <Image
+                          source={{ uri: uploadedPic }}
+                          style={styles.uploadedImg}
+                        />
+                      </Pressable>
+                    )}
                     <TextInput
                       style={styles.memoContent}
                       multiline={true}

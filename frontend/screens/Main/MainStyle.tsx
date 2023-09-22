@@ -100,6 +100,16 @@ export const styles = StyleSheet.create({
     height: calculateDynamicWidth(15.21),
   },
 
+  // 첨부 사진 스타일
+  uploadedImg: {
+    width: calculateDynamicWidth(257),
+    height: calculateDynamicWidth(106),
+    overflow: "hidden",
+    zIndex: 9,
+    borderRadius: calculateDynamicWidth(10),
+    marginTop: calculateDynamicWidth(5),
+  },
+
   // 공개 설정 관련 스타일
   openState: {
     width: calculateDynamicWidth(81),
