@@ -37,8 +37,16 @@ const currentDate = getFormattedDate();
 const MainScreen = () => {
   // 태그 검색 기능
   const [tagSearchText, setTagSearchText] = useState("");
+  const [isSearchResultVisible, setSearchResultVisible] = useState(false);
 
-  const tagSearchHandler = () => {};
+  const tagSearchHandler = () => {
+    setSearchResultVisible(true);
+  };
+
+  const closeTagSearch = () => {
+    setSearchResultVisible(false);
+    setTagSearchText("");
+  };
 
   const isFocused = useIsFocused();
 
@@ -102,6 +110,7 @@ const MainScreen = () => {
     setToggleOpen(false);
     setMemoCancelModalVisible(false);
     setMemoCreateModalVisible(false);
+    setTagSearchText("");
   };
 
   // 알림 모달
@@ -265,7 +274,7 @@ const MainScreen = () => {
               onPress={openMemoCancelModal}
             />
             {/* 유저 or 그룹 태그 */}
-            {openState === 1 && (
+            {openState === 1 && !isSearchResultVisible && (
               <View style={styles.tagContainer}>
                 <View style={styles.tagSearchContainer}>
                   <Text style={styles.tagText}>@</Text>
@@ -280,6 +289,49 @@ const MainScreen = () => {
                   />
                 </View>
               </View>
+            )}
+            {/* 검색 결과 */}
+            {isSearchResultVisible && (
+              <>
+                <Pressable
+                  style={styles.closeTagSearch}
+                  onPress={closeTagSearch}
+                />
+                <View style={styles.tagResultContainer}>
+                  <View
+                    style={[
+                      styles.tagSearchContainer,
+                      {
+                        borderBottomWidth: 1,
+                        borderBottomColor: "rgba(44, 44, 44, 0.5)",
+                      },
+                    ]}
+                  >
+                    <Text style={styles.tagText}>@</Text>
+                    <TextInput
+                      style={styles.tagText}
+                      placeholder="태그할 닉네임이나 그룹명을 입력해 주세요  "
+                      placeholderTextColor="rgba(44, 44, 44, 0.5)"
+                      value={tagSearchText}
+                      onChangeText={setTagSearchText}
+                      returnKeyType="search"
+                      onSubmitEditing={tagSearchHandler}
+                    />
+                  </View>
+                  {/* 더미데이터 */}
+                  <Pressable style={styles.tagResultInnerContainer}>
+                    <Text style={styles.tagText}>
+                      권소정 <Text style={styles.email}> flfk33@naver.com</Text>
+                    </Text>
+                  </Pressable>
+                  <Pressable style={styles.tagResultInnerContainer}>
+                    <Text style={styles.tagText}>
+                      권소정{" "}
+                      <Text style={styles.email}> bijoucastle@naver.com</Text>
+                    </Text>
+                  </Pressable>
+                </View>
+              </>
             )}
             <View style={styles.memoContainer}>
               <LinearGradient

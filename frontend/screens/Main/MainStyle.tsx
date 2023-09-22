@@ -173,4 +173,39 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  tagResultContainer: {
+    width: calculateDynamicWidth(306),
+    maxHeight: calculateDynamicWidth(356),
+    borderRadius: calculateDynamicWidth(15),
+    backgroundColor: "#ECECEC",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: [
+      {
+        translateY: -(
+          calculateDynamicWidth(306) / 2 +
+          calculateDynamicWidth(50)
+        ),
+      },
+      { translateX: -calculateDynamicWidth(306) / 2 },
+    ],
+    zIndex: 1,
+    elevation: 4,
+    paddingHorizontal: calculateDynamicWidth(10),
+    justifyContent: "center",
+  },
+  email: {
+    fontSize: calculateDynamicWidth(12),
+    color: "rgba(44, 44, 44, 0.5)",
+  },
+  tagResultInnerContainer: {
+    marginVertical: calculateDynamicWidth(12),
+  },
+  closeTagSearch: {
+    flex: 1,
+    backgroundColor: "transparent",
+    zIndex: 1,
+    marginTop: -screenHeight,
+  },
 });
