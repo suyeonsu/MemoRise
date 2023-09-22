@@ -12,9 +12,7 @@ import LinearGradient from "react-native-linear-gradient";
 // 스타일
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import { TextInput } from "react-native-gesture-handler";
-
-const screenWidth = Dimensions.get("window").width;
-const screenHeight = Dimensions.get("window").height;
+import Colors from "../../../constants/colors";
 
 const MemoItem = () => {
   return (
@@ -30,8 +28,11 @@ const MemoItem = () => {
             <View style={styles.calenderContainer}>
               <Text style={styles.calendar}>2023. 09. 22</Text>
             </View>
-            <Text style={styles.content}>
-              준형이는 배가 고프다. 오늘 봉골레 파스타가 너무 기대된다.
+            <Text style={styles.content} numberOfLines={4} ellipsizeMode="tail">
+              Hate to give the satisfaction, asking how you're doing nowHow's
+              the castle built off people you pretend to care about?Just what
+              you wantedLook at you, cool guy, you got it I see the parties and
+              the
             </Text>
             <View style={styles.bottomContainer}>
               <Text style={styles.nickname}>권소정</Text>
@@ -55,8 +56,8 @@ export default MemoItem;
 const styles = StyleSheet.create({
   memoContainer: {
     width: calculateDynamicWidth(306),
-    height: calculateDynamicWidth(104),
-    maxHeight: calculateDynamicWidth(306),
+    minheight: calculateDynamicWidth(104),
+    maxHeight: calculateDynamicWidth(185),
     borderRadius: calculateDynamicWidth(15),
     overflow: "scroll",
     position: "absolute",
@@ -85,15 +86,16 @@ const styles = StyleSheet.create({
   },
 
   calendar: {
-    color: "#CCCCCC",
+    color: Colors.hover,
     fontFamily: "Pretendard-Regular",
   },
 
   content: {
-    color: "#2C2C2C",
+    color: Colors.text,
     fontSize: 18,
     fontFamily: "Pretendard-Regular",
     marginVertical: 5,
+    marginHorizontal: 10,
   },
 
   bottomContainer: {
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
   },
 
   nickname: {
-    color: "#4C6AFF",
+    color: Colors.blue500,
     fontFamily: "Pretendard-Medium",
   },
 
