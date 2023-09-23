@@ -155,6 +155,8 @@ const styles = StyleSheet.create({
 
   innerContainer: {
     margin: calculateDynamicWidth(9),
+    flex: 1,
+    justifyContent: "space-between",
   },
 
   bookmark: {
