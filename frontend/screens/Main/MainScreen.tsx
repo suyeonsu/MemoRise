@@ -11,7 +11,6 @@ import {
   Dimensions,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { BlurView } from "@react-native-community/blur";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
 import { useIsFocused } from "@react-navigation/native";
 import { launchImageLibrary } from "react-native-image-picker";
@@ -306,16 +305,7 @@ const MainScreen = () => {
 
       {/* 알림 모달 */}
       {isNotificationModalVisible && (
-        <BlurView
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
-          blurType="dark"
-        >
+        <View style={styles.background}>
           <Modal
             transparent={true}
             animationType="slide"
@@ -345,22 +335,12 @@ const MainScreen = () => {
               <Text style={styles.modalEmpty}>알림 없음</Text>
             </View>
           </Modal>
-        </BlurView>
+        </View>
       )}
 
       {/* 메모 버튼 모달 */}
       {isMemoBtnModalVisible && (
-        <BlurView
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 2,
-          }}
-          blurType="dark"
-        >
+        <View style={[styles.background, { zIndex: 2 }]}>
           <Modal
             transparent={true}
             animationType="fade"
@@ -372,22 +352,12 @@ const MainScreen = () => {
               closeModal={closeMemoBtnModal}
             />
           </Modal>
-        </BlurView>
+        </View>
       )}
 
       {/* 메모 작성 모달 */}
       {isMemoCreateModalVisible && (
-        <BlurView
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 2,
-          }}
-          blurType="dark"
-        >
+        <View style={[styles.background, { zIndex: 2 }]}>
           <Modal
             transparent={true}
             animationType="fade"
@@ -715,7 +685,7 @@ const MainScreen = () => {
               </LinearGradient>
             </View>
           </Modal>
-        </BlurView>
+        </View>
       )}
 
       {/* 메모 작성 중 취소 확인 모달 */}
