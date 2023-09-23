@@ -29,6 +29,10 @@ const MemoItem = () => {
 
   return (
     <>
+      <Image
+        source={require("../../../assets/icons/memo_write.png")}
+        style={styles.memoWrite}
+      />
       <View style={styles.memoContainer}>
         <LinearGradient
           colors={["#FFFFFF", "#F5F5F5"]}
@@ -73,6 +77,12 @@ const MemoItem = () => {
 export default MemoItem;
 
 const styles = StyleSheet.create({
+  memoWrite: {
+    width: calculateDynamicWidth(38),
+    height: calculateDynamicWidth(38),
+    position: "absolute",
+  },
+
   memoContainer: {
     width: calculateDynamicWidth(306),
     minheight: calculateDynamicWidth(104),
