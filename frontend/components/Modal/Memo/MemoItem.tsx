@@ -16,7 +16,16 @@ import { TextInput } from "react-native-gesture-handler";
 import Colors from "../../../constants/colors";
 
 const MemoItem = () => {
+  // 북마크 상태관리 및 함수
   const [isBookMark, setIsBookMark] = useState(false);
+
+  const changeBookMarkHandler = () => {
+    if (isBookMark) {
+      setIsBookMark(false);
+    } else {
+      setIsBookMark(true);
+    }
+  };
 
   return (
     <>
@@ -44,11 +53,18 @@ const MemoItem = () => {
           </View>
         </LinearGradient>
       </View>
-      <Pressable>
-        <Image
-          source={require("../../../assets/icons/bookmarkblue.png")}
-          style={styles.bookmarkSize}
-        />
+      <Pressable onPress={() => changeBookMarkHandler()}>
+        {isBookMark ? (
+          <Image
+            source={require("../../../assets/icons/bookmarkblue_fill.png")}
+            style={styles.bookmarkSize}
+          />
+        ) : (
+          <Image
+            source={require("../../../assets/icons/bookmarkblue.png")}
+            style={styles.bookmarkSize}
+          />
+        )}
       </Pressable>
     </>
   );
