@@ -16,7 +16,6 @@ import Colors from "../../../constants/colors";
 
 const MemoItem = () => {
   // 북마크 상태관리 및 함수
-  const [isBookMark, setIsBookMark] = useState(false);
   const [memoData, setMemoData] = useState([
     {
       id: "1",
