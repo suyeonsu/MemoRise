@@ -45,10 +45,10 @@ const MakeGroupScreen = () => {
       },
     })
       .then((res) => {
-        console.log(res);
+        console.log("그룹 생성 완료");
         navigation.navigate("GroupDetail", {
-          teamSeq: 16, // 더미 데이터
-          userSeq: 26,
+          teamSeq: res.data.teamSeq,
+          userSeq: 26, // 더미 데이터
         });
       })
       .catch((err) => {
@@ -57,8 +57,8 @@ const MakeGroupScreen = () => {
   };
 
   // 그룹 이름 설정
-  const [name, setName] = useState("Group123"); // 더미 데이터
-  const [enteredName, setEnteredName] = useState("Group123");
+  const [name, setName] = useState("Group");
+  const [enteredName, setEnteredName] = useState("");
 
   const nameModalHandler = () => {
     setNameModalVisible(true);
