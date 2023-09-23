@@ -63,7 +63,7 @@ const MemoItem = () => {
         colors={["#FFFFFF", "#F5F5F5"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
-        // style={{ flex: 1 }}
+        style={{ minHeight: calculateDynamicWidth(104) }}
       >
         <View style={styles.innerContainer}>
           <View style={styles.calenderContainer}>
@@ -100,11 +100,13 @@ const MemoItem = () => {
         source={require("../../../assets/icons/memo_write.png")}
         style={styles.memoWrite}
       />
-      <FlatList
-        data={memoData}
-        renderItem={({ item }) => <MemoList item={item} />}
-        keyExtractor={(item) => item.id}
-      />
+      <View>
+        <FlatList
+          data={memoData}
+          renderItem={({ item }) => <MemoList item={item} />}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
     </View>
   );
 };
@@ -120,7 +122,6 @@ const styles = StyleSheet.create({
       { translateY: -calculateDynamicWidth(306) / 2 },
       { translateX: -calculateDynamicWidth(306) / 2 },
     ],
-    maxHeight: calculateDynamicWidth(400),
   },
 
   memoWrite: {
