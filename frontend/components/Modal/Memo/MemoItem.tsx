@@ -57,9 +57,6 @@ const MemoItem = () => {
     };
   };
 
-  // FlatList 사용을 위한 Data 정의
-  // const memoData = [];
-
   // FlatList 사용을 위한 MemoList 정리
   const MemoList: React.FC<MemoTypeProps> = ({ item }) => (
     <View style={styles.memoContainer}>
