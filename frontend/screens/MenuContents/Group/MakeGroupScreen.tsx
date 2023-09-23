@@ -4,7 +4,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { BlurView } from "@react-native-community/blur";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 import ConfirmBtn from "../../../components/Button/ConfirmBtn";
@@ -18,11 +18,18 @@ import { RootState } from "../../../store/store";
 import { BACKEND_URL } from "../../../util/http";
 
 type RootStackParamList = {
-  // MakeGroup: undefined;
+  MakeGroup: undefined;
+  GroupDetail: GroupDetailParams;
+};
+
+type GroupDetailParams = {
+  teamSeq: number;
+  userSeq: number;
 };
 
 const MakeGroupScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation =
+    useNavigation<StackNavigationProp<RootStackParamList, "MakeGroup">>();
   const userId = useSelector((state: RootState) => state.userInfo.id);
 
   // 그룹 생성 axios
@@ -32,12 +39,17 @@ const MakeGroupScreen = () => {
       url: BACKEND_URL + "/teams",
       data: {
         name: name,
-        owner: userId,
+        // owner: userId,
+        owner: 26, // 더미 데이터
         password: password,
       },
     })
       .then((res) => {
         console.log(res);
+        navigation.navigate("GroupDetail", {
+          teamSeq: 16, // 더미 데이터
+          userSeq: 26,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -46,7 +58,7 @@ const MakeGroupScreen = () => {
 
   // 그룹 이름 설정
   const [name, setName] = useState("Group123"); // 더미 데이터
-  const [enteredName, setEnteredName] = useState("");
+  const [enteredName, setEnteredName] = useState("Group123");
 
   const nameModalHandler = () => {
     setNameModalVisible(true);
