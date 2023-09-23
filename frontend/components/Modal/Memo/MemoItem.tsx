@@ -30,6 +30,7 @@ const MemoItem: React.FC<MemoItemProp> = ({ onMemoWritePress }) => {
       nickname: "권소정",
       openStatus: "전체공개",
       isBookMark: false,
+      isphoto: "",
     },
     {
       id: "2",
@@ -38,6 +39,7 @@ const MemoItem: React.FC<MemoItemProp> = ({ onMemoWritePress }) => {
       nickname: "김준형",
       openStatus: "비공개",
       isBookMark: false,
+      isphoto: "",
     },
     {
       id: "3",
@@ -47,6 +49,8 @@ const MemoItem: React.FC<MemoItemProp> = ({ onMemoWritePress }) => {
       nickname: "김준형",
       openStatus: "비공개",
       isBookMark: false,
+      isphoto:
+        "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png",
     },
   ]);
 
@@ -67,6 +71,7 @@ const MemoItem: React.FC<MemoItemProp> = ({ onMemoWritePress }) => {
       nickname: string;
       openStatus: string;
       isBookMark: boolean;
+      isphoto: string;
     };
   };
 
@@ -83,9 +88,22 @@ const MemoItem: React.FC<MemoItemProp> = ({ onMemoWritePress }) => {
           <View style={styles.calenderContainer}>
             <Text style={styles.calendar}>{item.date}</Text>
           </View>
-          <Text style={styles.content} numberOfLines={4} ellipsizeMode="tail">
-            {item.content}
-          </Text>
+          {item.isphoto !== "" ? (
+            <View>
+              <Text
+                style={styles.content}
+                numberOfLines={2}
+                ellipsizeMode="tail"
+              >
+                {item.content}
+              </Text>
+              <Image source={{ uri: item.isphoto }} style={styles.photo} />
+            </View>
+          ) : (
+            <Text style={styles.content} numberOfLines={4} ellipsizeMode="tail">
+              {item.content}
+            </Text>
+          )}
           <View style={styles.bottomContainer}>
             <Text style={styles.nickname}>{item.nickname}</Text>
             <Text style={styles.open}>{item.openStatus}</Text>
@@ -198,6 +216,13 @@ const styles = StyleSheet.create({
     fontFamily: "Pretendard-Regular",
     marginVertical: 5,
     marginHorizontal: 10,
+  },
+
+  photo: {
+    width: calculateDynamicWidth(275),
+    height: calculateDynamicWidth(60),
+    borderRadius: calculateDynamicWidth(10),
+    marginLeft: calculateDynamicWidth(5),
   },
 
   bottomContainer: {
