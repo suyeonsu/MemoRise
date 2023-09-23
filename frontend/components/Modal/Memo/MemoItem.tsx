@@ -39,6 +39,15 @@ const MemoItem: React.FC<MemoItemProp> = ({ onMemoWritePress }) => {
       openStatus: "비공개",
       isBookMark: false,
     },
+    {
+      id: "3",
+      date: "2023. 09. 22",
+      content:
+        "테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3테스트3",
+      nickname: "김준형",
+      openStatus: "비공개",
+      isBookMark: false,
+    },
   ]);
 
   const changeBookMarkHandler = (id: string) => {
@@ -110,7 +119,7 @@ const MemoItem: React.FC<MemoItemProp> = ({ onMemoWritePress }) => {
           style={styles.memoWrite}
         />
       </Pressable>
-      <View>
+      <View style={styles.memoListContainer}>
         <FlatList
           data={memoData}
           renderItem={({ item }) => <MemoList item={item} />}
@@ -142,6 +151,10 @@ const styles = StyleSheet.create({
   memoWrite: {
     width: calculateDynamicWidth(38),
     height: calculateDynamicWidth(38),
+  },
+
+  memoListContainer: {
+    height: calculateDynamicWidth(350),
   },
 
   memoContainer: {
