@@ -88,23 +88,33 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
               <Pressable style={styles.settingContainer}>
                 <View style={styles.memberImageContainer}>
                   <Image
-                    style={styles.memberImage}
+                    style={styles.memberImagebg}
                     source={require("../../../assets/image/addmember.png")}
                   />
                 </View>
                 <Text style={styles.memberText}>초대하기</Text>
               </Pressable>
-              <Pressable style={styles.settingContainer}>
-                <View>
+              <View style={styles.memberWrap}>
+                <View style={styles.memberInnerContainer}>
                   <View style={styles.memberImageContainer}>
                     <Image
-                      style={styles.memberImage}
+                      style={styles.memberImagebg}
                       source={require("../../../assets/image/profile_bg_square.png")}
+                    />
+                    <Image
+                      style={styles.memberImage}
+                      source={{ uri: memoData.me.profile }}
                     />
                   </View>
                   <Text style={styles.memberText}>{memoData.me.nickname}</Text>
                 </View>
-              </Pressable>
+                <Pressable>
+                  <Image
+                    style={styles.meIcon}
+                    source={require("../../../assets/image/me.png")}
+                  />
+                </Pressable>
+              </View>
             </View>
           </>
         ) : null}
