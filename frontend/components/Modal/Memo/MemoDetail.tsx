@@ -19,7 +19,16 @@ const MemoDetail = () => {
           <View>
             <View style={styles.rowSpaceBetween}>
               <Text style={styles.calendar}>2023. 09. 24 오전 12:50</Text>
-              <Text>수정 & 삭제</Text>
+              <View style={styles.iconContainer}>
+                <Image
+                  source={require("../../../assets/icons/update.png")}
+                  style={styles.icon}
+                />
+                <Image
+                  source={require("../../../assets/icons/delete.png")}
+                  style={styles.icon}
+                />
+              </View>
             </View>
             <View style={styles.rowSpaceBetween}>
               <Text style={styles.nickname}>김준형</Text>
@@ -73,12 +82,22 @@ const styles = StyleSheet.create({
   rowSpaceBetween: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: calculateDynamicWidth(3),
+    marginBottom: 3,
   },
 
   calendar: {
     color: Colors.hover,
     fontFamily: "Pretendard-Regular",
+  },
+
+  iconContainer: {
+    flexDirection: "row",
+  },
+
+  icon: {
+    width: calculateDynamicWidth(14),
+    height: calculateDynamicWidth(14),
+    marginLeft: 10,
   },
 
   nickname: {
