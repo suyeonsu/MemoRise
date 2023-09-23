@@ -1,5 +1,12 @@
 // 라이브러리
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Pressable,
+} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 
 // 스타일
@@ -20,14 +27,18 @@ const MemoDetail = () => {
             <View style={styles.rowSpaceBetween}>
               <Text style={styles.calendar}>2023. 09. 24 오전 12:50</Text>
               <View style={styles.iconContainer}>
-                <Image
-                  source={require("../../../assets/icons/update.png")}
-                  style={styles.icon}
-                />
-                <Image
-                  source={require("../../../assets/icons/delete.png")}
-                  style={styles.icon}
-                />
+                <Pressable>
+                  <Image
+                    source={require("../../../assets/icons/update.png")}
+                    style={styles.icon}
+                  />
+                </Pressable>
+                <Pressable>
+                  <Image
+                    source={require("../../../assets/icons/delete.png")}
+                    style={styles.icon}
+                  />
+                </Pressable>
               </View>
             </View>
             <View style={styles.rowSpaceBetween}>
