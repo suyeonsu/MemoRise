@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
 
+  // 모달 뒷배경
   background: {
     position: "absolute",
     top: 0,

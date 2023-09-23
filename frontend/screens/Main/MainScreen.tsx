@@ -340,19 +340,11 @@ const MainScreen = () => {
 
       {/* 메모 버튼 모달 */}
       {isMemoBtnModalVisible && (
-        <View style={[styles.background, { zIndex: 2 }]}>
-          <Modal
-            transparent={true}
-            animationType="fade"
-            visible={isMemoBtnModalVisible}
-            onRequestClose={closeMemoBtnModal}
-          >
-            <MemoBtnModal
-              openMemoCreateModal={openMemoCreateModal}
-              closeModal={closeMemoBtnModal}
-            />
-          </Modal>
-        </View>
+        <MemoBtnModal
+          openMemoCreateModal={openMemoCreateModal}
+          closeModal={closeMemoBtnModal}
+          visible={isMemoBtnModalVisible}
+        />
       )}
 
       {/* 메모 작성 모달 */}
