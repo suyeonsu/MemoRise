@@ -171,10 +171,15 @@ const MainScreen = () => {
   // true -> false로 변경할 것!!! <-- 변경했다면? 주석지워~
   const [memoItemVisible, setMemoItemVisible] = useState(true);
 
-  // 메모모달 조회 함수
+  // 메모 조회 변경 함수
+  const changeMemoItemModal = () => {
+    setMemoItemVisible(!memoItemVisible);
+  };
+
+  // 메모모달 종료 후, 메모 작성창 띄우는 함수
   // 나중에 객체 탐지해서 메모 개수 나오면 함수 적용
   const checkMemoHandler = () => {
-    setMemoItemVisible((prev) => !prev);
+    setMemoItemVisible(false);
     setMemoCreateModalVisible((prev) => !prev);
   };
 
@@ -340,7 +345,12 @@ const MainScreen = () => {
       </View>
 
       {/* 메모 조회 */}
-      {memoItemVisible && <MemoItem onMemoWritePress={checkMemoHandler} />}
+      {memoItemVisible && (
+        <MemoItem
+          onMemoWritePress={checkMemoHandler}
+          onMemoDetailPress={changeMemoItemModal}
+        />
+      )}
 
       {/* 알림 모달 */}
       {isNotificationModalVisible && (
