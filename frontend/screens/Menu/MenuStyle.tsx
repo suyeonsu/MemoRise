@@ -81,10 +81,16 @@ export const styles = StyleSheet.create({
     bottom: 0,
     left: "-10%",
   },
+  userImageContainer: {
+    position: "absolute",
+    width: calculateDynamicWidth(103),
+    height: calculateDynamicWidth(103),
+    borderRadius: calculateDynamicWidth(103) / 2,
+    elevation: 4,
+  },
   userImage: {
     width: calculateDynamicWidth(103),
     height: calculateDynamicWidth(103),
     borderRadius: calculateDynamicWidth(103) / 2,
-    position: "absolute",
   },
 });

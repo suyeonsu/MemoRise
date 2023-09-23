@@ -37,10 +37,12 @@ const MenuScreen = () => {
           {/* 유저 정보 */}
           <ProfilePic />
           {userInfo.profile_img && (
-            <Image
-              source={{ uri: userInfo.profile_img }}
-              style={styles.userImage}
-            />
+            <View style={styles.userImageContainer}>
+              <Image
+                source={{ uri: userInfo.profile_img }}
+                style={styles.userImage}
+              />
+            </View>
           )}
         </View>
         <Text style={styles.text}>{userInfo.nickname}</Text>
