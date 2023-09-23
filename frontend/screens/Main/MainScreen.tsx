@@ -9,6 +9,7 @@ import {
   Dimensions,
   Alert,
   Button,
+  TouchableOpacity,
 } from "react-native";
 import {
   MediaStream,
@@ -37,7 +38,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
 const screenHeight = Dimensions.get("window").height;
-const SERVER_OFFER_URL = "https://192.168.219.143:8082/offer";
+const SERVER_OFFER_URL = "https://192.168.0.26:8082/offer";
 
 // 태그된 회원 타입
 type Member = {
@@ -296,8 +297,23 @@ const MainScreen = () => {
 
   // WebRTC 로직
 
+  // 미등록 물체 알림 표시 여부
+  const [unregisteredNotification, setUnregisteredNotification] =
+    useState(false);
+
+  // 물체 등록 로직
+  const objectRegister = () => {
+    console.log("물체 등록 로직 구현");
+    setUnregisteredNotification(false);
+  };
+
+  const cancelObjectRegister = () => {
+    setUnregisteredNotification(false);
+  };
+
   // 인식 된 객체 위치 값 저장
   const [coordinates, setCoordinates] = useState<{
+    id: string;
     x: number;
     y: number;
   } | null>(null);
@@ -375,7 +391,11 @@ const MainScreen = () => {
       // 좌표 값 log 표시
       console.log(label);
 
-      setCoordinates({ x: receivedData.label_x, y: receivedData.label_y });
+      setCoordinates({
+        id: receivedData.id,
+        x: receivedData.label_x,
+        y: receivedData.label_y,
+      });
     };
 
     // 사용자의 미디어 장치(카메라 및 마이크)에서 미디어 스트림을 가져옴
@@ -423,7 +443,7 @@ const MainScreen = () => {
   };
 
   useEffect(() => {
-    // start();
+    // start(); // 시작할때 자동 실행(현재 작업을 위해서 꺼둠)
     // 컴포넌트가 언마운트될 때 스트림을 정지
     return () => {
       stop();
@@ -453,18 +473,40 @@ const MainScreen = () => {
 
         {/* 인식된 객체에 표시할 오브젝트 */}
         {coordinates && (
-          <View
-            style={{
-              position: "absolute",
-              left: coordinates.x - 5,
-              top: coordinates.y - 5,
-              width: 50,
-              height: 50,
-              backgroundColor: "blue",
-              borderRadius: 5,
+          <TouchableOpacity
+            style={[
+              styles.ObjCircle,
+              {
+                left: coordinates.x,
+                top: coordinates.y,
+              },
+            ]}
+            onPress={() => {
+              if (coordinates.id !== "0") {
+                // 메모 개수
+                Alert.alert("Notification", "메모 개수 표시하기");
+              } else {
+                // 미등록 물체 알림 표시
+                setUnregisteredNotification(true);
+              }
             }}
-          />
+          >
+            {coordinates.id === "0" ? (
+              // 등록 되지 않은 물채 표시할 텍스트
+              <Text style={styles.ObjCircleText}>+</Text>
+            ) : (
+              // 메모 개수 표시
+              <Text style={styles.ObjCircleText}>2</Text>
+            )}
+          </TouchableOpacity>
         )}
+        <AlertModal
+          modalVisible={unregisteredNotification}
+          closeModal={cancelObjectRegister}
+          onConfirm={objectRegister}
+          contentText={`미등록된 물체입니다.\n등록해주세요!`}
+          btnText="확인"
+        />
         <View style={styles.rtcButton}>
           <Button title="Start" onPress={start} disabled={isConnected} />
           <Button title="Stop" onPress={stop} disabled={!isConnected} />
