@@ -14,6 +14,9 @@ import LinearGradient from "react-native-linear-gradient";
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import Colors from "../../../constants/colors";
 
+// 컴포넌트
+import MemoDetail from "./MemoDetail";
+
 // 메인페이지 상태관리를 위한 타입 지정
 type MemoItemProp = {
   onMemoWritePress: () => void;
@@ -140,21 +143,23 @@ const MemoItem: React.FC<MemoItemProp> = ({
   );
 
   return (
-    <View style={styles.mainContainer}>
-      <Pressable style={styles.memoWriteContainer} onPress={onMemoWritePress}>
-        <Image
-          source={require("../../../assets/icons/memo_write.png")}
-          style={styles.memoWrite}
-        />
-      </Pressable>
-      <View style={styles.memoListContainer}>
-        <FlatList
-          data={memoData}
-          renderItem={({ item }) => <MemoList item={item} />}
-          keyExtractor={(item) => item.id}
-        />
+    <>
+      <View style={styles.mainContainer}>
+        <Pressable style={styles.memoWriteContainer} onPress={onMemoWritePress}>
+          <Image
+            source={require("../../../assets/icons/memo_write.png")}
+            style={styles.memoWrite}
+          />
+        </Pressable>
+        <View style={styles.memoListContainer}>
+          <FlatList
+            data={memoData}
+            renderItem={({ item }) => <MemoList item={item} />}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 
