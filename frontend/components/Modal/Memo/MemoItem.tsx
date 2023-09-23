@@ -1,4 +1,5 @@
 // 라이브러리
+import { useState } from "react";
 import {
   View,
   Text,
@@ -15,6 +16,8 @@ import { TextInput } from "react-native-gesture-handler";
 import Colors from "../../../constants/colors";
 
 const MemoItem = () => {
+  const [isBookMark, setIsBookMark] = useState(false);
+
   return (
     <>
       <View style={styles.memoContainer}>
