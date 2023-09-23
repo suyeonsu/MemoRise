@@ -1,4 +1,5 @@
 // 라이브러리
+import { useState } from "react";
 import {
   View,
   Text,
@@ -14,6 +15,12 @@ import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import Colors from "../../../constants/colors";
 
 const MemoDetail = () => {
+  const [isBookMark, setIsBookMark] = useState(false);
+
+  const changeIsBookMark = () => {
+    setIsBookMark(!isBookMark);
+  };
+
   return (
     <View style={styles.mainContainer}>
       <LinearGradient
@@ -41,7 +48,7 @@ const MemoDetail = () => {
                 </Pressable>
               </View>
             </View>
-            <View style={styles.rowSpaceBetween}>
+            <View style={styles.rowSpaceBetween2}>
               <Text style={styles.nickname}>김준형</Text>
               <Text style={styles.open}>전체공개</Text>
             </View>
@@ -62,6 +69,19 @@ const MemoDetail = () => {
           </ScrollView>
         </View>
       </LinearGradient>
+      <Pressable onPress={changeIsBookMark} style={styles.bookmark}>
+        {isBookMark ? (
+          <Image
+            source={require("../../../assets/icons/bookmarkblue_fill.png")}
+            style={styles.bookmarkSize}
+          />
+        ) : (
+          <Image
+            source={require("../../../assets/icons/bookmarkblue.png")}
+            style={styles.bookmarkSize}
+          />
+        )}
+      </Pressable>
     </View>
   );
 };
@@ -91,6 +111,13 @@ const styles = StyleSheet.create({
   },
 
   rowSpaceBetween: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 12,
+    marginBottom: 3,
+  },
+
+  rowSpaceBetween2: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 3,
@@ -138,5 +165,16 @@ const styles = StyleSheet.create({
     fontFamily: "Pretendard-Regular",
     marginVertical: 5,
     marginHorizontal: 10,
+  },
+
+  bookmark: {
+    position: "absolute",
+    top: 0,
+    marginLeft: calculateDynamicWidth(16),
+  },
+
+  bookmarkSize: {
+    width: calculateDynamicWidth(17),
+    height: calculateDynamicWidth(23),
   },
 });
