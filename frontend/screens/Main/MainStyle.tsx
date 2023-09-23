@@ -302,4 +302,16 @@ export const styles = StyleSheet.create({
     zIndex: 1,
     paddingHorizontal: calculateDynamicWidth(10),
   },
+  video: {
+    width: "100%",
+    height: "100%",
+  },
+  rtcButton: {
+    position: "absolute",
+    bottom: 10,
+    left: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "90%",
+  },
 });

@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
   Modal,
   Pressable,
   Image,
-  ActivityIndicator,
-  StyleSheet,
   ScrollView,
   Dimensions,
   Alert,
+  Button,
 } from "react-native";
+import {
+  MediaStream,
+  RTCPeerConnection,
+  RTCSessionDescription,
+  RTCView,
+  mediaDevices,
+} from "react-native-webrtc";
+import RNFetchBlob from "rn-fetch-blob";
+
 import LinearGradient from "react-native-linear-gradient";
-import { Camera, useCameraDevices } from "react-native-vision-camera";
 import { useIsFocused } from "@react-navigation/native";
 import { launchImageLibrary } from "react-native-image-picker";
 import axios from "axios";
@@ -30,6 +37,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
 const screenHeight = Dimensions.get("window").height;
+const SERVER_OFFER_URL = "https://192.168.219.143:8082/offer";
 
 // 태그된 회원 타입
 type Member = {
@@ -286,27 +294,141 @@ const MainScreen = () => {
     setMemoBtnModalVisible(false);
   };
 
-  // 카메라 로직
-  // 연결된 디바이스 확인
-  const devices = useCameraDevices();
+  // WebRTC 로직
 
-  // 후방 카메라
-  const device = devices.back;
+  // 인식 된 객체 위치 값 저장
+  const [coordinates, setCoordinates] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
-  // 페이지 첫 렌더링 시 허용 권한 체크
-  useEffect(() => {
-    checkPermission();
-  }, []);
+  //RTC 서버와 연결
+  const [isConnected, setIsConnected] = useState<boolean>(false);
+  //로컬의 미디어 스트림을 저장(앱 카메라)
+  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+  // RTCPeerConnection 객체를 참조하기 위한 ref 변수
+  const pc = useRef<RTCPeerConnection | null>(null);
 
-  // 카메라 허용 권한 확인
-  const checkPermission = async () => {
-    const cameraPermission = await Camera.getCameraPermissionStatus(); // 현재 카메라 권한 상태
-    if (cameraPermission === "denied") {
-      return Camera.requestCameraPermission(); // 카메라 허용 요청
+  // SDP를 교환하는 함수
+  // (비디오의 해상도, 오디오 전송 또는 수신 여부)
+  const negotiate = async (): Promise<void> => {
+    try {
+      // send only(송신) 방향의 비디오 트랜시버를 추가
+      pc.current?.addTransceiver("video", { direction: "sendonly" }); //await 삭제함
+      const offerOptions = {
+        offerToReceiveVideo: true, // 비디오 송신
+      };
+
+      // Offer SDP를 생성
+      const offer = await pc.current?.createOffer(offerOptions);
+      if (!offer) throw new Error("Unable to create offer");
+
+      // 생성된 Offer를 로컬 설명으로 설정
+      await pc.current?.setLocalDescription(offer);
+
+      // 생성된 Offer SDP를 서버에 전송
+      const response = await RNFetchBlob.config({
+        //Android에서 SSL/TLS의 "Trusty" 시스템을 사용하여 보안 연결을 활성화(인증서 대체)
+        trusty: true,
+      }).fetch(
+        "POST",
+        SERVER_OFFER_URL,
+        {
+          "Content-Type": "application/json",
+        },
+        JSON.stringify({
+          sdp: offer.sdp,
+          type: offer.type,
+        })
+      );
+
+      // 서버로부터의 응답을 파싱하여 Answer SDP를 가져옴.
+      const answer = await response.json();
+      if (pc.current) {
+        // Answer SDP를 원격 설명으로 설정
+        await pc.current.setRemoteDescription(
+          new RTCSessionDescription(answer)
+        );
+      }
+    } catch (error) {
+      Alert.alert("Error", (error as Error).message);
     }
   };
 
-  if (device == null) return <ActivityIndicator />; // 디바이스가 없을 시 원형 로딩 표시기를 표시
+  // WebRTC 연결을 시작
+  const start = async (): Promise<void> => {
+    // RTCPeerConnection의 설정
+    const configuration = {
+      sdpSemantics: "unified-plan",
+      iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+    };
+    pc.current = new RTCPeerConnection(configuration);
+
+    // 데이터 채널 생성
+    const dataChannel = pc.current.createDataChannel("data");
+    dataChannel.onmessage = (event: any) => {
+      const receivedData = JSON.parse(event.data);
+
+      // 좌표 값 저장
+      const label = `Id: ${receivedData.id}, X: ${receivedData.label_x}, Y: ${receivedData.label_y}`;
+
+      // 좌표 값 log 표시
+      console.log(label);
+
+      setCoordinates({ x: receivedData.label_x, y: receivedData.label_y });
+    };
+
+    // 사용자의 미디어 장치(카메라 및 마이크)에서 미디어 스트림을 가져옴
+    try {
+      const stream = await mediaDevices.getUserMedia({
+        audio: true,
+        video: {
+          width: 3840,
+          height: 2160,
+          frameRate: 20,
+          facingMode: "environment",
+        },
+      });
+
+      // 가져온 미디어 스트림의 각 트랙을 RTCPeerConnection에 추가
+      stream.getTracks().forEach((track) => {
+        pc.current?.addTrack(track, stream);
+      });
+
+      // SDP 교환을 시작
+      await negotiate();
+
+      // 연결 상태를 업데이트(연결함)하고 로컬 스트림을 설정
+      setIsConnected(true);
+      setLocalStream(stream);
+    } catch (error) {
+      Alert.alert("Error", (error as Error).message);
+    }
+  };
+
+  // WebRTC 연결을 종료
+  const stop = (): void => {
+    setIsConnected(false);
+    if (localStream) {
+      // localStream의 모든 트랙을 종료
+      localStream.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
+
+    // 로컬 스트림 상태를 null로 설정
+    setLocalStream(null);
+    // RTCPeerConnection 종료
+    pc.current?.close();
+  };
+
+  useEffect(() => {
+    // start();
+    // 컴포넌트가 언마운트될 때 스트림을 정지
+    return () => {
+      stop();
+    };
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -320,12 +442,33 @@ const MainScreen = () => {
         </View>
       )}
       <View style={styles.rootContainer}>
-        <Camera
-          style={StyleSheet.absoluteFill}
-          device={device}
-          isActive={isFocused}
-          photo
-        />
+        {/* RTC 카메라 화면 */}
+        {localStream && (
+          <RTCView
+            style={styles.video}
+            streamURL={localStream.toURL()}
+            objectFit="cover"
+          />
+        )}
+
+        {/* 인식된 객체에 표시할 오브젝트 */}
+        {coordinates && (
+          <View
+            style={{
+              position: "absolute",
+              left: coordinates.x - 5,
+              top: coordinates.y - 5,
+              width: 50,
+              height: 50,
+              backgroundColor: "blue",
+              borderRadius: 5,
+            }}
+          />
+        )}
+        <View style={styles.rtcButton}>
+          <Button title="Start" onPress={start} disabled={isConnected} />
+          <Button title="Stop" onPress={stop} disabled={!isConnected} />
+        </View>
         <Pressable
           style={styles.btnContainer}
           onPress={() => setMemoBtnModalVisible(true)}
@@ -338,7 +481,7 @@ const MainScreen = () => {
       </View>
 
       {/* 메모 조회 */}
-      {memoItemVisible && <MemoItem />}
+      {/* {memoItemVisible && <MemoItem />} */}
 
       {/* 알림 모달 */}
       {isNotificationModalVisible && (
