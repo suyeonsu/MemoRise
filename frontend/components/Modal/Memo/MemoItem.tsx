@@ -14,9 +14,6 @@ import LinearGradient from "react-native-linear-gradient";
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import Colors from "../../../constants/colors";
 
-// 컴포넌트
-import MemoDetail from "./MemoDetail";
-
 // 메인페이지 상태관리를 위한 타입 지정
 type MemoItemProp = {
   onMemoWritePress: () => void;
