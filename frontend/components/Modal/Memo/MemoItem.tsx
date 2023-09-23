@@ -17,9 +17,13 @@ import Colors from "../../../constants/colors";
 // 메인페이지 상태관리를 위한 타입 지정
 type MemoItemProp = {
   onMemoWritePress: () => void;
+  onMemoDetailPress: () => void;
 };
 
-const MemoItem: React.FC<MemoItemProp> = ({ onMemoWritePress }) => {
+const MemoItem: React.FC<MemoItemProp> = ({
+  onMemoWritePress,
+  onMemoDetailPress,
+}) => {
   // 북마크 상태관리 및 함수
   const [memoData, setMemoData] = useState([
     {
@@ -78,38 +82,44 @@ const MemoItem: React.FC<MemoItemProp> = ({ onMemoWritePress }) => {
   // FlatList 사용을 위한 MemoList 정리
   const MemoList: React.FC<MemoTypeProps> = ({ item }) => (
     <View style={styles.memoContainer}>
-      <LinearGradient
-        colors={["#FFFFFF", "#F5F5F5"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-        style={{ minHeight: calculateDynamicWidth(104) }}
-      >
-        <View style={styles.innerContainer}>
-          <View style={styles.calenderContainer}>
-            <Text style={styles.calendar}>{item.date}</Text>
-          </View>
-          {item.isphoto !== "" ? (
-            <View>
+      <Pressable onPress={onMemoDetailPress}>
+        <LinearGradient
+          colors={["#FFFFFF", "#F5F5F5"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={{ minHeight: calculateDynamicWidth(104) }}
+        >
+          <View style={styles.innerContainer}>
+            <View style={styles.calenderContainer}>
+              <Text style={styles.calendar}>{item.date}</Text>
+            </View>
+            {item.isphoto !== "" ? (
+              <View>
+                <Text
+                  style={styles.content}
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                >
+                  {item.content}
+                </Text>
+                <Image source={{ uri: item.isphoto }} style={styles.photo} />
+              </View>
+            ) : (
               <Text
                 style={styles.content}
-                numberOfLines={2}
+                numberOfLines={4}
                 ellipsizeMode="tail"
               >
                 {item.content}
               </Text>
-              <Image source={{ uri: item.isphoto }} style={styles.photo} />
+            )}
+            <View style={styles.bottomContainer}>
+              <Text style={styles.nickname}>{item.nickname}</Text>
+              <Text style={styles.open}>{item.openStatus}</Text>
             </View>
-          ) : (
-            <Text style={styles.content} numberOfLines={4} ellipsizeMode="tail">
-              {item.content}
-            </Text>
-          )}
-          <View style={styles.bottomContainer}>
-            <Text style={styles.nickname}>{item.nickname}</Text>
-            <Text style={styles.open}>{item.openStatus}</Text>
           </View>
-        </View>
-      </LinearGradient>
+        </LinearGradient>
+      </Pressable>
       <Pressable
         onPress={() => changeBookMarkHandler(item.id)}
         style={styles.bookmark}
