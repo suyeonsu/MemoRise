@@ -167,10 +167,6 @@ const MainScreen = () => {
     setTagSearchText("");
   };
 
-  // 메모 작성 내용
-  const [memoContent, setMemoContent] = useState("");
-  const [enteredMemo, setEnteredMemo] = useState("");
-
   // 메모 조회 상태관리
   const [memoItemVisible, setMemoItemVisible] = useState(true);
 
