@@ -14,7 +14,12 @@ import LinearGradient from "react-native-linear-gradient";
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import Colors from "../../../constants/colors";
 
-const MemoItem = () => {
+// 메인페이지 상태관리를 위한 타입 지정
+type MemoItemProp = {
+  onMemoWritePress: () => void;
+};
+
+const MemoItem: React.FC<MemoItemProp> = ({ onMemoWritePress }) => {
   // 북마크 상태관리 및 함수
   const [memoData, setMemoData] = useState([
     {
@@ -99,10 +104,12 @@ const MemoItem = () => {
 
   return (
     <View style={styles.mainContainer}>
-      <Image
-        source={require("../../../assets/icons/memo_write.png")}
-        style={styles.memoWrite}
-      />
+      <Pressable style={styles.memoWriteContainer} onPress={onMemoWritePress}>
+        <Image
+          source={require("../../../assets/icons/memo_write.png")}
+          style={styles.memoWrite}
+        />
+      </Pressable>
       <View>
         <FlatList
           data={memoData}
@@ -125,6 +132,11 @@ const styles = StyleSheet.create({
       { translateY: -calculateDynamicWidth(306) / 2 },
       { translateX: -calculateDynamicWidth(306) / 2 },
     ],
+  },
+
+  memoWriteContainer: {
+    alignItems: "flex-end",
+    marginBottom: 3,
   },
 
   memoWrite: {
