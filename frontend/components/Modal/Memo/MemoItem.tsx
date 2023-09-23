@@ -1,10 +1,10 @@
 // 라이브러리
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
+  FlatList,
   Image,
   Pressable,
 } from "react-native";
@@ -12,7 +12,6 @@ import LinearGradient from "react-native-linear-gradient";
 
 // 스타일
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
-import { TextInput } from "react-native-gesture-handler";
 import Colors from "../../../constants/colors";
 
 const MemoItem = () => {
@@ -27,36 +26,58 @@ const MemoItem = () => {
     }
   };
 
-  return (
-    <>
-      <Image
-        source={require("../../../assets/icons/memo_write.png")}
-        style={styles.memoWrite}
-      />
-      <View style={styles.memoContainer}>
-        <LinearGradient
-          colors={["#FFFFFF", "#F5F5F5"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          style={{ flex: 1 }}
-        >
-          <View style={styles.innerContainer}>
-            <View style={styles.calenderContainer}>
-              <Text style={styles.calendar}>2023. 09. 22</Text>
-            </View>
-            <Text style={styles.content} numberOfLines={4} ellipsizeMode="tail">
-              Hate to give the satisfaction, asking how you're doing nowHow's
-              the castle built off people you pretend to care about?Just what
-              you wantedLook at you, cool guy, you got it I see the parties and
-              the
-            </Text>
-            <View style={styles.bottomContainer}>
-              <Text style={styles.nickname}>권소정</Text>
-              <Text style={styles.open}>전체공개</Text>
-            </View>
+  // FlatList 사용을 위한 Type 지정
+  type MemoTypeProps = {
+    item: {
+      id: string;
+      date: string;
+      content: string;
+      nickname: string;
+      openStatus: string;
+    };
+  };
+
+  // FlatList 사용을 위한 Data 정의
+  const memoData = [
+    {
+      id: "1",
+      date: "2023. 09. 22",
+      content:
+        "Hate to give the satisfaction, asking how youre doing nowHows the castle built off people you pretend to care about?Just what you wantedLook at you, cool guy, you got it I see the parties and the",
+      nickname: "권소정",
+      openStatus: "전체공개",
+    },
+    {
+      id: "2",
+      date: "2023. 09. 22",
+      content: "테스트2",
+      nickname: "김준형",
+      openStatus: "비공개",
+    },
+  ];
+
+  // FlatList 사용을 위한 MemoList 정리
+  const MemoList: React.FC<MemoTypeProps> = ({ item }) => (
+    <View style={styles.memoContainer}>
+      <LinearGradient
+        colors={["#FFFFFF", "#F5F5F5"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
+        // style={{ flex: 1 }}
+      >
+        <View style={styles.innerContainer}>
+          <View style={styles.calenderContainer}>
+            <Text style={styles.calendar}>{item.date}</Text>
           </View>
-        </LinearGradient>
-      </View>
+          <Text style={styles.content} numberOfLines={4} ellipsizeMode="tail">
+            {item.content}
+          </Text>
+          <View style={styles.bottomContainer}>
+            <Text style={styles.nickname}>{item.nickname}</Text>
+            <Text style={styles.open}>{item.openStatus}</Text>
+          </View>
+        </View>
+      </LinearGradient>
       <Pressable onPress={() => changeBookMarkHandler()}>
         {isBookMark ? (
           <Image
@@ -70,25 +91,28 @@ const MemoItem = () => {
           />
         )}
       </Pressable>
-    </>
+    </View>
+  );
+
+  return (
+    <View style={styles.mainContainer}>
+      <Image
+        source={require("../../../assets/icons/memo_write.png")}
+        style={styles.memoWrite}
+      />
+      <FlatList
+        data={memoData}
+        renderItem={({ item }) => <MemoList item={item} />}
+        keyExtractor={(item) => item.id}
+      />
+    </View>
   );
 };
 
 export default MemoItem;
 
 const styles = StyleSheet.create({
-  memoWrite: {
-    width: calculateDynamicWidth(38),
-    height: calculateDynamicWidth(38),
-    position: "absolute",
-  },
-
-  memoContainer: {
-    width: calculateDynamicWidth(306),
-    minheight: calculateDynamicWidth(104),
-    maxHeight: calculateDynamicWidth(185),
-    borderRadius: calculateDynamicWidth(15),
-    overflow: "scroll",
+  mainContainer: {
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -96,6 +120,21 @@ const styles = StyleSheet.create({
       { translateY: -calculateDynamicWidth(306) / 2 },
       { translateX: -calculateDynamicWidth(306) / 2 },
     ],
+    maxHeight: calculateDynamicWidth(400),
+  },
+
+  memoWrite: {
+    width: calculateDynamicWidth(38),
+    height: calculateDynamicWidth(38),
+  },
+
+  memoContainer: {
+    width: calculateDynamicWidth(306),
+    minHeight: calculateDynamicWidth(104),
+    maxHeight: calculateDynamicWidth(185),
+    borderRadius: calculateDynamicWidth(15),
+    marginBottom: calculateDynamicWidth(12),
+    overflow: "scroll",
   },
 
   innerContainer: {
