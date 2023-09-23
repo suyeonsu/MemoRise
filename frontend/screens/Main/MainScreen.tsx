@@ -9,6 +9,7 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
+  Alert,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { Camera, useCameraDevices } from "react-native-vision-camera";
@@ -25,6 +26,8 @@ import MemoBtnModal from "../../components/Modal/Memo/MemoBtnModal";
 import AlertModal from "../../components/Modal/AlertModal";
 import { BACKEND_URL, S3_URL } from "../../util/http";
 import MemoItem from "../../components/Modal/Memo/MemoItem";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -51,6 +54,8 @@ const currentDate = getFormattedDate();
 
 const MainScreen = () => {
   const isFocused = useIsFocused();
+  // const token = useSelector((state: RootState) => state.userInfo.)
+  const userId = useSelector((state: RootState) => state.userInfo.id);
 
   // 사진 첨부
   const [uploadedPic, setUploadedPic] = useState("");
@@ -78,7 +83,7 @@ const MainScreen = () => {
 
         // S3에 사진 업로드
         axios
-          .post(BACKEND_URL + "/user/upload", formData, {
+          .post(BACKEND_URL + "/memos/upload", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -104,12 +109,12 @@ const MainScreen = () => {
 
   useEffect(() => {
     if (uploadedPic) {
-      // 원본 이미지의 크기를 가져옵니다.
+      // 원본 이미지 크기
       Image.getSize(uploadedPic, (width, height) => {
-        // 원본 이미지의 비율을 계산합니다.
+        // 원본 이미지 비율 계산
         const aspectRatio = width / height;
 
-        // 비율을 유지하면서 크기를 조절합니다.
+        // 비율 유지하면서 크기 조절
         if (width > height) {
           setImageWidth(MAX_WIDTH);
           setImageHeight(MAX_WIDTH / aspectRatio);
@@ -162,9 +167,6 @@ const MainScreen = () => {
     setTagSearchText("");
   };
 
-  // 메모 작성 내용
-  const [memoContent, setMemoContent] = useState("");
-  const [enteredMemo, setEnteredMemo] = useState("");
   // 메모 조회 상태관리
   const [memoItemVisible, setMemoItemVisible] = useState(true);
 
@@ -179,22 +181,57 @@ const MainScreen = () => {
   };
 
   const memoConfirmHandler = () => {
-    setMemoContent(enteredMemo);
     setMemoCreateModalVisible(false);
+    setEnteredMemo("");
+    setOpenState("OPEN");
+    MemoCreate();
   };
 
+  // 메모 작성 내용
+  const [enteredMemo, setEnteredMemo] = useState("");
+
   // 공개 범위 설정
-  // 0: 전체공개, 1: 일부공개, 2: 비공개
-  const [openState, setOpenState] = useState(0);
+  // OPEN: 전체공개, RESTRICT: 일부공개, CLOSED: 비공개
+  const [openState, setOpenState] = useState("OPEN");
   const [isToggleOpen, setToggleOpen] = useState(false);
 
   const selectOpenState = () => {
     setToggleOpen(!isToggleOpen);
   };
 
-  const chooseOpenState = (state: number) => {
+  const chooseOpenState = (state: string) => {
     setOpenState(state);
     setToggleOpen(false);
+  };
+
+  // 메모 생성 axios
+  const MemoCreate = () => {
+    if (!enteredMemo) {
+      Alert.alert("내용을 입력해 주세요!"); // 나중에 수정예정
+    } else {
+      axios({
+        method: "POST",
+        url: BACKEND_URL + `/memos/${1}`, // 물체 ID 임시로 1로 설정
+        // headers: {
+        //   "Content-Type": "application/json",
+        //   Authorization: "Bearer " + token,
+        // },
+        data: {
+          content: enteredMemo,
+          accessType: openState,
+          userId: userId,
+          newFile: uploadedPic,
+        },
+      })
+        .then((res) => {
+          if (res.request.status === 200) {
+            console.log("메모 생성 성공");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   // 메모 작성 모달
@@ -202,7 +239,7 @@ const MainScreen = () => {
 
   const closeMemoCreateModal = () => {
     setMemoCreateModalVisible(false);
-    setOpenState(0);
+    setOpenState("OPEN");
     setToggleOpen(false);
   };
 
@@ -226,7 +263,7 @@ const MainScreen = () => {
   // 확인 버튼 눌렀을 때
   const memoCancelConfirm = () => {
     setEnteredMemo("");
-    setOpenState(0);
+    setOpenState("OPEN");
     setToggleOpen(false);
     setMemoCancelModalVisible(false);
     setMemoCreateModalVisible(false);
@@ -392,6 +429,7 @@ const MainScreen = () => {
                     style={styles.bin}
                   />
                 </Pressable>
+                {/* 첨부 사진 */}
                 <Image
                   source={{ uri: uploadedPic }}
                   style={[
@@ -413,7 +451,7 @@ const MainScreen = () => {
               onPress={openMemoCancelModal}
             />
             {/* 유저 태그(empty) */}
-            {openState === 1 && !isSearchResultVisible && (
+            {openState === "RESTRICT" && !isSearchResultVisible && (
               <View style={styles.tagContainer}>
                 <View style={styles.tagSearchContainer}>
                   <Text style={styles.tagText}>@</Text>
@@ -431,7 +469,7 @@ const MainScreen = () => {
             )}
             {/* 유저 태그(결과값 O) */}
             {/* 더미 데이터 */}
-            {openState === 1 && taggedMember[0] && (
+            {openState === "RESTRICT" && taggedMember[0] && (
               <>
                 <ScrollView horizontal style={styles.tagResultBox}>
                   <View
@@ -566,7 +604,7 @@ const MainScreen = () => {
                   {/* 공개 범위 설정 버튼 */}
                   <View style={styles.memoInnerContainer}>
                     <View>
-                      {openState === 0 && (
+                      {openState === "OPEN" && (
                         <Pressable onPress={selectOpenState}>
                           <Image
                             source={require("../../assets/image/public.png")}
@@ -574,7 +612,7 @@ const MainScreen = () => {
                           />
                         </Pressable>
                       )}
-                      {openState === 1 && (
+                      {openState === "RESTRICT" && (
                         <Pressable onPress={selectOpenState}>
                           <Image
                             source={require("../../assets/image/restrict.png")}
@@ -582,7 +620,7 @@ const MainScreen = () => {
                           />
                         </Pressable>
                       )}
-                      {openState === 2 && (
+                      {openState === "CLOSED" && (
                         <Pressable onPress={selectOpenState}>
                           <Image
                             source={require("../../assets/image/closed.png")}
@@ -592,27 +630,29 @@ const MainScreen = () => {
                       )}
                       {isToggleOpen && (
                         <View style={styles.toggleContainer}>
-                          <Pressable onPress={() => chooseOpenState(0)}>
+                          <Pressable onPress={() => chooseOpenState("OPEN")}>
                             <View style={styles.toggleContentContainer}>
                               <Text style={styles.toggleText}>전체공개</Text>
-                              {openState === 0 && (
+                              {openState === "OPEN" && (
                                 <View style={styles.blueDotContainer}>
                                   <View style={styles.blueDot}></View>
                                 </View>
                               )}
                             </View>
                           </Pressable>
-                          <Pressable onPress={() => chooseOpenState(1)}>
+                          <Pressable
+                            onPress={() => chooseOpenState("RESTRICT")}
+                          >
                             <View style={styles.toggleContentContainer}>
                               <Text style={styles.toggleText}>일부공개</Text>
-                              {openState === 1 && (
+                              {openState === "RESTRICT" && (
                                 <View style={styles.blueDotContainer}>
                                   <View style={styles.blueDot}></View>
                                 </View>
                               )}
                             </View>
                           </Pressable>
-                          <Pressable onPress={() => chooseOpenState(2)}>
+                          <Pressable onPress={() => chooseOpenState("CLOSED")}>
                             <View
                               style={[
                                 styles.toggleClosedContentContainer,
@@ -620,7 +660,7 @@ const MainScreen = () => {
                               ]}
                             >
                               <Text style={styles.toggleText}>비공개</Text>
-                              {openState === 2 && (
+                              {openState === "CLOSED" && (
                                 <View style={styles.blueDotContainer}>
                                   <View
                                     style={[
