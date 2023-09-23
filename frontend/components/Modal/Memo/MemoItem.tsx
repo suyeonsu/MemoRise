@@ -17,13 +17,32 @@ import Colors from "../../../constants/colors";
 const MemoItem = () => {
   // 북마크 상태관리 및 함수
   const [isBookMark, setIsBookMark] = useState(false);
+  const [memoData, setMemoData] = useState([
+    {
+      id: "1",
+      date: "2023. 09. 22",
+      content:
+        "Hate to give the satisfaction, asking how youre doing nowHows the castle built off people you pretend to care about?Just what you wantedLook at you, cool guy, you got it I see the parties and the",
+      nickname: "권소정",
+      openStatus: "전체공개",
+      isBookMark: false,
+    },
+    {
+      id: "2",
+      date: "2023. 09. 22",
+      content: "테스트2",
+      nickname: "김준형",
+      openStatus: "비공개",
+      isBookMark: false,
+    },
+  ]);
 
-  const changeBookMarkHandler = () => {
-    if (isBookMark) {
-      setIsBookMark(false);
-    } else {
-      setIsBookMark(true);
-    }
+  const changeBookMarkHandler = (id: string) => {
+    setMemoData((prevData) =>
+      prevData.map((item) =>
+        item.id === id ? { ...item, isBookMark: !item.isBookMark } : item
+      )
+    );
   };
 
   // FlatList 사용을 위한 Type 지정
@@ -34,27 +53,12 @@ const MemoItem = () => {
       content: string;
       nickname: string;
       openStatus: string;
+      isBookMark: boolean;
     };
   };
 
   // FlatList 사용을 위한 Data 정의
-  const memoData = [
-    {
-      id: "1",
-      date: "2023. 09. 22",
-      content:
-        "Hate to give the satisfaction, asking how youre doing nowHows the castle built off people you pretend to care about?Just what you wantedLook at you, cool guy, you got it I see the parties and the",
-      nickname: "권소정",
-      openStatus: "전체공개",
-    },
-    {
-      id: "2",
-      date: "2023. 09. 22",
-      content: "테스트2",
-      nickname: "김준형",
-      openStatus: "비공개",
-    },
-  ];
+  // const memoData = [];
 
   // FlatList 사용을 위한 MemoList 정리
   const MemoList: React.FC<MemoTypeProps> = ({ item }) => (
@@ -78,8 +82,11 @@ const MemoItem = () => {
           </View>
         </View>
       </LinearGradient>
-      <Pressable onPress={() => changeBookMarkHandler()}>
-        {isBookMark ? (
+      <Pressable
+        onPress={() => changeBookMarkHandler(item.id)}
+        style={styles.bookmark}
+      >
+        {item.isBookMark ? (
           <Image
             source={require("../../../assets/icons/bookmarkblue_fill.png")}
             style={styles.bookmarkSize}
@@ -142,12 +149,15 @@ const styles = StyleSheet.create({
     margin: calculateDynamicWidth(9),
   },
 
+  bookmark: {
+    position: "absolute",
+    top: 0,
+    marginLeft: calculateDynamicWidth(16),
+  },
+
   bookmarkSize: {
     width: calculateDynamicWidth(17),
     height: calculateDynamicWidth(23),
-    marginLeft: calculateDynamicWidth(50),
-    bottom: calculateDynamicWidth(520),
-    position: "absolute",
   },
 
   calenderContainer: {
