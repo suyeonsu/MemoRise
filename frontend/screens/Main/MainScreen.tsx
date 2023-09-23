@@ -168,6 +168,7 @@ const MainScreen = () => {
   };
 
   // 메모 조회 상태관리
+  // true -> false로 변경할 것!!! <-- 변경했다면? 주석지워~
   const [memoItemVisible, setMemoItemVisible] = useState(true);
 
   // 메모모달 조회 함수
