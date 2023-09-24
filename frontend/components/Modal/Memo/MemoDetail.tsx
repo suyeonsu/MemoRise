@@ -66,6 +66,12 @@ const MemoDetail = () => {
     }
   }, [memoPic]);
 
+  // 메모 이미지 삭제 함수
+  const deleteImage = () => {
+    setMemoPic("");
+    setIsFullImageVisible(false);
+  };
+
   // 북마크 체크 여부 파악을 위한 상태관리
   const [isBookMark, setIsBookMark] = useState(false);
 
@@ -110,20 +116,31 @@ const MemoDetail = () => {
               </View>
             </View>
             <ScrollView style={detailStyle.contentContainer}>
-              <Pressable onPress={openFullImage}>
-                <Image
-                  source={{
-                    uri: "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png",
-                  }}
-                  style={detailStyle.photo}
-                />
-              </Pressable>
-              <Text style={detailStyle.content}>
-                Hate to give the satisfaction, asking how you're doing now.
-                How's the castle built off people you pretend to care about?
-                Just what you wantedLook at you, cool guy, you got it I see the
-                parties and the
-              </Text>
+              {memoPic !== "" ? (
+                <>
+                  <Pressable onPress={openFullImage}>
+                    <Image
+                      source={{
+                        uri: memoPic,
+                      }}
+                      style={detailStyle.photo}
+                    />
+                  </Pressable>
+                  <Text style={detailStyle.content}>
+                    Hate to give the satisfaction, asking how you're doing now.
+                    How's the castle built off people you pretend to care about?
+                    Just what you wantedLook at you, cool guy, you got it I see
+                    the parties and the
+                  </Text>
+                </>
+              ) : (
+                <Text style={detailStyle.content}>
+                  Hate to give the satisfaction, asking how you're doing now.
+                  How's the castle built off people you pretend to care about?
+                  Just what you wantedLook at you, cool guy, you got it I see
+                  the parties and the
+                </Text>
+              )}
             </ScrollView>
           </View>
         </LinearGradient>
@@ -158,7 +175,7 @@ const MemoDetail = () => {
             />
             {/* 첨부 사진 삭제 버튼 */}
             <Pressable
-              // onPress={deleteUploadedPic}
+              onPress={deleteImage}
               style={[
                 styles.binContainer,
                 {
