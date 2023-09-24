@@ -1,5 +1,5 @@
 // 라이브러리
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   Pressable,
+  Dimensions,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 
@@ -14,9 +15,45 @@ import LinearGradient from "react-native-linear-gradient";
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import Colors from "../../../constants/colors";
 
+// 스크린 높이
+const screenHeight = Dimensions.get("window").height;
+
+// 이미지 최대 크기 설정
+const MAX_WIDTH = calculateDynamicWidth(286);
+const MAX_HEIGHT = screenHeight / 2;
+
 const MemoDetail = () => {
+  // 이미지 비율 축소를 위한 상태관리
+  const [memoPic, setMemoPic] = useState(
+    "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png"
+  );
+  const [imageWidth, setImageWidth] = useState(MAX_WIDTH);
+  const [imageHeight, setImageHeight] = useState(MAX_HEIGHT);
+
+  // 이미지를 비율에 맞게 축소
+  useEffect(() => {
+    if (memoPic) {
+      // 원본 이미지 크기
+      Image.getSize(memoPic, (width, height) => {
+        // 원본 이미지 비율 계산
+        const aspectRatio = width / height;
+
+        // 비율 유지하면서 크기 조절
+        if (width > height) {
+          setImageWidth(MAX_WIDTH);
+          setImageHeight(MAX_WIDTH / aspectRatio);
+        } else {
+          setImageHeight(MAX_HEIGHT);
+          setImageWidth(MAX_HEIGHT * aspectRatio);
+        }
+      });
+    }
+  }, [memoPic]);
+
+  // 북마크 체크 여부 파악을 위한 상태관리
   const [isBookMark, setIsBookMark] = useState(false);
 
+  // 북마크 체크에 따른 변경 함수
   const changeIsBookMark = () => {
     setIsBookMark(!isBookMark);
   };
