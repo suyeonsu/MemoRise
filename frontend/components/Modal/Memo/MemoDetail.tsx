@@ -103,12 +103,14 @@ const MemoDetail = () => {
               </View>
             </View>
             <ScrollView style={detailStyle.contentContainer}>
-              <Image
-                source={{
-                  uri: "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png",
-                }}
-                style={detailStyle.photo}
-              />
+              <Pressable onPress={() => setIsFullImageVisible(true)}>
+                <Image
+                  source={{
+                    uri: "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png",
+                  }}
+                  style={detailStyle.photo}
+                />
+              </Pressable>
               <Text style={detailStyle.content}>
                 Hate to give the satisfaction, asking how you're doing now.
                 How's the castle built off people you pretend to care about?
@@ -134,11 +136,49 @@ const MemoDetail = () => {
       </View>
       {isFullImageVisible && (
         <>
+          {/* 백그라운드 클릭 시 이미지 모달 종료 */}
           <Pressable
             style={[
               styles.uploadedImgBg,
               { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 2 },
             ]}
+            onPress={closeFullImage}
+          />
+          {/* 첨부 사진 삭제 버튼 */}
+          <Pressable
+            style={[
+              styles.binContainer,
+              {
+                transform: [
+                  {
+                    translateY: -(imageHeight / 2 + calculateDynamicWidth(26)),
+                  },
+                  {
+                    translateX: imageWidth / 2 - calculateDynamicWidth(20),
+                  },
+                ],
+              },
+            ]}
+          >
+            <Image
+              source={require("../../../assets/icons/bin.png")}
+              style={styles.bin}
+            />
+          </Pressable>
+          {/* 사진 */}
+          <Image
+            source={{ uri: memoPic }}
+            style={
+              (styles.uploadedFullImg,
+              {
+                width: imageWidth,
+                height: imageHeight,
+                transform: [
+                  { translateY: -imageHeight / 2 },
+                  { translateX: -imageWidth / 2 },
+                ],
+              })
+            }
           />
         </>
       )}
