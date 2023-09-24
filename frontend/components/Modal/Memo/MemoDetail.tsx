@@ -14,6 +14,7 @@ import LinearGradient from "react-native-linear-gradient";
 // 스타일
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import Colors from "../../../constants/colors";
+import { styles } from "../../../screens/Main/MainStyle";
 
 // 스크린 높이
 const screenHeight = Dimensions.get("window").height;
@@ -67,73 +68,87 @@ const MemoDetail = () => {
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <LinearGradient
-        colors={["#FFFFFF", "#F5F5F5"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-        style={styles.memoContainer}
-      >
-        <View style={styles.innerContainer}>
-          <View>
-            <View style={styles.rowSpaceBetween}>
-              <Text style={styles.calendar}>2023. 09. 24 오전 12:50</Text>
-              <View style={styles.iconContainer}>
-                <Pressable>
-                  <Image
-                    source={require("../../../assets/icons/update.png")}
-                    style={styles.icon}
-                  />
-                </Pressable>
-                <Pressable>
-                  <Image
-                    source={require("../../../assets/icons/delete.png")}
-                    style={styles.icon}
-                  />
-                </Pressable>
+    <>
+      <View style={detailStyle.mainContainer}>
+        <LinearGradient
+          colors={["#FFFFFF", "#F5F5F5"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={detailStyle.memoContainer}
+        >
+          <View style={detailStyle.innerContainer}>
+            <View>
+              <View style={detailStyle.rowSpaceBetween}>
+                <Text style={detailStyle.calendar}>
+                  2023. 09. 24 오전 12:50
+                </Text>
+                <View style={detailStyle.iconContainer}>
+                  <Pressable>
+                    <Image
+                      source={require("../../../assets/icons/update.png")}
+                      style={detailStyle.icon}
+                    />
+                  </Pressable>
+                  <Pressable>
+                    <Image
+                      source={require("../../../assets/icons/delete.png")}
+                      style={detailStyle.icon}
+                    />
+                  </Pressable>
+                </View>
+              </View>
+              <View style={detailStyle.rowSpaceBetween2}>
+                <Text style={detailStyle.nickname}>김준형</Text>
+                <Text style={detailStyle.open}>전체공개</Text>
               </View>
             </View>
-            <View style={styles.rowSpaceBetween2}>
-              <Text style={styles.nickname}>김준형</Text>
-              <Text style={styles.open}>전체공개</Text>
-            </View>
+            <ScrollView style={detailStyle.contentContainer}>
+              <Image
+                source={{
+                  uri: "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png",
+                }}
+                style={detailStyle.photo}
+              />
+              <Text style={detailStyle.content}>
+                Hate to give the satisfaction, asking how you're doing now.
+                How's the castle built off people you pretend to care about?
+                Just what you wantedLook at you, cool guy, you got it I see the
+                parties and the
+              </Text>
+            </ScrollView>
           </View>
-          <ScrollView style={styles.contentContainer}>
+        </LinearGradient>
+        <Pressable onPress={changeIsBookMark} style={detailStyle.bookmark}>
+          {isBookMark ? (
             <Image
-              source={{
-                uri: "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png",
-              }}
-              style={styles.photo}
+              source={require("../../../assets/icons/bookmarkblue_fill.png")}
+              style={detailStyle.bookmarkSize}
             />
-            <Text style={styles.content}>
-              Hate to give the satisfaction, asking how you're doing now. How's
-              the castle built off people you pretend to care about? Just what
-              you wantedLook at you, cool guy, you got it I see the parties and
-              the
-            </Text>
-          </ScrollView>
-        </View>
-      </LinearGradient>
-      <Pressable onPress={changeIsBookMark} style={styles.bookmark}>
-        {isBookMark ? (
-          <Image
-            source={require("../../../assets/icons/bookmarkblue_fill.png")}
-            style={styles.bookmarkSize}
+          ) : (
+            <Image
+              source={require("../../../assets/icons/bookmarkblue.png")}
+              style={detailStyle.bookmarkSize}
+            />
+          )}
+        </Pressable>
+      </View>
+      {isFullImageVisible && (
+        <>
+          <Pressable
+            style={[
+              styles.uploadedImgBg,
+              { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 2 },
+            ]}
           />
-        ) : (
-          <Image
-            source={require("../../../assets/icons/bookmarkblue.png")}
-            style={styles.bookmarkSize}
-          />
-        )}
-      </Pressable>
-    </View>
+        </>
+      )}
+    </>
   );
 };
 
 export default MemoDetail;
 
-const styles = StyleSheet.create({
+const detailStyle = StyleSheet.create({
   mainContainer: {
     position: "absolute",
     top: "50%",
