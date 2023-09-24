@@ -8,6 +8,7 @@ import {
   Image,
   Pressable,
   Dimensions,
+  Modal,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 
@@ -25,14 +26,20 @@ const MAX_HEIGHT = screenHeight / 2;
 
 const MemoDetail = () => {
   // 이미지 비율 축소를 위한 상태관리
-  const [memoPic, setMemoPic] = useState(
-    "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png"
-  );
+  const [memoPic, setMemoPic] = useState("");
   const [imageWidth, setImageWidth] = useState(MAX_WIDTH);
   const [imageHeight, setImageHeight] = useState(MAX_HEIGHT);
 
   // 이미지 모달 상태관리
   const [isFullImageVisible, setIsFullImageVisible] = useState(false);
+
+  // 원본 이미지 보기 함수
+  const openFullImage = () => {
+    setIsFullImageVisible(true);
+    setMemoPic(
+      "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png"
+    );
+  };
 
   // 이미지 모달 상태 변경 함수
   const closeFullImage = () => {
@@ -103,7 +110,7 @@ const MemoDetail = () => {
               </View>
             </View>
             <ScrollView style={detailStyle.contentContainer}>
-              <Pressable onPress={() => setIsFullImageVisible(true)}>
+              <Pressable onPress={openFullImage}>
                 <Image
                   source={{
                     uri: "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png",
@@ -135,52 +142,62 @@ const MemoDetail = () => {
         </Pressable>
       </View>
       {isFullImageVisible && (
-        <>
-          {/* 백그라운드 클릭 시 이미지 모달 종료 */}
-          <Pressable
-            style={[
-              styles.uploadedImgBg,
-              { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 2 },
-            ]}
-            onPress={closeFullImage}
-          />
-          {/* 첨부 사진 삭제 버튼 */}
-          <Pressable
-            style={[
-              styles.binContainer,
-              {
-                transform: [
-                  {
-                    translateY: -(imageHeight / 2 + calculateDynamicWidth(26)),
-                  },
-                  {
-                    translateX: imageWidth / 2 - calculateDynamicWidth(20),
-                  },
-                ],
-              },
-            ]}
+        <View style={[styles.background, { zIndex: 2 }]}>
+          <Modal
+            transparent={true}
+            animationType="fade"
+            visible={isFullImageVisible}
+            onRequestClose={closeFullImage}
           >
-            <Image
-              source={require("../../../assets/icons/bin.png")}
-              style={styles.bin}
+            <Pressable
+              style={[
+                styles.uploadedImgBg,
+                { backgroundColor: "rgba(0, 0, 0, 0.5)", zIndex: 2 },
+              ]}
+              onPress={closeFullImage}
             />
-          </Pressable>
-          {/* 사진 */}
-          <Image
-            source={{ uri: memoPic }}
-            style={
-              (styles.uploadedFullImg,
-              {
-                width: imageWidth,
-                height: imageHeight,
-                transform: [
-                  { translateY: -imageHeight / 2 },
-                  { translateX: -imageWidth / 2 },
-                ],
-              })
-            }
-          />
-        </>
+            {/* 첨부 사진 삭제 버튼 */}
+            <Pressable
+              // onPress={deleteUploadedPic}
+              style={[
+                styles.binContainer,
+                {
+                  transform: [
+                    {
+                      translateY: -(
+                        imageHeight / 2 +
+                        calculateDynamicWidth(26)
+                      ),
+                    },
+                    {
+                      translateX: imageWidth / 2 - calculateDynamicWidth(20),
+                    },
+                  ],
+                },
+              ]}
+            >
+              <Image
+                source={require("../../../assets/icons/bin.png")}
+                style={styles.bin}
+              />
+            </Pressable>
+            {/* 첨부 사진 */}
+            <Image
+              source={{ uri: memoPic }}
+              style={[
+                styles.uploadedFullImg,
+                {
+                  width: imageWidth,
+                  height: imageHeight,
+                  transform: [
+                    { translateY: -imageHeight / 2 },
+                    { translateX: -imageWidth / 2 },
+                  ],
+                },
+              ]}
+            />
+          </Modal>
+        </View>
       )}
     </>
   );
