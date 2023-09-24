@@ -33,6 +33,11 @@ const MemoDetail = () => {
   // 이미지 모달 상태관리
   const [isFullImageVisible, setIsFullImageVisible] = useState(false);
 
+  // 이미지 모달 상태 변경 함수
+  const closeFullImage = () => {
+    setIsFullImageVisible(false);
+  };
+
   // 이미지를 비율에 맞게 축소
   useEffect(() => {
     if (memoPic) {
