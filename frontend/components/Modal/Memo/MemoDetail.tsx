@@ -57,10 +57,10 @@ const MemoDetail = () => {
         // 비율 유지하면서 크기 조절
         if (width > height) {
           setImageWidth(MAX_WIDTH);
-          setImageHeight(MAX_WIDTH / aspectRatio);
+          setImageHeight(MAX_HEIGHT / aspectRatio);
         } else {
           setImageHeight(MAX_HEIGHT);
-          setImageWidth(MAX_HEIGHT * aspectRatio);
+          setImageWidth(MAX_WIDTH * aspectRatio);
         }
       });
     }
@@ -166,7 +166,7 @@ const MemoDetail = () => {
                     {
                       translateY: -(
                         imageHeight / 2 +
-                        calculateDynamicWidth(26)
+                        calculateDynamicWidth(25)
                       ),
                     },
                     {
