@@ -33,7 +33,7 @@ const MemoList: React.FC<MemoItemProp> = ({
         "Hate to give the satisfaction, asking how youre doing nowHows the castle built off people you pretend to care about?Just what you wantedLook at you, cool guy, you got it I see the parties and the",
       nickname: "권소정",
       openStatus: "전체공개",
-      isBookMark: false,
+      isBookMark: true,
       isphoto: "",
     },
     {
