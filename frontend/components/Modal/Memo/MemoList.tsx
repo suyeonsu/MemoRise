@@ -20,7 +20,7 @@ type MemoItemProp = {
   onMemoDetailPress: () => void;
 };
 
-const MemoItem: React.FC<MemoItemProp> = ({
+const MemoList: React.FC<MemoItemProp> = ({
   onMemoWritePress,
   onMemoDetailPress,
 }) => {
@@ -160,7 +160,7 @@ const MemoItem: React.FC<MemoItemProp> = ({
   );
 };
 
-export default MemoItem;
+export default MemoList;
 
 const styles = StyleSheet.create({
   mainContainer: {
