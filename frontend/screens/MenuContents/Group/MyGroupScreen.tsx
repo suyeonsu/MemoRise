@@ -82,12 +82,12 @@ const MyGroupScreen = () => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(shakeAnimation, {
-          toValue: 1, // 1로 설정하여 최대 회전 각도에 도달하도록 합니다.
+          toValue: 1,
           duration: 100,
           useNativeDriver: true,
         }),
         Animated.timing(shakeAnimation, {
-          toValue: -1, // -1로 설정하여 최소 회전 각도에 도달하도록 합니다.
+          toValue: -1,
           duration: 100,
           useNativeDriver: true,
         }),
@@ -127,7 +127,16 @@ const MyGroupScreen = () => {
             {groupData.map((group, idx) => (
               <Animated.View
                 key={idx}
-                style={{ transform: [{ translateX: shakeAnimation }] }}
+                style={{
+                  transform: [
+                    {
+                      rotate: shakeAnimation.interpolate({
+                        inputRange: [-1, 1],
+                        outputRange: ["-1deg", "1deg"], // 여기서 각도 조절하여 원하는 회전 각도를 설정
+                      }),
+                    },
+                  ],
+                }}
               >
                 <GroupBox
                   teamName={group.teamName}
