@@ -193,9 +193,10 @@ const MainScreen = () => {
   const [selectMemoSeq, setSelectMemoSeq] = useState<number | null>(null);
 
   // 메모 상세 조회 변경 함수
-  const setMemoDetailModal = () => {
+  const setMemoDetailModal = (memoSeq: number) => {
     setMemoListVisible(false);
     setIsMemoDetailVisible(true);
+    setSelectMemoSeq(memoSeq);
   };
 
   // 메모 수정을 위한 상태관리
