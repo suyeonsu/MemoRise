@@ -2,10 +2,11 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { View, Text, Image, Pressable } from "react-native";
+import { View, Text, Image, Pressable, ScrollView } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useSelector } from "react-redux";
 import SmallBtn from "../../../components/Button/SmallBtn";
+import GroupBox from "../../../components/GroupBox";
 
 import GoBackHeader from "../../../components/Header/GoBackHeader";
 import { RootState } from "../../../store/store";
@@ -72,7 +73,18 @@ const MyGroupScreen = () => {
             <SmallBtn onPress={EditGroupsHandler}>편집</SmallBtn>
           )}
         </View>
-        {groupData && groupData[0] ? null : (
+        {groupData && groupData[0] ? (
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={styles.groupContainer}
+          >
+            {groupData.map((group, idx) => (
+              <View key={idx}>
+                <GroupBox teamName={group.teamName} />
+              </View>
+            ))}
+          </ScrollView>
+        ) : (
           <View style={styles.emptyContainer}>
             <Image
               style={styles.group}
