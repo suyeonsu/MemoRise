@@ -16,6 +16,7 @@ import GroupNameInputModal from "../../../components/Modal/Group/GroupNameInputM
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import { RootState } from "../../../store/store";
 import { BACKEND_URL } from "../../../util/http";
+import GroupSetting from "../../../components/GroupSetting";
 
 type RootStackParamList = {
   MakeGroup: undefined;
@@ -153,47 +154,14 @@ const MakeGroupScreen = () => {
         </View>
 
         {/* 여기서부터 나중에 컴포넌트로 뺄거임 */}
-        <View style={styles.contentsContainer}>
-          <View>
-            <View style={styles.itemContainer}>
-              <Text style={styles.text}>그룹 이름</Text>
-              <Pressable onPress={nameModalHandler}>
-                <Text style={[styles.text, { opacity: 0.5 }]}>{name}</Text>
-              </Pressable>
-            </View>
-
-            <View style={styles.line}></View>
-
-            <View style={styles.itemContainer}>
-              <Text style={styles.text}>그룹 비공개</Text>
-              <Switch
-                trackColor={{ false: Colors.hover, true: Colors.primary300 }}
-                thumbColor="white"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-                style={{
-                  transform: [
-                    { scaleX: calculateDynamicWidth(1) },
-                    { scaleY: calculateDynamicWidth(1) },
-                  ],
-                }}
-              />
-            </View>
-            {password && (
-              <>
-                <View style={styles.line}></View>
-                <View style={styles.itemContainer}>
-                  <Text style={styles.text}>비밀번호</Text>
-                  <Pressable onPress={passwordModalHandler}>
-                    <Text style={[styles.text, { opacity: 0.5 }]}>
-                      {password}
-                    </Text>
-                  </Pressable>
-                </View>
-              </>
-            )}
-          </View>
-        </View>
+        <GroupSetting
+          nameModalHandler={nameModalHandler}
+          name={name}
+          toggleSwitch={toggleSwitch}
+          isEnabled={isEnabled}
+          password={password}
+          passwordModalHandler={passwordModalHandler}
+        />
         {/* 여기까지 */}
 
         <View style={styles.btnContainer}>

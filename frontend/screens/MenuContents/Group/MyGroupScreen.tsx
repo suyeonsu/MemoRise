@@ -154,7 +154,6 @@ const MyGroupScreen = () => {
                       }),
                     },
                   ],
-                  // width: "100%",
                 }}
               >
                 <GroupBox
