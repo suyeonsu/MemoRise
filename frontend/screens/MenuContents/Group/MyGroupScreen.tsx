@@ -40,7 +40,7 @@ const MyGroupScreen = () => {
         const res = await axios({
           method: "GET",
           // url: BACKEND_URL + `/user/${userId}/my-teams`,
-          url: BACKEND_URL + `/user/26/my-teams`, // 더미 데이터
+          url: BACKEND_URL + `/user/23/my-teams`, // 더미 데이터
         });
         setGroupData(res.data);
         console.log("조회 성공");
@@ -80,7 +80,10 @@ const MyGroupScreen = () => {
           >
             {groupData.map((group, idx) => (
               <View key={idx}>
-                <GroupBox teamName={group.teamName} />
+                <GroupBox
+                  teamName={group.teamName}
+                  myProfile={group.myProfile}
+                />
               </View>
             ))}
           </ScrollView>

@@ -7,18 +7,21 @@ import { calculateDynamicWidth } from "../constants/dynamicSize";
 
 type GroupBoxProps = {
   teamName: string;
+  myProfile: string;
 };
 
-const GroupBox: React.FC<GroupBoxProps> = ({ teamName }) => {
+const GroupBox: React.FC<GroupBoxProps> = ({ teamName, myProfile }) => {
   return (
-    <View>
+    <View style={{ marginHorizontal: calculateDynamicWidth(8) }}>
       <LinearGradient
         colors={["#F5F5F5", Colors.hover]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
         style={styles.groupBox}
       ></LinearGradient>
-      <Text style={styles.title}>{teamName}</Text>
+      <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+        {teamName}
+      </Text>
     </View>
   );
 };
@@ -38,5 +41,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: calculateDynamicWidth(5),
     marginBottom: calculateDynamicWidth(30),
+    width: calculateDynamicWidth(128),
   },
 });
