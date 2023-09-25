@@ -59,6 +59,7 @@ const MemoList: React.FC<MemoListProp> = ({
       });
   }, []);
 
+  // 북마크 처리 AXIOS 및 관리
   const changeBookMarkHandler = (id: number) => {
     setMemoData((prevData) =>
       prevData.map((item) => {
