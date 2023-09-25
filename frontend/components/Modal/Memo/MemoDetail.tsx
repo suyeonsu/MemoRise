@@ -1,4 +1,5 @@
 // 라이브러리
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -16,6 +17,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import Colors from "../../../constants/colors";
 import { styles } from "../../../screens/Main/MainStyle";
+import { BACKEND_URL } from "../../../util/http";
 
 // 스크린 높이
 const screenHeight = Dimensions.get("window").height;
@@ -34,6 +36,30 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
   memoSeq,
   onMemoUpdatePress,
 }) => {
+  // 타입관리
+  type MemoDetailProps = {
+    accessType: string;
+    content: string;
+    file: string;
+    nickname: string;
+    updatedAt: string;
+  };
+
+  // 메모 상세 조회 상태관리
+  const [memoDetailData, setMemoDetailData] = useState<MemoDetailProps[]>([]);
+
+  // 메모 상세 조회를 위한 AXIOS
+  useEffect(() => {
+    axios
+      .get(BACKEND_URL + `/memos/${memoSeq}/23`)
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   // 이미지 비율 축소를 위한 상태관리
   const [memoPic, setMemoPic] = useState(
     "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png"
