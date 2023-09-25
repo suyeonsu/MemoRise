@@ -68,7 +68,6 @@ const MemoList: React.FC<MemoListProp> = ({
             // isBookmarked가 true일 때, axios.delete 호출
             axios
               .delete(BACKEND_URL + `/memos/${item.memoSeq}/bookmarks/23`)
-              .then((response) => {})
               .catch((error) => {
                 console.error(error);
               });
@@ -76,7 +75,6 @@ const MemoList: React.FC<MemoListProp> = ({
             // isBookmarked가 false일 때, axios.post 호출
             axios
               .post(BACKEND_URL + `/memos/${item.memoSeq}/bookmarks/23`)
-              .then((response) => {})
               .catch((error) => {
                 console.error(error);
               });
