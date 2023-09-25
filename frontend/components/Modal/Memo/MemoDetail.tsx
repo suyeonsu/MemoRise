@@ -1,5 +1,5 @@
 // 라이브러리
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -24,7 +24,12 @@ const screenHeight = Dimensions.get("window").height;
 const MAX_WIDTH = calculateDynamicWidth(286);
 const MAX_HEIGHT = screenHeight / 2;
 
-const MemoDetail = () => {
+// 메인페이지 상태관리를 위한 타입 지정
+type MemoDetailProp = {
+  onMemoUpdatePress: () => void;
+};
+
+const MemoDetail: React.FC<MemoDetailProp> = () => {
   // 이미지 비율 축소를 위한 상태관리
   const [memoPic, setMemoPic] = useState(
     "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png"
