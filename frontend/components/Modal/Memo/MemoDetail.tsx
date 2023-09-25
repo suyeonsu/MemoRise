@@ -55,6 +55,25 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
   // 메모 상세 조회 상태관리
   const [memoDetailData, setMemoDetailData] = useState<MemoDetailProps[]>([]);
 
+  // 메모 상세 조회 날짜 상태관리
+  const [memoDetailCalendar, setMemoDetailCalendar] = useState("");
+
+  // 날짜 변경 함수
+  const formatData = (inputData: string) => {
+    const date = new Date(inputData);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    const ampm = hours >= 12 ? "오후" : "오전";
+    const formattedHours = hours > 12 ? hours - 12 : hours;
+    const formattedHoursString = String(formattedHours).padStart(2, "0");
+
+    return `${year}. ${month}. ${day}. ${ampm} ${formattedHoursString}:${minutes}`;
+  };
+
   // 메모 상세 조회를 위한 AXIOS
   useEffect(() => {
     const fetchData = async () => {
@@ -62,6 +81,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
         const res = await axios.get(BACKEND_URL + `/memos/${memoSeq}/23`);
         setMemoDetailData([res.data]);
         setMemoPic(res.data.file);
+        setMemoDetailCalendar(formatData(res.data.updatedAt));
       } catch (err) {
         console.log(err);
       }
@@ -167,9 +187,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
             <View>
               <View style={detailStyle.rowSpaceBetween}>
                 {memoDetailData[0] && (
-                  <Text style={detailStyle.calendar}>
-                    {memoDetailData[0].updatedAt}
-                  </Text>
+                  <Text style={detailStyle.calendar}>{memoDetailCalendar}</Text>
                 )}
                 <View style={detailStyle.iconContainer}>
                   <Pressable onPress={onMemoUpdatePress}>
