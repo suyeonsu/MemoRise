@@ -197,6 +197,12 @@ const MainScreen = () => {
     setIsMemoDetailVisible(true);
   };
 
+  // 메모 수정
+  const setMemoUpdateHandler = () => {
+    setIsMemoDetailVisible(false);
+    setMemoCreateModalVisible(true);
+  };
+
   const memoInputHandler = (enteredText: string) => {
     setEnteredMemo(enteredText);
   };
@@ -586,7 +592,9 @@ const MainScreen = () => {
       )}
 
       {/* 메모 상세 조회 */}
-      {isMemoDetailVisible && <MemoDetail />}
+      {isMemoDetailVisible && (
+        <MemoDetail onMemoUpdatePress={setMemoUpdateHandler} />
+      )}
 
       {/* 알림 모달 */}
       {isNotificationModalVisible && (
