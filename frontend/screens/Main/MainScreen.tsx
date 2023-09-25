@@ -125,7 +125,7 @@ const MainScreen = () => {
         const aspectRatio = width / height;
 
         // 비율 유지하면서 크기 조절
-        if (width > height) {
+        if (width >= height) {
           setImageWidth(MAX_WIDTH);
           setImageHeight(MAX_WIDTH / aspectRatio);
         } else {
