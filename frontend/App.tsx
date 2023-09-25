@@ -52,7 +52,10 @@ export type RootStackParamList = {
     userSeq: number;
   };
   GroupSetting: undefined;
-  InviteUser: undefined;
+  InviteUser: {
+    teamSeq: number;
+    teamName: string;
+  };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -64,8 +67,8 @@ function App(): JSX.Element {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Landing" component={LandingScreen} />
             <Stack.Screen name="Main" component={MainScreen} />
+            <Stack.Screen name="Landing" component={LandingScreen} />
             <Stack.Screen name="ObjectDetection" component={ObjectDetection} />
             <Stack.Screen
               name="ObjectRegistration"

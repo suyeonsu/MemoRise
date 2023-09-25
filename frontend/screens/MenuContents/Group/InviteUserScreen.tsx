@@ -1,9 +1,61 @@
-import { View, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { RouteProp } from "@react-navigation/native";
+import { View, Text, Image } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
+import { RootStackParamList } from "../../../App";
 import GoBackHeader from "../../../components/Header/GoBackHeader";
+import { styles } from "./GroupStyle";
+import SearchInput from "../../../components/SearchInput";
+import { BACKEND_URL } from "../../../util/http";
+import { RootState } from "../../../store/store";
+import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 
-const InviteUserScreen = () => {
+type InviteUserScreenProps = {
+  route: RouteProp<RootStackParamList, "InviteUser">;
+};
+
+type UserData = [
+  {
+    userSeq: number;
+    nickname: string;
+    email: string;
+    profile: string;
+    invited: boolean;
+  }
+];
+
+const InviteUserScreen: React.FC<InviteUserScreenProps> = ({ route }) => {
+  const { teamSeq, teamName } = route.params;
+  const userId = useSelector((state: RootState) => state.userInfo.id);
+
+  // 유저 검색
+  const [userList, setUserList] = useState<UserData | null>(null);
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+  const getUserList = async () => {
+    try {
+      const res = await axios({
+        method: "GET",
+        // url: BACKEND_URL + `/teams/${teamSeq}/invite/${userId}`,
+        url: BACKEND_URL + `/teams/${teamSeq}/invite/26`,
+        params: {
+          keyword: searchKeyword,
+        },
+      });
+      console.log(res.data);
+      setUserList(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const searchInputHandler = (enteredText: string) => {
+    setSearchKeyword(enteredText);
+  };
+
   return (
     <LinearGradient
       colors={["#F5F5F5", "#E9E9E9"]}
@@ -12,8 +64,24 @@ const InviteUserScreen = () => {
       style={{ flex: 1 }}
     >
       <GoBackHeader />
-      <View>
-        <Text>그룹에 초대할 유저 검색 페이지</Text>
+      <View style={styles.container}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{teamName}</Text>
+        </View>
+        <View style={{ marginTop: calculateDynamicWidth(25) }}>
+          <SearchInput
+            onChangeText={searchInputHandler}
+            value={searchKeyword}
+            onSubmitEditing={getUserList}
+          />
+        </View>
+        <View style={styles.userEmptyContainer}>
+          <Image
+            style={styles.userEmptyIcon}
+            source={require("../../../assets/icons/user_empty.png")}
+          />
+          <Text style={styles.empty}>검색 결과가 없습니다</Text>
+        </View>
       </View>
     </LinearGradient>
   );

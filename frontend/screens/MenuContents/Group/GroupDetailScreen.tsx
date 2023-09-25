@@ -16,7 +16,7 @@ type GroupDetailScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, "GroupDetail">;
 };
 
-type MemoData = {
+type GroupData = {
   name: string;
   me: {
     userSeq: number;
@@ -46,7 +46,7 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
   navigation,
 }) => {
   const { teamSeq, userSeq } = route.params;
-  const [memoData, setMemoData] = useState<MemoData | null>(null);
+  const [groupData, setGroupData] = useState<GroupData | null>(null);
 
   // 그룹 상세 데이터 가져오기
   useEffect(() => {
@@ -56,13 +56,13 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
           method: "GET",
           url: BACKEND_URL + `/teams/${teamSeq}/${userSeq}`,
         });
-        setMemoData(res.data);
+        setGroupData(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     fetchData();
-  }, [memoData]);
+  }, [groupData]);
 
   return (
     <LinearGradient
@@ -73,10 +73,10 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
     >
       <GoBackHeader />
       <View style={styles.container}>
-        {memoData && !memoData.owner ? (
+        {groupData && !groupData.owner ? (
           <>
             <View style={styles.titleContainer}>
-              <Text style={styles.title}>{memoData.name}</Text>
+              <Text style={styles.title}>{groupData.name}</Text>
               <Pressable
                 onPress={() => navigation.navigate("GroupSetting")}
                 style={styles.settingContainer}
@@ -90,6 +90,12 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
             </View>
             <View style={styles.memberContainer}>
               <Pressable
+                onPress={() =>
+                  navigation.navigate("InviteUser", {
+                    teamSeq: teamSeq,
+                    teamName: groupData.name,
+                  })
+                }
                 style={[
                   styles.settingContainer,
                   { marginBottom: calculateDynamicWidth(25) },
@@ -106,7 +112,7 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
             </View>
           </>
         ) : null}
-        {memoData && (
+        {groupData && (
           <ScrollView contentContainerStyle={styles.memberWrap}>
             <View style={styles.memberInnerContainer}>
               <View style={styles.memberImageContainer}>
@@ -116,10 +122,10 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
                 />
                 <Image
                   style={styles.memberImage}
-                  source={{ uri: memoData.me.profile }}
+                  source={{ uri: groupData.me.profile }}
                 />
               </View>
-              <Text style={styles.memberText}>{memoData.me.nickname}</Text>
+              <Text style={styles.memberText}>{groupData.me.nickname}</Text>
             </View>
             <Pressable>
               <Image
