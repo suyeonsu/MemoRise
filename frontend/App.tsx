@@ -29,6 +29,7 @@ import ObjectRegistration from "./screens/Main/Camera/ObjectRegistration";
 import NotFoundScreen from "./screens/NotFound/NotFoundScreen";
 import GroupDetailScreen from "./screens/MenuContents/Group/GroupDetailScreen";
 import GroupSettingScreen from "./screens/MenuContents/Group/GroupSettingScreen";
+import InviteUserScreen from "./screens/MenuContents/Group/InviteUserScreen";
 
 export type RootStackParamList = {
   Landing: undefined;
@@ -51,6 +52,7 @@ export type RootStackParamList = {
     userSeq: number;
   };
   GroupSetting: undefined;
+  InviteUser: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -82,6 +84,7 @@ function App(): JSX.Element {
             <Stack.Screen name="MakeGroup" component={MakeGroupScreen} />
             <Stack.Screen name="GroupDetail" component={GroupDetailScreen} />
             <Stack.Screen name="GroupSetting" component={GroupSettingScreen} />
+            <Stack.Screen name="InviteUser" component={InviteUserScreen} />
             {/* 404에러 */}
             <Stack.Screen name="NotFound" component={NotFoundScreen} />
           </Stack.Navigator>
