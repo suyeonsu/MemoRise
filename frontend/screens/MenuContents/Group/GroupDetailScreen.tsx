@@ -77,7 +77,10 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
           <>
             <View style={styles.titleContainer}>
               <Text style={styles.title}>{memoData.name}</Text>
-              <Pressable style={styles.settingContainer}>
+              <Pressable
+                onPress={() => navigation.navigate("GroupSetting")}
+                style={styles.settingContainer}
+              >
                 <Image
                   style={styles.settingIcon}
                   source={require("../../../assets/icons/setting_sm.png")}

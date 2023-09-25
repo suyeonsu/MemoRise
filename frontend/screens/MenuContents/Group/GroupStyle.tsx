@@ -3,7 +3,6 @@ import { StyleSheet, Dimensions } from "react-native";
 import Colors from "../../../constants/colors";
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 
-const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
 export const styles = StyleSheet.create({
