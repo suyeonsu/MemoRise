@@ -205,6 +205,7 @@ const MainScreen = () => {
     setIsMemoDetailVisible(false);
     setMemoCreateModalVisible(true);
     setIsUpdateMemoTrue(true);
+    setOpenState("OPEN"); // 사용자 메모 정보에 따라 변경 예정.
   };
 
   const memoInputHandler = (enteredText: string) => {
@@ -970,12 +971,17 @@ const MainScreen = () => {
                         />
                       </Pressable>
                     )}
-                    <TextInput
-                      style={styles.memoContent}
-                      multiline={true}
-                      onChangeText={memoInputHandler}
-                      value={enteredMemo}
-                    />
+                    {isUpdateMemoTrue ? (
+                      // 더미데이터
+                      <Text>테스트!</Text>
+                    ) : (
+                      <TextInput
+                        style={styles.memoContent}
+                        multiline={true}
+                        onChangeText={memoInputHandler}
+                        value={enteredMemo}
+                      />
+                    )}
                   </ScrollView>
                 </View>
               </LinearGradient>
