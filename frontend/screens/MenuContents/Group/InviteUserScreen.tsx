@@ -81,7 +81,15 @@ const InviteUserScreen: React.FC<InviteUserScreenProps> = ({ route }) => {
             onSubmitEditing={getUserList}
           />
         </View>
-        {userList ? null : (
+        {userList ? (
+          <FlatList
+            data={userList}
+            keyExtractor={(item) => item.userSeq.toString()}
+            renderItem={({ item }) => (
+              <UserList profileUri={item.profile} nickname={item.nickname} />
+            )}
+          />
+        ) : (
           <View style={styles.userEmptyContainer}>
             <Image
               style={styles.userEmptyIcon}
