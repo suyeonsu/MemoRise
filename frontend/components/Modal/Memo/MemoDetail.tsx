@@ -35,11 +35,13 @@ const MAX_HEIGHT = screenHeight / 2;
 type MemoDetailProp = {
   memoSeq: number | null;
   onMemoUpdatePress: () => void;
+  onMemoDeletePress: () => void;
 };
 
 const MemoDetail: React.FC<MemoDetailProp> = ({
   memoSeq,
   onMemoUpdatePress,
+  onMemoDeletePress,
 }) => {
   // 타입관리
   type MemoDetailProps = {
@@ -175,7 +177,12 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                       style={detailStyle.icon}
                     />
                   </Pressable>
-                  <Pressable onPress={deleteMemoHandler}>
+                  <Pressable
+                    onPress={() => {
+                      deleteMemoHandler();
+                      onMemoDeletePress();
+                    }}
+                  >
                     <Image
                       source={require("../../../assets/icons/delete.png")}
                       style={detailStyle.icon}
