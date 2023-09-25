@@ -29,7 +29,7 @@ type MemoDetailProp = {
   onMemoUpdatePress: () => void;
 };
 
-const MemoDetail: React.FC<MemoDetailProp> = () => {
+const MemoDetail: React.FC<MemoDetailProp> = ({ onMemoUpdatePress }) => {
   // 이미지 비율 축소를 위한 상태관리
   const [memoPic, setMemoPic] = useState(
     "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png"
@@ -109,7 +109,7 @@ const MemoDetail: React.FC<MemoDetailProp> = () => {
                   2023. 09. 24 오전 12:50
                 </Text>
                 <View style={detailStyle.iconContainer}>
-                  <Pressable onPress={updateMemoHandler}>
+                  <Pressable onPress={onMemoUpdatePress}>
                     <Image
                       source={require("../../../assets/icons/update.png")}
                       style={detailStyle.icon}
