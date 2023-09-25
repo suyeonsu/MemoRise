@@ -81,6 +81,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: "50%",
     transform: [{ translateX: -calculateDynamicWidth(21.86) / 2 }],
-    top: -calculateDynamicWidth(16),
+    top: -calculateDynamicWidth(12),
   },
 });

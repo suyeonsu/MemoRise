@@ -57,7 +57,9 @@ const MyGroupScreen = () => {
   //  그룹 편집 버튼
   const [isEditGroup, setEditGroup] = useState(false);
 
-  const EditGroupsHandler = () => {};
+  const EditGroupsHandler = () => {
+    setEditGroup(!isEditGroup);
+  };
 
   return (
     <LinearGradient
@@ -71,7 +73,13 @@ const MyGroupScreen = () => {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>내 그룹</Text>
           {groupData && groupData[0] && (
-            <SmallBtn onPress={EditGroupsHandler}>편집</SmallBtn>
+            <>
+              {isEditGroup ? (
+                <SmallBtn onPress={EditGroupsHandler}>완료</SmallBtn>
+              ) : (
+                <SmallBtn onPress={EditGroupsHandler}>편집</SmallBtn>
+              )}
+            </>
           )}
         </View>
         {groupData && groupData[0] ? (
@@ -87,6 +95,14 @@ const MyGroupScreen = () => {
                   memberProfiles={group.memberProfiles}
                   owner={group.owner}
                 />
+                {isEditGroup && (
+                  <Pressable style={styles.deleteContainer}>
+                    <Image
+                      style={styles.delete}
+                      source={require("../../../assets/image/delete.png")}
+                    />
+                  </Pressable>
+                )}
               </View>
             ))}
           </ScrollView>

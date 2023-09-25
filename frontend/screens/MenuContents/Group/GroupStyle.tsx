@@ -157,4 +157,13 @@ export const styles = StyleSheet.create({
     justifyContent: "space-around",
     paddingVertical: calculateDynamicWidth(30),
   },
+  delete: {
+    width: calculateDynamicWidth(22),
+    height: calculateDynamicWidth(22),
+  },
+  deleteContainer: {
+    position: "absolute",
+    top: -calculateDynamicWidth(10),
+    zIndex: 1,
+  },
 });
