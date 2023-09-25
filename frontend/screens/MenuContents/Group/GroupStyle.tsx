@@ -97,10 +97,6 @@ export const styles = StyleSheet.create({
     width: "100%",
     marginTop: calculateDynamicWidth(30),
   },
-  memberInnerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
   memberImageContainer: {
     elevation: 4,
     width: calculateDynamicWidth(60),
@@ -110,12 +106,6 @@ export const styles = StyleSheet.create({
   memberImagebg: {
     width: calculateDynamicWidth(60),
     height: calculateDynamicWidth(60),
-  },
-  memberImage: {
-    width: calculateDynamicWidth(60),
-    height: calculateDynamicWidth(60),
-    borderRadius: calculateDynamicWidth(15),
-    position: "absolute",
   },
   memberText: {
     fontFamily: "Pretendard-Regular",

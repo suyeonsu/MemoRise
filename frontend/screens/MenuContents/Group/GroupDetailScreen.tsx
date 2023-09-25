@@ -10,6 +10,7 @@ import { BACKEND_URL } from "../../../util/http";
 import { RootStackParamList } from "../../../App";
 import { styles } from "./GroupStyle";
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
+import UserList from "../../../components/UserList";
 
 type GroupDetailScreenProps = {
   route: RouteProp<RootStackParamList, "GroupDetail">;
@@ -114,19 +115,10 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
         ) : null}
         {groupData && (
           <ScrollView contentContainerStyle={styles.memberWrap}>
-            <View style={styles.memberInnerContainer}>
-              <View style={styles.memberImageContainer}>
-                <Image
-                  style={styles.memberImagebg}
-                  source={require("../../../assets/image/profile_bg_square.png")}
-                />
-                <Image
-                  style={styles.memberImage}
-                  source={{ uri: groupData.me.profile }}
-                />
-              </View>
-              <Text style={styles.memberText}>{groupData.me.nickname}</Text>
-            </View>
+            <UserList
+              profileUri={groupData.me.profile}
+              nickname={groupData.me.nickname}
+            />
             <Pressable>
               <Image
                 style={styles.meIcon}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { RouteProp } from "@react-navigation/native";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Alert } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -36,19 +36,24 @@ const InviteUserScreen: React.FC<InviteUserScreenProps> = ({ route }) => {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const getUserList = async () => {
-    try {
-      const res = await axios({
-        method: "GET",
-        // url: BACKEND_URL + `/teams/${teamSeq}/invite/${userId}`,
-        url: BACKEND_URL + `/teams/${teamSeq}/invite/26`,
-        params: {
-          keyword: searchKeyword,
-        },
-      });
-      console.log(res.data);
-      setUserList(res.data);
-    } catch (err) {
-      console.log(err);
+    if (searchKeyword) {
+      try {
+        const res = await axios({
+          method: "GET",
+          // url: BACKEND_URL + `/teams/${teamSeq}/invite/${userId}`,
+          url: BACKEND_URL + `/teams/${teamSeq}/invite/26`,
+          params: {
+            keyword: searchKeyword,
+          },
+        });
+        console.log(res.data);
+        setUserList(res.data);
+        setSearchKeyword("");
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      Alert.alert("검색어를 입력해 주세요!");
     }
   };
 
@@ -75,13 +80,17 @@ const InviteUserScreen: React.FC<InviteUserScreenProps> = ({ route }) => {
             onSubmitEditing={getUserList}
           />
         </View>
-        <View style={styles.userEmptyContainer}>
-          <Image
-            style={styles.userEmptyIcon}
-            source={require("../../../assets/icons/user_empty.png")}
-          />
-          <Text style={styles.empty}>검색 결과가 없습니다</Text>
-        </View>
+        {userList ? (
+          <Text>결과O</Text>
+        ) : (
+          <View style={styles.userEmptyContainer}>
+            <Image
+              style={styles.userEmptyIcon}
+              source={require("../../../assets/icons/user_empty.png")}
+            />
+            <Text style={styles.empty}>검색 결과가 없습니다</Text>
+          </View>
+        )}
       </View>
     </LinearGradient>
   );

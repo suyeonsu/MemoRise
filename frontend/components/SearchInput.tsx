@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
     fontSize: calculateDynamicWidth(17),
   },
   image: {
-    // position: "absolute",
     width: calculateDynamicWidth(17),
     height: calculateDynamicWidth(17),
   },
