@@ -272,6 +272,7 @@ const MainScreen = () => {
 
   const closeMemoCreateModal = () => {
     setMemoCreateModalVisible(false);
+    setIsUpdateMemoTrue(false);
     setOpenState("OPEN");
     setToggleOpen(false);
   };
@@ -300,6 +301,7 @@ const MainScreen = () => {
     setToggleOpen(false);
     setMemoCancelModalVisible(false);
     setMemoCreateModalVisible(false);
+    setIsUpdateMemoTrue(false);
     setTagSearchText("");
     setTaggedMember([]);
   };
