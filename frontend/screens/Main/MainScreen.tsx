@@ -197,18 +197,24 @@ const MainScreen = () => {
     setIsMemoDetailVisible(true);
   };
 
+  // 메모 수정을 위한 상태관리
+  const [isUpdateMemoTrue, setIsUpdateMemoTrue] = useState(false);
+
   // 메모 수정
   const setMemoUpdateHandler = () => {
     setIsMemoDetailVisible(false);
     setMemoCreateModalVisible(true);
+    setIsUpdateMemoTrue(true);
   };
 
   const memoInputHandler = (enteredText: string) => {
     setEnteredMemo(enteredText);
   };
 
+  // 메모 작성 및 업데이트 완료 함수
   const memoConfirmHandler = () => {
     setMemoCreateModalVisible(false);
+    setIsUpdateMemoTrue(false);
     setEnteredMemo("");
     setOpenState("OPEN");
     MemoCreate();
