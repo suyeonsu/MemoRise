@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 
 import Colors from "../constants/colors";
@@ -8,21 +8,45 @@ import { calculateDynamicWidth } from "../constants/dynamicSize";
 type GroupBoxProps = {
   teamName: string;
   myProfile: string;
+  memberProfiles: [string];
+  owner: boolean;
 };
 
-const GroupBox: React.FC<GroupBoxProps> = ({ teamName, myProfile }) => {
+const GroupBox: React.FC<GroupBoxProps> = ({
+  teamName,
+  myProfile,
+  memberProfiles,
+  owner,
+}) => {
   return (
-    <View style={{ marginHorizontal: calculateDynamicWidth(8) }}>
+    <Pressable style={{ marginHorizontal: calculateDynamicWidth(8) }}>
       <LinearGradient
         colors={["#F5F5F5", Colors.hover]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
         style={styles.groupBox}
-      ></LinearGradient>
+      >
+        <View>
+          <Image style={styles.profileImg} source={{ uri: myProfile }} />
+          {owner && (
+            <Image
+              style={styles.crown}
+              source={require("../assets/image/crown.png")}
+            />
+          )}
+        </View>
+        {memberProfiles.map((member, idx) => (
+          <View key={idx}>
+            {member !== myProfile && (
+              <Image style={styles.profileImg} source={{ uri: member }} />
+            )}
+          </View>
+        ))}
+      </LinearGradient>
       <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
         {teamName}
       </Text>
-    </View>
+    </Pressable>
   );
 };
 
@@ -33,6 +57,8 @@ const styles = StyleSheet.create({
     width: calculateDynamicWidth(128),
     height: calculateDynamicWidth(128),
     borderRadius: calculateDynamicWidth(15),
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   title: {
     color: Colors.text,
@@ -42,5 +68,19 @@ const styles = StyleSheet.create({
     marginTop: calculateDynamicWidth(5),
     marginBottom: calculateDynamicWidth(30),
     width: calculateDynamicWidth(128),
+  },
+  profileImg: {
+    width: calculateDynamicWidth(60),
+    height: calculateDynamicWidth(60),
+    borderRadius: calculateDynamicWidth(15),
+    margin: calculateDynamicWidth(2),
+  },
+  crown: {
+    width: calculateDynamicWidth(21.86),
+    height: calculateDynamicWidth(18),
+    position: "absolute",
+    left: "50%",
+    transform: [{ translateX: -calculateDynamicWidth(21.86) / 2 }],
+    top: -calculateDynamicWidth(16),
   },
 });
