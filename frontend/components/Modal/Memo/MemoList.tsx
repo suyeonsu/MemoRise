@@ -61,11 +61,29 @@ const MemoList: React.FC<MemoListProp> = ({
 
   const changeBookMarkHandler = (id: number) => {
     setMemoData((prevData) =>
-      prevData.map((item) =>
-        item.memoSeq === id
-          ? { ...item, isBookmarked: !item.isBookmarked }
-          : item
-      )
+      prevData.map((item) => {
+        if (item.memoSeq === id) {
+          if (item.isBookmarked) {
+            // isBookmarked가 true일 때, axios.delete 호출
+            axios
+              .delete(BACKEND_URL + `/memos/${item.memoSeq}/bookmarks/23`)
+              .then((response) => {})
+              .catch((error) => {
+                console.error(error);
+              });
+          } else {
+            // isBookmarked가 false일 때, axios.post 호출
+            axios
+              .post(BACKEND_URL + `/memos/${item.memoSeq}/bookmarks/23`)
+              .then((response) => {})
+              .catch((error) => {
+                console.error(error);
+              });
+          }
+          return { ...item, isBookmarked: !item.isBookmarked };
+        }
+        return item;
+      })
     );
   };
 
