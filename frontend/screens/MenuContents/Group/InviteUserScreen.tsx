@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RouteProp } from "@react-navigation/native";
 import { View, Text, Image, Alert } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -41,7 +41,7 @@ const InviteUserScreen: React.FC<InviteUserScreenProps> = ({ route }) => {
         const res = await axios({
           method: "GET",
           // url: BACKEND_URL + `/teams/${teamSeq}/invite/${userId}`,
-          url: BACKEND_URL + `/teams/${teamSeq}/invite/26`,
+          url: BACKEND_URL + `/teams/${teamSeq}/invite/26`, // 더미 데이터
           params: {
             keyword: searchKeyword,
           },

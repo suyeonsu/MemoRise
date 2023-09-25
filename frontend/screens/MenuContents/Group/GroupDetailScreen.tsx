@@ -75,6 +75,7 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
       <GoBackHeader />
       <View style={styles.container}>
         {groupData && !groupData.owner ? (
+          // 유저 == 그룹장일 때
           <>
             <View style={styles.titleContainer}>
               <Text style={styles.title}>{groupData.name}</Text>
@@ -115,6 +116,7 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
         ) : null}
         {groupData && (
           <ScrollView contentContainerStyle={styles.memberWrap}>
+            {/* 내 정보 */}
             <UserList
               profileUri={groupData.me.profile}
               nickname={groupData.me.nickname}
