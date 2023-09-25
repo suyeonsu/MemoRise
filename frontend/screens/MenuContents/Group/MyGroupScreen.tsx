@@ -1,8 +1,15 @@
+import { useEffect, useState, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { View, Text, Image, Pressable, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Pressable,
+  ScrollView,
+  Animated,
+} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useSelector } from "react-redux";
 import SmallBtn from "../../../components/Button/SmallBtn";
@@ -52,13 +59,53 @@ const MyGroupScreen = () => {
     fetchData();
   }, []);
 
-  console.log(groupData);
-
   //  그룹 편집 버튼
   const [isEditGroup, setEditGroup] = useState(false);
 
   const EditGroupsHandler = () => {
     setEditGroup(!isEditGroup);
+  };
+
+  // 애니메이션
+  const shakeAnimation = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (isEditGroup) {
+      startShake();
+    } else {
+      shakeAnimation.stopAnimation();
+      shakeAnimation.setValue(0);
+    }
+  }, [isEditGroup]);
+
+  const startShake = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(shakeAnimation, {
+          toValue: 3,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(shakeAnimation, {
+          toValue: -3,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(shakeAnimation, {
+          toValue: 3,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+        Animated.timing(shakeAnimation, {
+          toValue: 0,
+          duration: 100,
+          useNativeDriver: true,
+        }),
+      ]),
+      {
+        iterations: -1, // 무한 반복
+      }
+    ).start();
   };
 
   return (
@@ -88,7 +135,10 @@ const MyGroupScreen = () => {
             contentContainerStyle={styles.groupContainer}
           >
             {groupData.map((group, idx) => (
-              <View key={idx}>
+              <Animated.View
+                key={idx}
+                style={{ transform: [{ translateX: shakeAnimation }] }}
+              >
                 <GroupBox
                   teamName={group.teamName}
                   myProfile={group.myProfile}
@@ -103,7 +153,7 @@ const MyGroupScreen = () => {
                     />
                   </Pressable>
                 )}
-              </View>
+              </Animated.View>
             ))}
           </ScrollView>
         ) : (
