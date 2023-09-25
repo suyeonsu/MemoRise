@@ -338,4 +338,19 @@ export const styles = StyleSheet.create({
     color: "white",
     fontSize: 50,
   },
+
+  //물체 학습 로직 스타일
+  loadingContainer: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)", // 어두운 배경
+  },
+  loadingText: {
+    marginTop: 30,
+    color: "#FFF",
+    fontSize: 20,
+  },
 });

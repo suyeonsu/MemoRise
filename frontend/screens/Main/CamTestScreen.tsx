@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, Alert, Button, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Alert,
+  Button,
+  TouchableOpacity,
+  Animated,
+  ActivityIndicator,
+} from "react-native";
 import {
   MediaStream,
   RTCPeerConnection,
@@ -195,11 +203,42 @@ const CamTestScreen = () => {
 
   useEffect(() => {
     initializeCamera();
+    setUnregisteredNotification(true); // 작업을 위해 true 해놓음 추후 완전 삭제
     return () => {
       stopRTCConnection();
     };
   }, []);
 
+  // 물체 학습 로직
+
+  const [isLoading, setIsLoading] = useState(false);
+  const rotateValue = useRef(new Animated.Value(0)).current;
+
+  const startLoadingAnimation = () => {
+    setIsLoading(true);
+    Animated.loop(
+      Animated.timing(rotateValue, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      })
+    ).start();
+  };
+
+  const stopLoadingAnimation = () => {
+    setIsLoading(false);
+    rotateValue.setValue(0);
+  };
+
+  const tempRegister = () => {
+    console.log("이펙트 생성");
+    // 미등록 물체 모달 닫기
+    setUnregisteredNotification(false);
+    startLoadingAnimation();
+    setTimeout(() => {
+      stopLoadingAnimation();
+    }, 1500);
+  };
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.rootContainer}>
@@ -250,7 +289,8 @@ const CamTestScreen = () => {
         <AlertModal
           modalVisible={unregisteredNotification}
           closeModal={cancelObjectRegister}
-          onConfirm={objectRegister}
+          // onConfirm={objectRegister} => 나중에 주석 해제해야함. 진짜 학습 실행
+          onConfirm={tempRegister} // 학습 실행할 시 생길 이펙트들 실행
           contentText={`미등록된 물체입니다.\n등록해주세요!`}
           btnText="확인"
         />
@@ -267,6 +307,12 @@ const CamTestScreen = () => {
           />
         </View>
       </View>
+      {isLoading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#4C6AFF" />
+          <Text style={styles.loadingText}>물체 학습을 준비 중입니다..</Text>
+        </View>
+      )}
     </View>
   );
 };
