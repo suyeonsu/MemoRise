@@ -604,7 +604,10 @@ const MainScreen = () => {
 
       {/* 메모 상세 조회 */}
       {isMemoDetailVisible && (
-        <MemoDetail onMemoUpdatePress={setMemoUpdateHandler} />
+        <MemoDetail
+          memoSeq={selectMemoSeq}
+          onMemoUpdatePress={setMemoUpdateHandler}
+        />
       )}
 
       {/* 알림 모달 */}
