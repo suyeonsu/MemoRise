@@ -17,6 +17,8 @@ import LinearGradient from "react-native-linear-gradient";
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import Colors from "../../../constants/colors";
 import { styles } from "../../../screens/Main/MainStyle";
+
+// 통신
 import { BACKEND_URL } from "../../../util/http";
 
 // 스크린 높이
@@ -50,10 +52,12 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
 
   // 메모 상세 조회를 위한 AXIOS
   useEffect(() => {
+    console.log(memoSeq);
     axios
       .get(BACKEND_URL + `/memos/${memoSeq}/23`)
       .then((response) => {
         console.log(response.data);
+        setMemoDetailData([response.data]);
       })
       .catch((error) => {
         console.log(error);
@@ -61,9 +65,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
   }, []);
 
   // 이미지 비율 축소를 위한 상태관리
-  const [memoPic, setMemoPic] = useState(
-    "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png"
-  );
+  const [memoPic, setMemoPic] = useState("");
   const [imageWidth, setImageWidth] = useState(MAX_WIDTH);
   const [imageHeight, setImageHeight] = useState(MAX_HEIGHT);
 
@@ -73,9 +75,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
   // 원본 이미지 보기 함수
   const openFullImage = () => {
     setIsFullImageVisible(true);
-    setMemoPic(
-      "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png"
-    );
+    setMemoPic(memoDetailData[0].file);
   };
 
   // 이미지 모달 상태 변경 함수
@@ -136,7 +136,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
             <View>
               <View style={detailStyle.rowSpaceBetween}>
                 <Text style={detailStyle.calendar}>
-                  2023. 09. 24 오전 12:50
+                  {memoDetailData[0].updatedAt}
                 </Text>
                 <View style={detailStyle.iconContainer}>
                   <Pressable onPress={onMemoUpdatePress}>
@@ -154,7 +154,9 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                 </View>
               </View>
               <View style={detailStyle.rowSpaceBetween2}>
-                <Text style={detailStyle.nickname}>김준형</Text>
+                <Text style={detailStyle.nickname}>
+                  {memoDetailData[0].nickname}
+                </Text>
                 <Text style={detailStyle.open}>전체공개</Text>
               </View>
             </View>
