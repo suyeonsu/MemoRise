@@ -26,10 +26,14 @@ const MAX_HEIGHT = screenHeight / 2;
 
 // 메인페이지 상태관리를 위한 타입 지정
 type MemoDetailProp = {
+  memoSeq: number | null;
   onMemoUpdatePress: () => void;
 };
 
-const MemoDetail: React.FC<MemoDetailProp> = ({ onMemoUpdatePress }) => {
+const MemoDetail: React.FC<MemoDetailProp> = ({
+  memoSeq,
+  onMemoUpdatePress,
+}) => {
   // 이미지 비율 축소를 위한 상태관리
   const [memoPic, setMemoPic] = useState(
     "https://b106-memorise.s3.ap-northeast-2.amazonaws.com/profile-image/dc971e2c-4a4a-4330-9dfe-ea691ad9bcdf.png"
