@@ -56,6 +56,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
       try {
         const res = await axios.get(BACKEND_URL + `/memos/${memoSeq}/23`);
         setMemoDetailData([res.data]);
+        setMemoPic(res.data.file);
       } catch (err) {
         console.log(err);
       }
@@ -178,20 +179,20 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                       style={detailStyle.photo}
                     />
                   </Pressable>
-                  <Text style={detailStyle.content}>
-                    Hate to give the satisfaction, asking how you're doing now.
-                    How's the castle built off people you pretend to care about?
-                    Just what you wantedLook at you, cool guy, you got it I see
-                    the parties and the
-                  </Text>
+                  {memoDetailData[0] && (
+                    <Text style={detailStyle.content}>
+                      {memoDetailData[0].content}
+                    </Text>
+                  )}
                 </>
               ) : (
-                <Text style={detailStyle.content}>
-                  Hate to give the satisfaction, asking how you're doing now.
-                  How's the castle built off people you pretend to care about?
-                  Just what you wantedLook at you, cool guy, you got it I see
-                  the parties and the
-                </Text>
+                <>
+                  {memoDetailData[0] && (
+                    <Text style={detailStyle.content}>
+                      {memoDetailData[0].content}
+                    </Text>
+                  )}
+                </>
               )}
             </ScrollView>
           </View>
