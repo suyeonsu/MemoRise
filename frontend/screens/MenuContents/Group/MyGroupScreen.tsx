@@ -22,6 +22,7 @@ import { styles } from "./GroupStyle";
 
 type RootStackParamList = {
   FindGroup: undefined;
+  GroupDetail: GroupDetailParams;
 };
 
 type GroupData = [
@@ -35,10 +36,27 @@ type GroupData = [
   }
 ];
 
+type GroupDetailParams = {
+  teamSeq: number;
+  userSeq: number;
+};
+
 const MyGroupScreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [groupData, setGroupData] = useState<GroupData | null>(null);
-  // const userId = useSelector((state: RootState) => state.userInfo.id);
+  const userId = useSelector((state: RootState) => state.userInfo.id);
+
+  // 그룹 상세 페이지로 이동하기
+  const goDetailHandler = (teamSeq: number) => {
+    if (isEditGroup) {
+      console.log("나중에 그룹 나가기 함수 넣을거임");
+    } else {
+      navigation.navigate("GroupDetail", {
+        teamSeq: teamSeq,
+        userSeq: userId, // 더미 데이터
+      });
+    }
+  };
 
   // 내 그룹 목록 가져오기
   useEffect(() => {
@@ -46,9 +64,9 @@ const MyGroupScreen = () => {
       try {
         const res = await axios({
           method: "GET",
-          // url: BACKEND_URL + `/user/${userId}/my-teams`,
+          url: BACKEND_URL + `/user/${userId}/my-teams`,
           // url: BACKEND_URL + `/user/23/my-teams`, // 더미 데이터
-          url: BACKEND_URL + `/user/26/my-teams`, // 더미 데이터
+          // url: BACKEND_URL + `/user/26/my-teams`, // 더미 데이터
         });
         setGroupData(res.data);
         console.log("조회 성공");
@@ -66,7 +84,7 @@ const MyGroupScreen = () => {
     setEditGroup(!isEditGroup);
   };
 
-  // 애니메이션
+  // 그룹 편집 애니메이션
   const shakeAnimation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -132,10 +150,11 @@ const MyGroupScreen = () => {
                     {
                       rotate: shakeAnimation.interpolate({
                         inputRange: [-1, 1],
-                        outputRange: ["-1deg", "1deg"], // 여기서 각도 조절하여 원하는 회전 각도를 설정
+                        outputRange: ["-1deg", "1deg"], // 여기서 각도 조절
                       }),
                     },
                   ],
+                  // width: "100%",
                 }}
               >
                 <GroupBox
@@ -143,6 +162,8 @@ const MyGroupScreen = () => {
                   myProfile={group.myProfile}
                   memberProfiles={group.memberProfiles}
                   owner={group.owner}
+                  goDetailHandler={goDetailHandler}
+                  teamSeq={group.teamSeq}
                 />
                 {isEditGroup && (
                   <Pressable style={styles.deleteContainer}>

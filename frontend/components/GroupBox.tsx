@@ -10,6 +10,8 @@ type GroupBoxProps = {
   myProfile: string;
   memberProfiles: [string];
   owner: boolean;
+  teamSeq: number;
+  goDetailHandler: (teamSeq: number) => void;
 };
 
 const GroupBox: React.FC<GroupBoxProps> = ({
@@ -17,9 +19,14 @@ const GroupBox: React.FC<GroupBoxProps> = ({
   myProfile,
   memberProfiles,
   owner,
+  teamSeq,
+  goDetailHandler,
 }) => {
   return (
-    <Pressable style={{ marginHorizontal: calculateDynamicWidth(8) }}>
+    <Pressable
+      style={{ marginHorizontal: calculateDynamicWidth(8) }}
+      onPress={() => goDetailHandler(teamSeq)}
+    >
       <LinearGradient
         colors={["#F5F5F5", Colors.hover]}
         start={{ x: 0, y: 0 }}

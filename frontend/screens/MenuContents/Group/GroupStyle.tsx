@@ -96,7 +96,6 @@ export const styles = StyleSheet.create({
   settingContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: calculateDynamicWidth(25),
   },
   settingIcon: {
     width: calculateDynamicWidth(19),
@@ -112,6 +111,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    width: "100%",
   },
   memberContainer: {
     width: "100%",
@@ -164,6 +164,7 @@ export const styles = StyleSheet.create({
   deleteContainer: {
     position: "absolute",
     top: -calculateDynamicWidth(10),
+    left: calculateDynamicWidth(1.5),
     zIndex: 1,
   },
 });

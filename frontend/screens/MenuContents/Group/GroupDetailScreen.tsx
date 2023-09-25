@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, Pressable } from "react-native";
+import { View, Text, Image, Pressable, ScrollView } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -9,6 +9,7 @@ import GoBackHeader from "../../../components/Header/GoBackHeader";
 import { BACKEND_URL } from "../../../util/http";
 import { RootStackParamList } from "../../../App";
 import { styles } from "./GroupStyle";
+import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 
 type GroupDetailScreenProps = {
   route: RouteProp<RootStackParamList, "GroupDetail">;
@@ -85,7 +86,12 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
               </Pressable>
             </View>
             <View style={styles.memberContainer}>
-              <Pressable style={styles.settingContainer}>
+              <Pressable
+                style={[
+                  styles.settingContainer,
+                  { marginBottom: calculateDynamicWidth(25) },
+                ]}
+              >
                 <View style={styles.memberImageContainer}>
                   <Image
                     style={styles.memberImagebg}
@@ -94,30 +100,32 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
                 </View>
                 <Text style={styles.memberText}>초대하기</Text>
               </Pressable>
-              <View style={styles.memberWrap}>
-                <View style={styles.memberInnerContainer}>
-                  <View style={styles.memberImageContainer}>
-                    <Image
-                      style={styles.memberImagebg}
-                      source={require("../../../assets/image/profile_bg_square.png")}
-                    />
-                    <Image
-                      style={styles.memberImage}
-                      source={{ uri: memoData.me.profile }}
-                    />
-                  </View>
-                  <Text style={styles.memberText}>{memoData.me.nickname}</Text>
-                </View>
-                <Pressable>
-                  <Image
-                    style={styles.meIcon}
-                    source={require("../../../assets/image/me.png")}
-                  />
-                </Pressable>
-              </View>
             </View>
           </>
         ) : null}
+        {memoData && (
+          <ScrollView contentContainerStyle={styles.memberWrap}>
+            <View style={styles.memberInnerContainer}>
+              <View style={styles.memberImageContainer}>
+                <Image
+                  style={styles.memberImagebg}
+                  source={require("../../../assets/image/profile_bg_square.png")}
+                />
+                <Image
+                  style={styles.memberImage}
+                  source={{ uri: memoData.me.profile }}
+                />
+              </View>
+              <Text style={styles.memberText}>{memoData.me.nickname}</Text>
+            </View>
+            <Pressable>
+              <Image
+                style={styles.meIcon}
+                source={require("../../../assets/image/me.png")}
+              />
+            </Pressable>
+          </ScrollView>
+        )}
       </View>
     </LinearGradient>
   );

@@ -39,8 +39,8 @@ const MakeGroupScreen = () => {
       url: BACKEND_URL + "/teams",
       data: {
         name: name,
-        // owner: userId,
-        owner: 26, // 더미 데이터
+        owner: userId,
+        // owner: 26, // 더미 데이터
         password: password,
       },
     })
@@ -48,7 +48,7 @@ const MakeGroupScreen = () => {
         console.log("그룹 생성 완료");
         navigation.navigate("GroupDetail", {
           teamSeq: res.data.teamSeq,
-          userSeq: 26, // 더미 데이터
+          userSeq: userId, // 더미 데이터
         });
       })
       .catch((err) => {
@@ -57,7 +57,7 @@ const MakeGroupScreen = () => {
   };
 
   // 그룹 이름 설정
-  const [name, setName] = useState("Group");
+  const [name, setName] = useState("내 그룹");
   const [enteredName, setEnteredName] = useState("");
 
   const nameModalHandler = () => {
