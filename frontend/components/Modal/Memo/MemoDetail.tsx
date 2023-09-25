@@ -113,12 +113,18 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
   const [isBookMark, setIsBookMark] = useState(false);
 
   // 북마크 체크에 따른 변경 함수
-  const changeIsBookMark = () => {
+  const changeIsBookMark = (id: number) => {
+    if (isBookMark) {
+      axios.delete(BACKEND_URL + `/memos/${id}/bookmarks/23`).catch((error) => {
+        console.error(error);
+      });
+    } else {
+      axios.post(BACKEND_URL + `/memos/${id}/bookmarks/23`).catch((error) => {
+        console.error(error);
+      });
+    }
     setIsBookMark(!isBookMark);
   };
-
-  // 메모 수정 함수
-  const updateMemoHandler = () => {};
 
   // 메모 삭제 함수
   const deleteMemoHandler = () => {};
@@ -197,7 +203,14 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
             </ScrollView>
           </View>
         </LinearGradient>
-        <Pressable onPress={changeIsBookMark} style={detailStyle.bookmark}>
+        <Pressable
+          onPress={() => {
+            if (memoSeq !== null) {
+              changeIsBookMark(memoSeq);
+            }
+          }}
+          style={detailStyle.bookmark}
+        >
           {isBookMark ? (
             <Image
               source={require("../../../assets/icons/bookmarkblue_fill.png")}
