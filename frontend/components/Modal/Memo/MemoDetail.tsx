@@ -13,6 +13,9 @@ import {
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 
+// 컴포넌트
+import AlertModal from "../AlertModal";
+
 // 스타일
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import Colors from "../../../constants/colors";
@@ -126,8 +129,27 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
     setIsBookMark(!isBookMark);
   };
 
-  // 메모 삭제 함수
-  const deleteMemoHandler = () => {};
+  // 메모 삭제 모달 상태관리
+  const [isDeleteMemoModalVisible, setIsDeleteMemoModalVisible] =
+    useState(false);
+
+  // 메모 삭제 물어보는 함수
+  const deleteMemoHandler = () => {
+    setIsDeleteMemoModalVisible(true);
+  };
+
+  // 메모 삭제 모달 종료 함수
+  const closeDeleteMemoModal = () => {
+    setIsDeleteMemoModalVisible(false);
+  };
+
+  // 메모 삭제
+  const memoDeleteConfirm = () => {
+    setIsDeleteMemoModalVisible(false);
+    axios.delete(BACKEND_URL + `/memos/${memoSeq}`).catch((error) => {
+      console.log(error);
+    });
+  };
 
   return (
     <>
@@ -282,6 +304,15 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
           </Modal>
         </View>
       )}
+      {isDeleteMemoModalVisible && (
+        <AlertModal
+          modalVisible={isDeleteMemoModalVisible}
+          closeModal={closeDeleteMemoModal}
+          onConfirm={memoDeleteConfirm}
+          contentText="정말 삭제하시겠습니까?"
+          btnText="삭제"
+        />
+      )}
     </>
   );
 };
@@ -301,7 +332,7 @@ const detailStyle = StyleSheet.create({
 
   memoContainer: {
     width: calculateDynamicWidth(306),
-    minHeight: calculateDynamicWidth(104),
+    minHeight: calculateDynamicWidth(306),
     borderRadius: calculateDynamicWidth(15),
   },
 
