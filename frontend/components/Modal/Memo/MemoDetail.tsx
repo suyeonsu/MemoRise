@@ -52,16 +52,15 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
 
   // 메모 상세 조회를 위한 AXIOS
   useEffect(() => {
-    console.log(memoSeq);
-    axios
-      .get(BACKEND_URL + `/memos/${memoSeq}/23`)
-      .then((response) => {
-        console.log(response.data);
-        setMemoDetailData([response.data]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(BACKEND_URL + `/memos/${memoSeq}/23`);
+        setMemoDetailData([res.data]);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
   }, []);
 
   // 이미지 비율 축소를 위한 상태관리
@@ -135,9 +134,11 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
           <View style={detailStyle.innerContainer}>
             <View>
               <View style={detailStyle.rowSpaceBetween}>
-                <Text style={detailStyle.calendar}>
-                  {memoDetailData[0].updatedAt}
-                </Text>
+                {memoDetailData[0] && (
+                  <Text style={detailStyle.calendar}>
+                    {memoDetailData[0].updatedAt}
+                  </Text>
+                )}
                 <View style={detailStyle.iconContainer}>
                   <Pressable onPress={onMemoUpdatePress}>
                     <Image
@@ -154,10 +155,16 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                 </View>
               </View>
               <View style={detailStyle.rowSpaceBetween2}>
-                <Text style={detailStyle.nickname}>
-                  {memoDetailData[0].nickname}
-                </Text>
-                <Text style={detailStyle.open}>전체공개</Text>
+                {memoDetailData[0] && (
+                  <Text style={detailStyle.nickname}>
+                    {memoDetailData[0].nickname}
+                  </Text>
+                )}
+                {memoDetailData[0] && (
+                  <Text style={detailStyle.open}>
+                    {memoDetailData[0].accessType}
+                  </Text>
+                )}
               </View>
             </View>
             <ScrollView style={detailStyle.contentContainer}>
