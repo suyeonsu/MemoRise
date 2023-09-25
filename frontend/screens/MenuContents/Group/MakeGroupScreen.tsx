@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, Switch, Modal } from "react-native";
+import { View, Text, Modal } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { BlurView } from "@react-native-community/blur";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 import ConfirmBtn from "../../../components/Button/ConfirmBtn";
 import GoBackHeader from "../../../components/Header/GoBackHeader";
-import Colors from "../../../constants/colors";
 import { styles } from "./GroupStyle";
 import PasswordInputModal from "../../../components/Modal/Group/PasswordInputModal";
 import GroupNameInputModal from "../../../components/Modal/Group/GroupNameInputModal";
-import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import { RootState } from "../../../store/store";
 import { BACKEND_URL } from "../../../util/http";
 import GroupSetting from "../../../components/GroupSetting";
@@ -153,7 +151,7 @@ const MakeGroupScreen = () => {
           <Text style={styles.title}>그룹 만들기</Text>
         </View>
 
-        {/* 여기서부터 나중에 컴포넌트로 뺄거임 */}
+        {/* 그룹 이름, 비밀번호 설정 */}
         <GroupSetting
           nameModalHandler={nameModalHandler}
           name={name}
@@ -162,7 +160,6 @@ const MakeGroupScreen = () => {
           password={password}
           passwordModalHandler={passwordModalHandler}
         />
-        {/* 여기까지 */}
 
         <View style={styles.btnContainer}>
           <ConfirmBtn onPress={GroupCreate}>확인</ConfirmBtn>
