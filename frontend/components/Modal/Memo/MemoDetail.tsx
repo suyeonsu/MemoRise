@@ -147,6 +147,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
 
   // 메모 삭제
   const memoDeleteConfirm = () => {
+    onMemoDeletePress();
     setIsDeleteMemoModalVisible(false);
     axios.delete(BACKEND_URL + `/memos/${memoSeq}`).catch((error) => {
       console.log(error);
@@ -177,12 +178,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                       style={detailStyle.icon}
                     />
                   </Pressable>
-                  <Pressable
-                    onPress={() => {
-                      deleteMemoHandler();
-                      onMemoDeletePress();
-                    }}
-                  >
+                  <Pressable onPress={deleteMemoHandler}>
                     <Image
                       source={require("../../../assets/icons/delete.png")}
                       style={detailStyle.icon}
