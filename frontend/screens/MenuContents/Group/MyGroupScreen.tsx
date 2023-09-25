@@ -82,22 +82,12 @@ const MyGroupScreen = () => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(shakeAnimation, {
-          toValue: 3,
+          toValue: 1, // 1로 설정하여 최대 회전 각도에 도달하도록 합니다.
           duration: 100,
           useNativeDriver: true,
         }),
         Animated.timing(shakeAnimation, {
-          toValue: -3,
-          duration: 100,
-          useNativeDriver: true,
-        }),
-        Animated.timing(shakeAnimation, {
-          toValue: 3,
-          duration: 100,
-          useNativeDriver: true,
-        }),
-        Animated.timing(shakeAnimation, {
-          toValue: 0,
+          toValue: -1, // -1로 설정하여 최소 회전 각도에 도달하도록 합니다.
           duration: 100,
           useNativeDriver: true,
         }),
