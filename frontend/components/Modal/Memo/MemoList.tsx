@@ -21,7 +21,7 @@ import { BACKEND_URL } from "../../../util/http";
 // 메인페이지 상태관리를 위한 타입 지정
 type MemoListProp = {
   onMemoWritePress: () => void;
-  onMemoDetailPress: () => void;
+  onMemoDetailPress: (memoSeq: number) => void;
 };
 
 const MemoList: React.FC<MemoListProp> = ({
@@ -91,7 +91,7 @@ const MemoList: React.FC<MemoListProp> = ({
   // FlatList 사용을 위한 MemoList 정리
   const MemoList: React.FC<MemoListItemProps> = ({ item }) => (
     <View style={styles.memoContainer}>
-      <Pressable onPress={onMemoDetailPress}>
+      <Pressable onPress={() => onMemoDetailPress(item.memoSeq)}>
         <LinearGradient
           colors={["#FFFFFF", "#F5F5F5"]}
           start={{ x: 0, y: 0 }}
