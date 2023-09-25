@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   titleContainer: {
-    marginTop: calculateDynamicWidth(10),
+    marginVertical: calculateDynamicWidth(10),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
