@@ -201,6 +201,11 @@ const MainScreen = () => {
   // 메모 수정을 위한 상태관리
   const [isUpdateMemoTrue, setIsUpdateMemoTrue] = useState(false);
 
+  // 메모 삭제를 위한 메모 상세 모달 상태관리 함수
+  const setMemoDeleteHandler = () => {
+    setIsMemoDetailVisible(false);
+  };
+
   // 메모 수정
   const setMemoUpdateHandler = () => {
     setIsMemoDetailVisible(false);
@@ -608,6 +613,7 @@ const MainScreen = () => {
         <MemoDetail
           memoSeq={selectMemoSeq}
           onMemoUpdatePress={setMemoUpdateHandler}
+          onMemoDeletePress={setMemoDeleteHandler}
         />
       )}
 
