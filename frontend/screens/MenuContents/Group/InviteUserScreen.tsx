@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { RouteProp } from "@react-navigation/native";
-import { View, Text, Image, Alert } from "react-native";
+import { View, Text, Image, Alert, ScrollView, FlatList } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import SearchInput from "../../../components/SearchInput";
 import { BACKEND_URL } from "../../../util/http";
 import { RootState } from "../../../store/store";
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
+import UserList from "../../../components/UserList";
 
 type InviteUserScreenProps = {
   route: RouteProp<RootStackParamList, "InviteUser">;
@@ -80,9 +81,7 @@ const InviteUserScreen: React.FC<InviteUserScreenProps> = ({ route }) => {
             onSubmitEditing={getUserList}
           />
         </View>
-        {userList ? (
-          <Text>결과O</Text>
-        ) : (
+        {userList ? null : (
           <View style={styles.userEmptyContainer}>
             <Image
               style={styles.userEmptyIcon}
