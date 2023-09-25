@@ -15,12 +15,12 @@ import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import Colors from "../../../constants/colors";
 
 // 메인페이지 상태관리를 위한 타입 지정
-type MemoItemProp = {
+type MemoListProp = {
   onMemoWritePress: () => void;
   onMemoDetailPress: () => void;
 };
 
-const MemoList: React.FC<MemoItemProp> = ({
+const MemoList: React.FC<MemoListProp> = ({
   onMemoWritePress,
   onMemoDetailPress,
 }) => {
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     top: "50%",
     left: "50%",
     transform: [
-      { translateY: -calculateDynamicWidth(306) / 2 },
+      { translateY: -calculateDynamicWidth(350) / 2 },
       { translateX: -calculateDynamicWidth(306) / 2 },
     ],
   },
