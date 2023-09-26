@@ -275,7 +275,7 @@ const MainScreen = () => {
     } else {
       axios({
         method: "POST",
-        url: BACKEND_URL + `/memos/${coordinates.id}`, // 물체 ID 임시로 1로 설정
+        url: BACKEND_URL + `/memos`, // 물체 ID 임시로 1로 설정
         // headers: {
         //   "Content-Type": "application/json",
         //   Authorization: "Bearer " + token,
@@ -285,6 +285,7 @@ const MainScreen = () => {
           accessType: openState,
           userId: userId,
           newFile: uploadedPic,
+          itemName: coordinates.id,
         },
       })
         .then((res) => {
