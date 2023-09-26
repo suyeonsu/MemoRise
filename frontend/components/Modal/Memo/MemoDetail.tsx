@@ -242,7 +242,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
           memoSeq={memoSeq}
           detailStyle={[detailStyle.bookmark, detailStyle.bookmarkSize]}
           // 하드코딩 : false부분을 isbookmarked로 바꿀 것!
-          bookmarkType={memoDetailData[0].isBookmarked}
+          bookmarkType={memoDetailData[0] && memoDetailData[0].isBookmarked}
         />
       </View>
       {isFullImageVisible && (
