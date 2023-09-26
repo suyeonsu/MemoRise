@@ -19,6 +19,7 @@ import GoBackHeader from "../../../components/Header/GoBackHeader";
 import { RootState } from "../../../store/store";
 import { BACKEND_URL } from "../../../util/http";
 import { styles } from "./GroupStyle";
+import AlertModal from "../../../components/Modal/AlertModal";
 
 type RootStackParamList = {
   FindGroup: undefined;
@@ -46,11 +47,54 @@ const MyGroupScreen = () => {
   const [groupData, setGroupData] = useState<GroupData | null>(null);
   const userId = useSelector((state: RootState) => state.userInfo.id);
 
+  // 그룹 나가기
+  const [exitTeamSeq, setExitTeamSeq] = useState(0);
+
+  const exitGroupHandler = () => {
+    axios({
+      method: "DELETE",
+      // url: BACKEND_URL + `/teams/${exitTeamSeq}/${userId}`,
+      url: BACKEND_URL + `/teams/${exitTeamSeq}/26`,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // 나가기 확인 모달 (그룹장)
+  const [isHostExitModal, setHostExitModal] = useState(false);
+
+  // 나가기 확인 모달 (참가자)
+  const [isMemberExitModal, setMemberExitModal] = useState(false);
+
+  const openExitModal = (teamSeq: number, isHost: boolean) => {
+    if (isHost) {
+      setHostExitModal(true);
+    } else {
+      setMemberExitModal(true);
+    }
+    setExitTeamSeq(teamSeq);
+  };
+
+  // 취소 버튼 눌렀을 때
+  const closeExitModal = () => {
+    setHostExitModal(false);
+    setMemberExitModal(false);
+  };
+
+  // 확인 버튼 눌렀을 때
+  const exitConfirm = () => {
+    setHostExitModal(false);
+    setMemberExitModal(false);
+    exitGroupHandler();
+  };
+
   // 그룹 상세 페이지로 이동하기
   const goDetailHandler = (teamSeq: number) => {
-    if (isEditGroup) {
-      console.log("나중에 그룹 나가기 함수 넣을거임");
-    } else {
+    if (!isEditGroup) {
       navigation.navigate("GroupDetail", {
         teamSeq: teamSeq,
         // userSeq: userId,
@@ -76,7 +120,7 @@ const MyGroupScreen = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [isHostExitModal, isMemberExitModal]);
 
   //  그룹 편집 버튼
   const [isEditGroup, setEditGroup] = useState(false);
@@ -166,7 +210,10 @@ const MyGroupScreen = () => {
                   teamSeq={group.teamSeq}
                 />
                 {isEditGroup && (
-                  <Pressable style={styles.deleteContainer}>
+                  <Pressable
+                    onPress={() => openExitModal(group.teamSeq, group.owner)}
+                    style={styles.deleteContainer}
+                  >
                     <Image
                       style={styles.delete}
                       source={require("../../../assets/image/delete.png")}
@@ -196,6 +243,16 @@ const MyGroupScreen = () => {
           </View>
         )}
       </View>
+      {/* (그룹장) 그룹 나가기 확인 모달 */}
+      {isHostExitModal && (
+        <AlertModal
+          modalVisible={isHostExitModal}
+          closeModal={closeExitModal}
+          onConfirm={exitConfirm}
+          contentText={`그룹장이 나가면\n그룹이 해체됩니다.\n정말 나가시겠습니까?`}
+          btnText="나가기"
+        />
+      )}
     </LinearGradient>
   );
 };
