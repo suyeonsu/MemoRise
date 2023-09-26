@@ -25,17 +25,19 @@ import BookMarkBtn from "../../Button/BookMarkBtn";
 type MemoListProp = {
   onMemoWritePress: () => void;
   onMemoDetailPress: (memoSeq: number) => void;
+  id: string;
 };
 
 const MemoList: React.FC<MemoListProp> = ({
   onMemoWritePress,
   onMemoDetailPress,
+  id,
 }) => {
   // FlatList 사용을 위한 Type 지정
   type MemoTypeProps = {
     accessType: string;
     content: string;
-    file: string;
+    file: string | null;
     isBookmarked: boolean;
     itemImage: string;
     memoSeq: number;
@@ -53,8 +55,9 @@ const MemoList: React.FC<MemoListProp> = ({
   // 사용자가 작성한 or 태그된 메모 AXIOS
   useEffect(() => {
     axios
-      .get(BACKEND_URL + `/user/23/memos`)
+      .get(BACKEND_URL + `/memos/${id}/list/23`)
       .then((response) => {
+        console.log(response.data);
         setMemoData(response.data);
       })
       .catch((error) => {
