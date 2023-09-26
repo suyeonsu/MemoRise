@@ -12,9 +12,9 @@ import {
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useSelector } from "react-redux";
+
 import SmallBtn from "../../../components/Button/SmallBtn";
 import GroupBox from "../../../components/GroupBox";
-
 import GoBackHeader from "../../../components/Header/GoBackHeader";
 import { RootState } from "../../../store/store";
 import { BACKEND_URL } from "../../../util/http";
@@ -54,7 +54,7 @@ const MyGroupScreen = () => {
     axios({
       method: "DELETE",
       // url: BACKEND_URL + `/teams/${exitTeamSeq}/${userId}`,
-      url: BACKEND_URL + `/teams/${exitTeamSeq}/26`,
+      url: BACKEND_URL + `/teams/${exitTeamSeq}/31`,
     })
       .then((res) => {
         console.log(res);
@@ -98,7 +98,7 @@ const MyGroupScreen = () => {
       navigation.navigate("GroupDetail", {
         teamSeq: teamSeq,
         // userSeq: userId,
-        userSeq: 26, // 더미 데이터
+        userSeq: 31, // 더미 데이터
       });
     }
   };
@@ -110,10 +110,11 @@ const MyGroupScreen = () => {
         const res = await axios({
           method: "GET",
           // url: BACKEND_URL + `/user/${userId}/my-teams`,
-          // url: BACKEND_URL + `/user/31/my-teams`, // 더미 데이터
-          url: BACKEND_URL + `/user/26/my-teams`, // 더미 데이터
+          url: BACKEND_URL + `/user/31/my-teams`, // 더미 데이터
+          // url: BACKEND_URL + `/user/26/my-teams`, // 더미 데이터
         });
         setGroupData(res.data);
+        console.log(res.data);
         console.log("조회 성공");
       } catch (err) {
         console.log(err);
@@ -250,6 +251,16 @@ const MyGroupScreen = () => {
           closeModal={closeExitModal}
           onConfirm={exitConfirm}
           contentText={`그룹장이 나가면\n그룹이 해체됩니다.\n정말 나가시겠습니까?`}
+          btnText="나가기"
+        />
+      )}
+      {/* (참가자) 그룹 나가기 확인 모달 */}
+      {isMemberExitModal && (
+        <AlertModal
+          modalVisible={isMemberExitModal}
+          closeModal={closeExitModal}
+          onConfirm={exitConfirm}
+          contentText="정말 나가시겠습니까?"
           btnText="나가기"
         />
       )}
