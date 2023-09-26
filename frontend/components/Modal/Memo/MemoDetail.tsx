@@ -32,10 +32,27 @@ const screenHeight = Dimensions.get("window").height;
 const MAX_WIDTH = calculateDynamicWidth(286);
 const MAX_HEIGHT = screenHeight / 2;
 
+// 타입관리
+export type MemoDetailProps = {
+  accessType: string;
+  content: string;
+  file: string;
+  isBookmarked: boolean;
+  itemImage: string;
+  itemSeq: number;
+  nickname: string;
+  taggedUserList: [
+    {
+      nickname: string;
+    }
+  ];
+  updatedAt: string;
+};
+
 // 메인페이지 상태관리를 위한 타입 지정
 type MemoDetailProp = {
   memoSeq: number | null;
-  onMemoUpdatePress: () => void;
+  onMemoUpdatePress: (data: MemoDetailProps[]) => void;
   onMemoDeletePress: () => void;
 };
 
@@ -44,23 +61,6 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
   onMemoUpdatePress,
   onMemoDeletePress,
 }) => {
-  // 타입관리
-  type MemoDetailProps = {
-    accessType: string;
-    content: string;
-    file: string;
-    isBookmarked: boolean;
-    itemImage: string;
-    itemSeq: number;
-    nickname: string;
-    taggedUserList: [
-      {
-        nickname: string;
-      }
-    ];
-    updatedAt: string;
-  };
-
   // 메모 상세 조회 상태관리
   const [memoDetailData, setMemoDetailData] = useState<MemoDetailProps[]>([]);
 
@@ -182,7 +182,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                   <Text style={detailStyle.calendar}>{memoDetailCalendar}</Text>
                 )}
                 <View style={detailStyle.iconContainer}>
-                  <Pressable onPress={onMemoUpdatePress}>
+                  <Pressable onPress={() => onMemoUpdatePress(memoDetailData)}>
                     <Image
                       source={require("../../../assets/icons/update.png")}
                       style={detailStyle.icon}
