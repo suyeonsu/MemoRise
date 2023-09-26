@@ -49,7 +49,15 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
     accessType: string;
     content: string;
     file: string;
+    isBookmarked: boolean;
+    itemImage: string;
+    itemSeq: number;
     nickname: string;
+    taggedUserList: [
+      {
+        nickname: string;
+      }
+    ];
     updatedAt: string;
   };
 
@@ -82,7 +90,6 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
         const res = await axios.get(BACKEND_URL + `/memos/${memoSeq}/23`);
         setMemoDetailData([res.data]);
         setMemoPic(res.data.file);
-        setIsBookMark(res.data.isBookmarked);
         setMemoDetailCalendar(formatData(res.data.updatedAt));
       } catch (err) {
         console.log(err);
@@ -136,9 +143,6 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
     setIsFullImageVisible(false);
   };
 
-  // 북마크 체크 여부 파악을 위한 상태관리
-  const [isBookMark, setIsBookMark] = useState(false);
-
   // 메모 삭제 모달 상태관리
   const [isDeleteMemoModalVisible, setIsDeleteMemoModalVisible] =
     useState(false);
@@ -157,7 +161,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
   const memoDeleteConfirm = () => {
     onMemoDeletePress();
     setIsDeleteMemoModalVisible(false);
-    axios.delete(BACKEND_URL + `/memos/${memoSeq}`).catch((error) => {
+    axios.delete(BACKEND_URL + `/memos/${memoSeq}/`).catch((error) => {
       console.log(error);
     });
   };
@@ -238,7 +242,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
           memoSeq={memoSeq}
           detailStyle={[detailStyle.bookmark, detailStyle.bookmarkSize]}
           // 하드코딩 : false부분을 isbookmarked로 바꿀 것!
-          bookmarkType={isBookMark}
+          bookmarkType={memoDetailData[0].isBookmarked}
         />
       </View>
       {isFullImageVisible && (
