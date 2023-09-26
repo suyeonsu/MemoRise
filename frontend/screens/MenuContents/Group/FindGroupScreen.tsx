@@ -2,7 +2,15 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { View, Text, FlatList, Pressable, Image } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Pressable,
+  Image,
+  Modal,
+  Alert,
+} from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useSelector } from "react-redux";
 
@@ -15,6 +23,8 @@ import { BACKEND_URL } from "../../../util/http";
 import { styles } from "./GroupStyle";
 import GroupBox from "../../../components/GroupBox";
 import AlertModal from "../../../components/Modal/AlertModal";
+import { BlurView } from "@react-native-community/blur";
+import PasswordInputModal from "../../../components/Modal/Group/PasswordInputModal";
 
 type RootStackParamList = {
   MakeGroup: undefined;
@@ -30,11 +40,8 @@ type GroupData = [
   {
     teamSeq: number;
     teamName: string;
-    myProfile: string;
-    ownerProfile: string | null;
-    memberProfiles: [string];
+    profiles: [string];
     password: boolean;
-    owner: boolean;
     participated: boolean;
   }
 ];
@@ -50,7 +57,6 @@ const FindGroupScreen = () => {
   const [targetTeamSeq, setTargetTeamSeq] = useState(0);
   const [targetTeamPassword, setTargetTeamPassword] = useState(false);
   const [targetTeamName, setTargetTeamName] = useState("");
-  const [groupPassword, setGroupPassword] = useState("");
 
   const openAlertModal = (teamSeq: number, password: boolean) => {
     setAlertModalVisible(true);
@@ -67,12 +73,36 @@ const FindGroupScreen = () => {
   const joinConfirmHandler = () => {
     if (targetTeamPassword) {
       // 비공개 그룹
-      // 비밀번호 입력 모달
+      passwordModalHandler();
     } else {
       // 공개 그룹
-      // 그룹 참가
       joinGroupHandler(targetTeamSeq, "");
     }
+  };
+
+  // 비밀번호 입력
+  const [groupPassword, setGroupPassword] = useState("");
+  const [enteredPassword, setEnteredPassword] = useState("");
+  const [invalid, setInvalid] = useState(false);
+
+  const passwordModalHandler = () => {
+    setPasswordModalVisible(true);
+    setGroupPassword("");
+  };
+
+  const passwordInputHandler = (enteredText: string) => {
+    setGroupPassword(enteredText);
+  };
+
+  const passwordConfirmHandler = () => {
+    joinGroupHandler(targetTeamSeq, groupPassword);
+  };
+
+  // 비밀번호 입력 모달
+  const [isPasswordModalVisible, setPasswordModalVisible] = useState(false);
+
+  const closePasswordModal = () => {
+    setPasswordModalVisible(false);
   };
 
   // 그룹 참여 axios
@@ -87,12 +117,15 @@ const FindGroupScreen = () => {
     })
       .then((res) => {
         console.log(res);
-        // 디테일로
-        navigation.navigate("GroupDetail", {
-          teamSeq: teamSeq,
-          // userSeq: userId,
-          userSeq: 30, // 더미 데이터
-        });
+        if (res.data.message === "참여 코드가 일치하지 않습니다.") {
+          Alert.alert("비밀번호가 일치하지 않습니다.");
+        } else {
+          // 디테일로
+          navigation.navigate("GroupDetail", {
+            teamSeq: teamSeq,
+            userSeq: userId,
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -110,8 +143,7 @@ const FindGroupScreen = () => {
     if (participated) {
       navigation.navigate("GroupDetail", {
         teamSeq: teamSeq,
-        // userSeq: userId,
-        userSeq: 30, // 더미 데이터
+        userSeq: userId,
       });
     } else {
       setTargetTeamName(teamName);
@@ -125,8 +157,7 @@ const FindGroupScreen = () => {
       try {
         const res = await axios({
           method: "GET",
-          // url: BACKEND_URL + `/teams/${userId}`,
-          url: BACKEND_URL + `/teams/30`, // 더미 데이터
+          url: BACKEND_URL + `/teams/${userId}`,
         });
         setGroupData(res.data);
       } catch (err) {
@@ -164,10 +195,10 @@ const FindGroupScreen = () => {
               <View>
                 <GroupBox
                   teamName={item.teamName}
-                  myProfile={item.myProfile}
-                  memberProfiles={item.memberProfiles}
-                  ownerProfile={item.ownerProfile}
-                  owner={item.owner}
+                  myProfile={item.profiles[0]}
+                  memberProfiles={item.profiles}
+                  ownerProfile={null}
+                  owner={false}
                   goDetailHandler={() =>
                     onPressGroupHandler(
                       item.teamSeq,
@@ -186,16 +217,6 @@ const FindGroupScreen = () => {
                     />
                   </View>
                 )}
-                {/* 그룹 참가 확인 모달 */}
-                {isAlertModalVisible && (
-                  <AlertModal
-                    modalVisible={isAlertModalVisible}
-                    closeModal={closeAlertModal}
-                    onConfirm={joinConfirmHandler}
-                    contentText={`${targetTeamName} 에\n참가하시겠습니까?`}
-                    btnText="확인"
-                  />
-                )}
               </View>
             )}
           />
@@ -203,7 +224,59 @@ const FindGroupScreen = () => {
       </View>
 
       {/* 그룹 참가 확인 모달 */}
-      {}
+      {isAlertModalVisible && (
+        <BlurView
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+          blurType="light"
+          blurAmount={4}
+        >
+          <AlertModal
+            modalVisible={isAlertModalVisible}
+            closeModal={closeAlertModal}
+            onConfirm={joinConfirmHandler}
+            contentText={`${targetTeamName} 에\n참가하시겠습니까?`}
+            btnText="확인"
+          />
+        </BlurView>
+      )}
+
+      {/* 비밀번호 모달 */}
+      {isPasswordModalVisible && (
+        <BlurView
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+          }}
+          blurType="light"
+          blurAmount={4}
+        >
+          <Modal
+            transparent={true}
+            animationType="fade"
+            visible={isPasswordModalVisible}
+            onRequestClose={closePasswordModal}
+          >
+            <View style={styles.modalContainer}>
+              <PasswordInputModal
+                closeModal={closePasswordModal}
+                onChangeText={passwordInputHandler}
+                value={groupPassword}
+                onConfirm={passwordConfirmHandler}
+                invalid={invalid}
+              />
+            </View>
+          </Modal>
+        </BlurView>
+      )}
     </LinearGradient>
   );
 };
