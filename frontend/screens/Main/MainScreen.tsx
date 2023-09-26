@@ -179,7 +179,12 @@ const MainScreen = () => {
 
   // 메모 조회 상태관리
   // true -> false로 변경할 것!!! <-- 변경했다면? 주석지워~
-  const [memoListVisible, setMemoListVisible] = useState(false);
+  const [memoListVisible, setMemoListVisible] = useState(true);
+
+  // 객체에 따른 메모 조회
+  const checkMemoListHandler = () => {
+    setMemoListVisible(true);
+  };
 
   // 메모모달 종료 후, 메모 작성창 띄우는 함수
   // 나중에 객체 탐지해서 메모 개수 나오면 함수 적용
@@ -570,8 +575,8 @@ const MainScreen = () => {
             onPress={() => {
               if (coordinates.id !== "0") {
                 // 메모 개수
-
-                Alert.alert("Notification", "메모 개수 표시하기");
+                checkMemoListHandler();
+                // Alert.alert("Notification", "메모 개수 표시하기");
               } else {
                 // 미등록 물체 알림 표시
                 setUnregisteredNotification(true);
@@ -624,12 +629,13 @@ const MainScreen = () => {
       </View>
 
       {/* 메모 조회 */}
-      {memoListVisible && (
+      {memoListVisible && coordinates && (
         <>
           <Pressable style={styles.memoClose} onPress={closeMemoList} />
           <MemoList
             onMemoWritePress={checkMemoHandler}
             onMemoDetailPress={setMemoDetailModal}
+            id={coordinates?.id}
           />
         </>
       )}
