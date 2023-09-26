@@ -4,6 +4,7 @@ import Colors from "../../../constants/colors";
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 
 const screenHeight = Dimensions.get("window").height;
+const screenWidth = Dimensions.get("window").width;
 
 export const styles = StyleSheet.create({
   container: {
@@ -147,5 +148,26 @@ export const styles = StyleSheet.create({
   userEmptyIcon: {
     width: calculateDynamicWidth(42),
     height: calculateDynamicWidth(42),
+  },
+  inviteBtn: {
+    width: calculateDynamicWidth(58),
+    height: calculateDynamicWidth(27),
+    borderRadius: calculateDynamicWidth(10),
+    backgroundColor: Colors.primary200,
+    elevation: 4,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  inviteBtnText: {
+    fontFamily: "Pretendard-Regular",
+    fontSize: calculateDynamicWidth(16),
+    color: Colors.text,
+  },
+  userListContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginVertical: calculateDynamicWidth(10),
+    width: screenWidth - 60,
   },
 });

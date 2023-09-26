@@ -120,6 +120,7 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
             <UserList
               profileUri={groupData.me.profile}
               nickname={groupData.me.nickname}
+              email={groupData.me.email}
             />
             <Pressable>
               <Image
