@@ -23,6 +23,8 @@ import { styles } from "./MainStyle";
 import AlertModal from "../../components/Modal/AlertModal";
 import { SERVER_OFFER_URL } from "../../util/http";
 
+import axios from "axios";
+
 const CamTestScreen = () => {
   // WebRTC 로직
 
@@ -44,6 +46,8 @@ const CamTestScreen = () => {
 
       // 미등록 물체 모달 닫기
       setUnregisteredNotification(false);
+      // 물체 위 표시 삭제
+      setCoordinates(null);
     } catch (error) {
       Alert.alert("Error", (error as Error).message);
     }
@@ -164,14 +168,19 @@ const CamTestScreen = () => {
     dataChannelRef.current = dataChannel;
     dataChannel.onmessage = (event: any) => {
       // 서버에서 받은 데이터 처리
+
       const receivedData = JSON.parse(event.data);
-      const label = `Id: ${receivedData.id}, X: ${receivedData.label_x}, Y: ${receivedData.label_y}`;
-      console.log(label);
-      setCoordinates({
-        id: receivedData.id,
-        x: receivedData.label_x,
-        y: receivedData.label_y,
-      });
+      if (trackType != "track2") {
+        const label = `Id: ${receivedData.id}, X: ${receivedData.label_x}, Y: ${receivedData.label_y}`;
+        console.log(label);
+        setCoordinates({
+          id: receivedData.id,
+          x: receivedData.label_x,
+          y: receivedData.label_y,
+        });
+      } else {
+        console.log(receivedData);
+      }
     };
 
     // 미디어 트랙 추가
@@ -203,7 +212,7 @@ const CamTestScreen = () => {
 
   useEffect(() => {
     initializeCamera();
-    setUnregisteredNotification(true); // 작업을 위해 true 해놓음 추후 완전 삭제
+    // setUnregisteredNotification(true); // 작업을 위해 true 해놓음 추후 완전 삭제
     return () => {
       stopRTCConnection();
     };
@@ -265,6 +274,7 @@ const CamTestScreen = () => {
             onPress={() => {
               if (coordinates.id !== "0") {
                 // 메모 개수
+
                 Alert.alert("Notification", "메모 개수 표시하기");
               } else {
                 // 미등록 물체 알림 표시
@@ -289,8 +299,8 @@ const CamTestScreen = () => {
         <AlertModal
           modalVisible={unregisteredNotification}
           closeModal={cancelObjectRegister}
-          // onConfirm={objectRegister} => 나중에 주석 해제해야함. 진짜 학습 실행
-          onConfirm={tempRegister} // 학습 실행할 시 생길 이펙트들 실행
+          onConfirm={objectRegister} //=> 나중에 주석 해제해야함. 진짜 학습 실행
+          // onConfirm={tempRegister} // 학습 실행할 시 생길 이펙트들 실행
           contentText={`미등록된 물체입니다.\n등록해주세요!`}
           btnText="확인"
         />
