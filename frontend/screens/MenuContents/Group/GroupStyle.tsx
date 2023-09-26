@@ -118,6 +118,11 @@ export const styles = StyleSheet.create({
     width: calculateDynamicWidth(21),
     height: calculateDynamicWidth(21),
   },
+  cancelIcon: {
+    width: calculateDynamicWidth(11),
+    height: calculateDynamicWidth(11),
+    marginRight: calculateDynamicWidth(5),
+  },
 
   // 내 그룹 (not Empty)
   groupContainer: {

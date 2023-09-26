@@ -112,24 +112,40 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
                 <Text style={styles.memberText}>초대하기</Text>
               </Pressable>
             </View>
+            <ScrollView>
+              {/* 내 정보 */}
+              <View style={styles.userListContainer}>
+                <UserList
+                  profileUri={groupData.me.profile}
+                  nickname={groupData.me.nickname}
+                  email={groupData.me.email}
+                />
+                <Pressable>
+                  <Image
+                    style={styles.meIcon}
+                    source={require("../../../assets/image/me.png")}
+                  />
+                </Pressable>
+              </View>
+              {/* 참가자 정보 */}
+              {groupData.members.map((member, idx) => (
+                <View key={idx} style={styles.userListContainer}>
+                  <UserList
+                    profileUri={member.profile}
+                    nickname={member.nickname}
+                    email={member.email}
+                  />
+                  <Pressable>
+                    <Image
+                      style={styles.cancelIcon}
+                      source={require("../../../assets/icons/cancel_md.png")}
+                    />
+                  </Pressable>
+                </View>
+              ))}
+            </ScrollView>
           </>
         ) : null}
-        {groupData && (
-          <ScrollView contentContainerStyle={styles.memberWrap}>
-            {/* 내 정보 */}
-            <UserList
-              profileUri={groupData.me.profile}
-              nickname={groupData.me.nickname}
-              email={groupData.me.email}
-            />
-            <Pressable>
-              <Image
-                style={styles.meIcon}
-                source={require("../../../assets/image/me.png")}
-              />
-            </Pressable>
-          </ScrollView>
-        )}
       </View>
     </LinearGradient>
   );
