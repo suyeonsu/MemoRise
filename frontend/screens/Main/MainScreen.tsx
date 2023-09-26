@@ -198,18 +198,10 @@ const MainScreen = () => {
   // 메모 조회 상태관리
   // true -> false로 변경할 것!!! <-- 변경했다면? 주석지워~
   const [memoListVisible, setMemoListVisible] = useState(false);
-<<<<<<< Updated upstream
-=======
 
   // 객체에 따른 메모 조회
   const checkMemoListHandler = () => {
     stopRTCConnection();
-    setMemoListVisible(true);
-  };
->>>>>>> Stashed changes
-
-  // 객체에 따른 메모 조회
-  const checkMemoListHandler = () => {
     setMemoListVisible(true);
   };
 
@@ -670,14 +662,7 @@ const MainScreen = () => {
           <MemoList
             onMemoWritePress={checkMemoHandler}
             onMemoDetailPress={setMemoDetailModal}
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
             // id={coordinates?.id}
->>>>>>> Stashed changes
-=======
-            // id={coordinates?.id}
->>>>>>> eb71c21dc56f988d05b1750532da4a12657f3a32
           />
         </>
       )}
