@@ -230,6 +230,7 @@ const MainScreen = () => {
   // 메모 상세 주변 클릭 시, 모달 종료
   const closeMemoDetail = () => {
     setIsMemoDetailVisible(false);
+    setMemoListVisible(true);
   };
 
   // 메모 수정을 위한 상태관리
