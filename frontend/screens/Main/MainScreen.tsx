@@ -201,6 +201,7 @@ const MainScreen = () => {
 
   // 객체에 따른 메모 조회
   const checkMemoListHandler = () => {
+    stopRTCConnection();
     setMemoListVisible(true);
   };
 
@@ -212,8 +213,10 @@ const MainScreen = () => {
   };
 
   // 메모 리스트 주변 클릭 시, 모달 종료
+  // 여기다가 물체 조회 추가해야함
   const closeMemoList = () => {
     setMemoListVisible(false);
+    startRTCConnection("track1");
   };
 
   // 메모 상세 모달 상태관리
@@ -340,11 +343,13 @@ const MainScreen = () => {
 
   const openMemoCancelModal = () => {
     setMemoCancelModalVisible(true);
+    startRTCConnection("track1");
   };
 
   // 취소 버튼 눌렀을 때
   const closeMemoCancelModal = () => {
     setMemoCancelModalVisible(false);
+    startRTCConnection("track1");
   };
 
   // 확인 버튼 눌렀을 때
@@ -475,7 +480,7 @@ const MainScreen = () => {
         video: {
           width: 3840,
           height: 2160,
-          frameRate: 15,
+          frameRate: 30,
           facingMode: "environment",
         },
       });

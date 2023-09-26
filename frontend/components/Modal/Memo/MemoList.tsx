@@ -27,13 +27,11 @@ import { RootState } from "../../../store/store";
 type MemoListProp = {
   onMemoWritePress: () => void;
   onMemoDetailPress: (memoSeq: number) => void;
-  // id: string;
 };
 
 const MemoList: React.FC<MemoListProp> = ({
   onMemoWritePress,
   onMemoDetailPress,
-  // id,
 }) => {
   // 유저ID
   const userId = useSelector((state: RootState) => state.userInfo.id);
