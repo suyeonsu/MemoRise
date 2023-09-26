@@ -18,6 +18,9 @@ import Colors from "../../../constants/colors";
 // 백엔드 통신
 import { BACKEND_URL } from "../../../util/http";
 
+// 컴포넌트
+import BookMarkBtn from "../../Button/BookMarkBtn";
+
 // 메인페이지 상태관리를 위한 타입 지정
 type MemoListProp = {
   onMemoWritePress: () => void;
@@ -133,7 +136,7 @@ const MemoList: React.FC<MemoListProp> = ({
           </View>
         </LinearGradient>
       </Pressable>
-      <Pressable
+      {/* <Pressable
         onPress={() => changeBookMarkHandler(item.memoSeq)}
         style={styles.bookmark}
       >
@@ -148,7 +151,12 @@ const MemoList: React.FC<MemoListProp> = ({
             style={styles.bookmarkSize}
           />
         )}
-      </Pressable>
+      </Pressable> */}
+      <BookMarkBtn
+        memoSeq={item.memoSeq}
+        detailStyle={[styles.bookmark, styles.bookmarkSize]}
+        bookmarkType={item.isBookmarked}
+      />
     </View>
   );
 
