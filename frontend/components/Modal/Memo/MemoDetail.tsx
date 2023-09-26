@@ -39,7 +39,7 @@ export type MemoDetailProps = {
   file: string;
   isBookmarked: boolean;
   itemImage: string;
-  itemSeq: number;
+  itemName: string;
   nickname: string;
   taggedUserList: [
     {
@@ -161,9 +161,14 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
   const memoDeleteConfirm = () => {
     onMemoDeletePress();
     setIsDeleteMemoModalVisible(false);
-    axios.delete(BACKEND_URL + `/memos/${memoSeq}/`).catch((error) => {
-      console.log(error);
-    });
+    axios({
+      method: "delete",
+      url: BACKEND_URL + `/memos/${memoSeq}`,
+      data: {
+        userId: "23",
+        itemName: memoDetailData[0].itemName,
+      },
+    }).catch((error) => console.log(error));
   };
 
   return (
