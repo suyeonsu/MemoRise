@@ -252,7 +252,7 @@ const MainScreen = () => {
     setIsUpdateMemoTrue(true);
     setOpenState("OPEN"); // 사용자 메모 정보에 따라 변경 예정.
     setCheckMemoDetailData(data);
-    console.log(data);
+    setEnteredMemo(data[0].content);
   };
 
   const memoInputHandler = (enteredText: string) => {
@@ -764,37 +764,20 @@ const MainScreen = () => {
                   />
                 </Pressable>
                 {/* 첨부 사진 */}
-                {isUpdateMemoTrue ? (
-                  <Image
-                    source={{ uri: checkMemoDetailData[0].file }}
-                    style={[
-                      styles.uploadedFullImg,
-                      {
-                        width: imageWidth,
-                        height: imageHeight,
-                        transform: [
-                          { translateY: -imageHeight / 2 },
-                          { translateX: -imageWidth / 2 },
-                        ],
-                      },
-                    ]}
-                  />
-                ) : (
-                  <Image
-                    source={{ uri: uploadedPic }}
-                    style={[
-                      styles.uploadedFullImg,
-                      {
-                        width: imageWidth,
-                        height: imageHeight,
-                        transform: [
-                          { translateY: -imageHeight / 2 },
-                          { translateX: -imageWidth / 2 },
-                        ],
-                      },
-                    ]}
-                  />
-                )}
+                <Image
+                  source={{ uri: uploadedPic }}
+                  style={[
+                    styles.uploadedFullImg,
+                    {
+                      width: imageWidth,
+                      height: imageHeight,
+                      transform: [
+                        { translateY: -imageHeight / 2 },
+                        { translateX: -imageWidth / 2 },
+                      ],
+                    },
+                  ]}
+                />
               </>
             )}
             <Pressable
@@ -1057,17 +1040,12 @@ const MainScreen = () => {
                         />
                       </Pressable>
                     )}
-                    {isUpdateMemoTrue ? (
-                      // 더미데이터
-                      <Text>{checkMemoDetailData[0].content}</Text>
-                    ) : (
-                      <TextInput
-                        style={styles.memoContent}
-                        multiline={true}
-                        onChangeText={memoInputHandler}
-                        value={enteredMemo}
-                      />
-                    )}
+                    <TextInput
+                      style={styles.memoContent}
+                      multiline={true}
+                      onChangeText={memoInputHandler}
+                      value={enteredMemo}
+                    />
                   </ScrollView>
                 </View>
               </LinearGradient>
