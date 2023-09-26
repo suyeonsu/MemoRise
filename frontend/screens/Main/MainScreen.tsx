@@ -233,7 +233,7 @@ const MainScreen = () => {
     setMemoListVisible(true);
   };
 
-  // 메모 수정을 위한 상태관리
+  // 메모 수정을 위한 상태관리 (나중에 필요없다고 판단되면 삭제할 것!)
   const [isUpdateMemoTrue, setIsUpdateMemoTrue] = useState(false);
 
   // 메모 삭제를 위한 메모 상세 모달 상태관리 함수
@@ -241,7 +241,7 @@ const MainScreen = () => {
     setIsMemoDetailVisible(false);
   };
 
-  // 메모 수정을 위한 데이터 상태관리
+  // 메모 수정을 위한 데이터 상태관리 (나중에 필요없다고 판단되면 삭제할 것!)
   const [checkMemoDetailData, setCheckMemoDetailData] = useState<
     MemoDetailProps[]
   >([]);
