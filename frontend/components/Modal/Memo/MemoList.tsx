@@ -25,13 +25,13 @@ import BookMarkBtn from "../../Button/BookMarkBtn";
 type MemoListProp = {
   onMemoWritePress: () => void;
   onMemoDetailPress: (memoSeq: number) => void;
-  id: string;
+  // id: string;
 };
 
 const MemoList: React.FC<MemoListProp> = ({
   onMemoWritePress,
   onMemoDetailPress,
-  id,
+  // id,
 }) => {
   // FlatList 사용을 위한 Type 지정
   type MemoTypeProps = {
