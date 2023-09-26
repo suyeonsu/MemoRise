@@ -136,22 +136,6 @@ const MemoList: React.FC<MemoListProp> = ({
           </View>
         </LinearGradient>
       </Pressable>
-      {/* <Pressable
-        onPress={() => changeBookMarkHandler(item.memoSeq)}
-        style={styles.bookmark}
-      >
-        {item.isBookmarked ? (
-          <Image
-            source={require("../../../assets/icons/bookmarkblue_fill.png")}
-            style={styles.bookmarkSize}
-          />
-        ) : (
-          <Image
-            source={require("../../../assets/icons/bookmarkblue.png")}
-            style={styles.bookmarkSize}
-          />
-        )}
-      </Pressable> */}
       <BookMarkBtn
         memoSeq={item.memoSeq}
         detailStyle={[styles.bookmark, styles.bookmarkSize]}
