@@ -26,16 +26,14 @@ type RootStackParamList = {
   GroupDetail: GroupDetailParams;
 };
 
-type GroupData = [
-  {
-    teamSeq: number;
-    teamName: string;
-    myProfile: string;
-    ownerProfile: string;
-    memberProfiles: [string];
-    owner: boolean;
-  }
-];
+type GroupData = {
+  teamSeq: number;
+  teamName: string;
+  myProfile: string;
+  ownerProfile: string;
+  memberProfiles: string[];
+  owner: boolean;
+}[];
 
 type GroupDetailParams = {
   teamSeq: number;
@@ -56,7 +54,12 @@ const MyGroupScreen = () => {
       url: BACKEND_URL + `/teams/${exitTeamSeq}/${userId}`,
     })
       .then((res) => {
-        console.log(res);
+        setGroupData((prevData) => {
+          if (prevData) {
+            return prevData.filter((group) => group.teamSeq !== exitTeamSeq);
+          }
+          return null;
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -117,7 +120,7 @@ const MyGroupScreen = () => {
       }
     };
     fetchData();
-  }, [isHostExitModal, isMemberExitModal]);
+  }, []);
 
   //  그룹 편집 버튼
   const [isEditGroup, setEditGroup] = useState(false);

@@ -167,8 +167,6 @@ const FindGroupScreen = () => {
     fetchData();
   }, []);
 
-  console.log(groupData);
-
   return (
     <LinearGradient
       colors={["#F5F5F5", "#E9E9E9"]}
