@@ -37,6 +37,7 @@ import { BACKEND_URL, S3_URL, SERVER_OFFER_URL } from "../../util/http";
 import MemoList from "../../components/Modal/Memo/MemoList";
 import { RootState } from "../../store/store";
 import MemoDetail from "../../components/Modal/Memo/MemoDetail";
+import { MemoDetailProps } from "../../components/Modal/Memo/MemoDetail";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -216,12 +217,18 @@ const MainScreen = () => {
     setIsMemoDetailVisible(false);
   };
 
+  // 메모 수정을 위한 데이터 상태관리
+  const [checkMemoDetailData, setCheckMemoDetailData] = useState<
+    MemoDetailProps[]
+  >([]);
+
   // 메모 수정
-  const setMemoUpdateHandler = () => {
+  const setMemoUpdateHandler = (data: MemoDetailProps[]) => {
     setIsMemoDetailVisible(false);
     setMemoCreateModalVisible(true);
     setIsUpdateMemoTrue(true);
     setOpenState("OPEN"); // 사용자 메모 정보에 따라 변경 예정.
+    setCheckMemoDetailData(data);
   };
 
   const memoInputHandler = (enteredText: string) => {
