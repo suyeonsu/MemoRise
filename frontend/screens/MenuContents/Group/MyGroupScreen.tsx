@@ -206,6 +206,7 @@ const MyGroupScreen = () => {
                   teamName={group.teamName}
                   myProfile={group.myProfile}
                   memberProfiles={group.memberProfiles}
+                  ownerProfile={group.ownerProfile}
                   owner={group.owner}
                   goDetailHandler={goDetailHandler}
                   teamSeq={group.teamSeq}
