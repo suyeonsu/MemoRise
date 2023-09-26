@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { View, Text, FlatList, Pressable } from "react-native";
+import { View, Text, FlatList, Pressable, Image } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useSelector } from "react-redux";
 
@@ -44,6 +44,51 @@ const FindGroupScreen = () => {
   const userId = useSelector((state: RootState) => state.userInfo.id);
   const [groupData, setGroupData] = useState<GroupData | null>(null);
 
+  // 그룹 참가 확인 모달
+  const [isAlertModalVisible, setAlertModalVisible] = useState(false);
+  const [targetTeamSeq, setTargetTeamSeq] = useState(0);
+  const [targetTeamPassword, setTargetTeamPassword] = useState(false);
+  const [groupPassword, setGroupPassword] = useState("");
+
+  const openAlertModal = (teamSeq: number, password: boolean) => {
+    setAlertModalVisible(true);
+    setTargetTeamSeq(teamSeq);
+    setTargetTeamPassword(password);
+  };
+
+  // 취소 버튼 눌렀을 때
+  const closeAlertModal = () => {
+    setAlertModalVisible(false);
+  };
+
+  const joinConfirmHandler = () => {
+    if (targetTeamPassword) {
+      // 비공개 그룹
+      // 비밀번호 입력 모달
+    } else {
+      // 공개 그룹
+      // 그룹 참가
+    }
+  };
+
+  // 그룹 참여 axios
+  const joinGroupHandler = (teamSeq: number, password: string) => {
+    axios({
+      method: "POST",
+      url: BACKEND_URL + `/teams/${teamSeq}`,
+      data: {
+        userSeq: userId,
+        password: password,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   // 그룹 터치 시
   const onPressGroupHandler = (
     teamSeq: number,
@@ -54,7 +99,8 @@ const FindGroupScreen = () => {
     if (participated) {
       navigation.navigate("GroupDetail", {
         teamSeq: teamSeq,
-        userSeq: userId,
+        // userSeq: userId,
+        userSeq: 30, // 더미 데이터
       });
     }
   };
@@ -65,7 +111,8 @@ const FindGroupScreen = () => {
       try {
         const res = await axios({
           method: "GET",
-          url: BACKEND_URL + `/teams/${userId}`,
+          // url: BACKEND_URL + `/teams/${userId}`,
+          url: BACKEND_URL + `/teams/30`, // 더미 데이터
         });
         setGroupData(res.data);
       } catch (err) {
@@ -74,6 +121,8 @@ const FindGroupScreen = () => {
     };
     fetchData();
   }, []);
+
+  console.log(groupData);
 
   return (
     <LinearGradient
@@ -89,7 +138,7 @@ const FindGroupScreen = () => {
           <SmallBtn onPress={MakeGroupHandler}>만들기</SmallBtn>
         </View>
         <View style={{ marginTop: calculateDynamicWidth(25) }}>
-          <SeachInput />
+          {/* <SeachInput /> */}
         </View>
         {groupData && (
           <FlatList
@@ -98,25 +147,38 @@ const FindGroupScreen = () => {
             data={groupData}
             keyExtractor={(item) => item.teamSeq.toString()}
             renderItem={({ item }) => (
-              <GroupBox
-                teamName={item.teamName}
-                myProfile={item.myProfile}
-                memberProfiles={item.memberProfiles}
-                ownerProfile={item.ownerProfile}
-                owner={item.owner}
-                goDetailHandler={() =>
-                  onPressGroupHandler(
-                    item.teamSeq,
-                    item.participated,
-                    item.password
-                  )
-                }
-                teamSeq={item.teamSeq}
-              />
+              <View>
+                <GroupBox
+                  teamName={item.teamName}
+                  myProfile={item.myProfile}
+                  memberProfiles={item.memberProfiles}
+                  ownerProfile={item.ownerProfile}
+                  owner={item.owner}
+                  goDetailHandler={() =>
+                    onPressGroupHandler(
+                      item.teamSeq,
+                      item.participated,
+                      item.password
+                    )
+                  }
+                  teamSeq={item.teamSeq}
+                />
+                {item.password && (
+                  <View style={styles.lockIconContainer}>
+                    <Image
+                      style={styles.lockIcon}
+                      source={require("../../../assets/image/lock.png")}
+                    />
+                  </View>
+                )}
+              </View>
             )}
           />
         )}
       </View>
+
+      {/* 그룹 참가 확인 모달 */}
+      {}
     </LinearGradient>
   );
 };
