@@ -230,46 +230,51 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                   </Text>
                 )}
                 {memoDetailData[0] && (
-                  <Text style={detailStyle.open}>
-                    {memoDetailData[0].accessType === "OPEN" ? (
-                      "전체공개"
-                    ) : memoDetailData[0].accessType === "CLOSED" ? (
-                      "비공개"
-                    ) : memoDetailData[0].taggedTeamList.length > 0 ? (
-                      <Pressable onPress={changeShowAllTagged}>
-                        <Text>
-                          {memoDetailData[0].taggedTeamList[0].nickname}
-                          {memoDetailData[0].taggedTeamList.length - 1 !==
-                            0 && (
-                            <Text style={detailStyle.plusText}>
-                              {` +${
-                                memoDetailData[0].taggedTeamList.length - 1
-                              }`}
-                            </Text>
-                          )}
-                        </Text>
-                      </Pressable>
-                    ) : (
-                      <Pressable onPress={changeShowAllTagged}>
-                        <Text style={detailStyle.open}>
-                          {memoDetailData[0].taggedUserList[0].nickname}
-                          {memoDetailData[0].taggedUserList.length - 1 !==
-                            0 && (
-                            <Text style={detailStyle.plusText}>
-                              {` +${
-                                memoDetailData[0].taggedUserList.length - 1
-                              }`}
-                            </Text>
-                          )}
-                        </Text>
+                  <View>
+                    <Text style={detailStyle.open}>
+                      {memoDetailData[0].accessType === "OPEN" ? (
+                        "전체공개"
+                      ) : memoDetailData[0].accessType === "CLOSED" ? (
+                        "비공개"
+                      ) : memoDetailData[0].taggedTeamList.length > 0 ? (
+                        <Pressable onPress={changeShowAllTagged}>
+                          <Text>
+                            {memoDetailData[0].taggedTeamList[0].nickname}
+                            {memoDetailData[0].taggedTeamList.length - 1 !==
+                              0 && (
+                              <Text style={detailStyle.plusText}>
+                                {` +${
+                                  memoDetailData[0].taggedTeamList.length - 1
+                                }`}
+                              </Text>
+                            )}
+                          </Text>
+                        </Pressable>
+                      ) : (
+                        <Pressable onPress={changeShowAllTagged}>
+                          <Text style={detailStyle.open}>
+                            {memoDetailData[0].taggedUserList[0].nickname}
+                            {memoDetailData[0].taggedUserList.length - 1 !==
+                              0 && (
+                              <Text style={detailStyle.plusText}>
+                                {` +${
+                                  memoDetailData[0].taggedUserList.length - 1
+                                }`}
+                              </Text>
+                            )}
+                          </Text>
+                        </Pressable>
+                      )}
+                    </Text>
+                    {showAllTagged && (
+                      <Pressable
+                        onPress={changeShowAllTagged}
+                        style={detailStyle.tagged}
+                      >
+                        <Text>테스트</Text>
                       </Pressable>
                     )}
-                  </Text>
-                )}
-                {showAllTagged && (
-                  <Pressable onPress={changeShowAllTagged}>
-                    <Text>테스트</Text>
-                  </Pressable>
+                  </View>
                 )}
               </View>
             </View>
@@ -407,19 +412,20 @@ const detailStyle = StyleSheet.create({
   rowSpaceBetween: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 12,
-    marginBottom: 3,
+    marginTop: calculateDynamicWidth(12),
+    marginBottom: calculateDynamicWidth(3),
   },
 
   rowSpaceBetween2: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 3,
+    marginBottom: calculateDynamicWidth(3),
   },
 
   calendar: {
     color: Colors.hover,
     fontFamily: "Pretendard-Regular",
+    fontSize: calculateDynamicWidth(14),
   },
 
   iconContainer: {
@@ -429,20 +435,30 @@ const detailStyle = StyleSheet.create({
   icon: {
     width: calculateDynamicWidth(14),
     height: calculateDynamicWidth(14),
-    marginLeft: 10,
+    marginLeft: calculateDynamicWidth(10),
   },
 
   nickname: {
     color: Colors.blue500,
     fontFamily: "Pretendard-Medium",
+    fontSize: calculateDynamicWidth(14),
   },
 
   open: {
     color: "rgba(76, 106, 255, 0.6)",
     fontFamily: "Pretendard-Medium",
+    fontSize: calculateDynamicWidth(14),
   },
 
-  plusText: { color: "rgba(76, 106, 255, 0.6)", fontSize: 10 },
+  plusText: {
+    color: "rgba(76, 106, 255, 0.6)",
+    fontSize: calculateDynamicWidth(10),
+  },
+
+  tagged: {
+    position: "absolute",
+    top: calculateDynamicWidth(14),
+  },
 
   contentContainer: {
     maxHeight: calculateDynamicWidth(350),
@@ -457,10 +473,10 @@ const detailStyle = StyleSheet.create({
 
   content: {
     color: Colors.text,
-    fontSize: 18,
+    fontSize: calculateDynamicWidth(18),
     fontFamily: "Pretendard-Regular",
-    marginVertical: 5,
-    marginHorizontal: 10,
+    marginVertical: calculateDynamicWidth(5),
+    marginHorizontal: calculateDynamicWidth(10),
   },
 
   bookmark: {
