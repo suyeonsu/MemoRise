@@ -253,6 +253,7 @@ const MainScreen = () => {
     setOpenState("OPEN"); // 사용자 메모 정보에 따라 변경 예정.
     setCheckMemoDetailData(data);
     setEnteredMemo(data[0].content);
+    setOpenState(data[0].accessType);
   };
 
   const memoInputHandler = (enteredText: string) => {
@@ -1008,7 +1009,6 @@ const MainScreen = () => {
                           </Pressable>
                         </View>
                       )}
-
                       <Text style={styles.currentDate}>{currentDate}</Text>
                     </View>
                     <View style={styles.memoInnerBtnContainer}>
