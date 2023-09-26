@@ -58,7 +58,7 @@ const LoginScreen = () => {
         if (checkUser.success === true) {
           // 유저 아이디 리덕스에 저장
           dispatch(setUserId(checkUser.userSeq));
-          dispatch(setNickname(checkUser.nickname));
+          dispatch(setNickname(checkUser.nickName));
           dispatch(setProfileImg(checkUser.profile));
           navigation.navigate("Main");
         } else {
