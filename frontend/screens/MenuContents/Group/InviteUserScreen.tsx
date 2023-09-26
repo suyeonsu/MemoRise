@@ -44,15 +44,13 @@ const InviteUserScreen: React.FC<InviteUserScreenProps> = ({
         method: "PUT",
         url: BACKEND_URL + `/teams/${teamSeq}/invite`,
         data: {
-          // userSeq: userId,
-          userSeq: 31, // 더미 데이터
+          userSeq: userId,
           targetSeq: targetSeq,
         },
       });
       navigation.navigate("GroupDetail", {
         teamSeq: teamSeq,
-        // userSeq: userId,
-        userSeq: 31, // 더미 데이터
+        userSeq: userId,
       });
     } catch (err) {
       console.log(err);
@@ -68,8 +66,7 @@ const InviteUserScreen: React.FC<InviteUserScreenProps> = ({
       try {
         const res = await axios({
           method: "GET",
-          // url: BACKEND_URL + `/teams/${teamSeq}/invite/${userId}`,
-          url: BACKEND_URL + `/teams/${teamSeq}/invite/31`, // 더미 데이터
+          url: BACKEND_URL + `/teams/${teamSeq}/invite/${userId}`,
           params: {
             keyword: searchKeyword,
           },

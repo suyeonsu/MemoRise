@@ -97,8 +97,7 @@ const MyGroupScreen = () => {
     if (!isEditGroup) {
       navigation.navigate("GroupDetail", {
         teamSeq: teamSeq,
-        // userSeq: userId,
-        userSeq: 31, // 더미 데이터
+        userSeq: userId,
       });
     }
   };
@@ -109,9 +108,7 @@ const MyGroupScreen = () => {
       try {
         const res = await axios({
           method: "GET",
-          // url: BACKEND_URL + `/user/${userId}/my-teams`,
-          url: BACKEND_URL + `/user/31/my-teams`, // 더미 데이터
-          // url: BACKEND_URL + `/user/26/my-teams`, // 더미 데이터
+          url: BACKEND_URL + `/user/${userId}/my-teams`,
         });
         setGroupData(res.data);
         console.log(res.data);
