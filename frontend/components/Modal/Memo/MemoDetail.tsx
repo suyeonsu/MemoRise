@@ -48,6 +48,11 @@ export type MemoDetailProps = {
       nickname: string;
     }
   ];
+  taggedTeamList: [
+    {
+      nickname: string;
+    }
+  ];
   updatedAt: string;
 };
 
@@ -95,6 +100,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
         const res = await axios.get(
           BACKEND_URL + `/memos/${memoSeq}/${userId}`
         );
+        console.log(res.data);
         setMemoDetailData([res.data]);
         setMemoPic(res.data.file);
         setMemoDetailCalendar(formatData(res.data.updatedAt));
@@ -216,7 +222,21 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                 )}
                 {memoDetailData[0] && (
                   <Text style={detailStyle.open}>
-                    {memoDetailData[0].accessType}
+                    {memoDetailData[0].accessType === "OPEN"
+                      ? "전체공개"
+                      : memoDetailData[0].accessType === "CLOSED"
+                      ? "비공개"
+                      : memoDetailData[0].taggedTeamList.length > 0
+                      ? `${memoDetailData[0].taggedTeamList[0].nickname} ${
+                          memoDetailData[0].taggedTeamList.length - 1 === 0
+                            ? ""
+                            : `+${memoDetailData[0].taggedTeamList.length - 1}`
+                        }`
+                      : `${memoDetailData[0].taggedUserList[0].nickname} ${
+                          memoDetailData[0].taggedUserList.length - 1 === 0
+                            ? ""
+                            : `+${memoDetailData[0].taggedUserList.length - 1}`
+                        }`}
                   </Text>
                 )}
               </View>
