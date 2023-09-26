@@ -189,8 +189,10 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
   const [showAllTagged, setShowAllTagged] = useState(false);
 
   // 상태관리 변경함수
-  const changeShowAllTagged = () => {
-    setShowAllTagged(!showAllTagged);
+  const changeShowAllTagged = (num: number) => {
+    if (num !== 0) {
+      setShowAllTagged(!showAllTagged);
+    }
   };
 
   return (
@@ -237,7 +239,13 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                       ) : memoDetailData[0].accessType === "CLOSED" ? (
                         "비공개"
                       ) : memoDetailData[0].taggedTeamList.length > 0 ? (
-                        <Pressable onPress={changeShowAllTagged}>
+                        <Pressable
+                          onPress={() =>
+                            changeShowAllTagged(
+                              memoDetailData[0].taggedTeamList.length - 1
+                            )
+                          }
+                        >
                           <Text>
                             {memoDetailData[0].taggedTeamList[0].nickname}
                             {memoDetailData[0].taggedTeamList.length - 1 !==
@@ -251,7 +259,13 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                           </Text>
                         </Pressable>
                       ) : (
-                        <Pressable onPress={changeShowAllTagged}>
+                        <Pressable
+                          onPress={() =>
+                            changeShowAllTagged(
+                              memoDetailData[0].taggedUserList.length - 1
+                            )
+                          }
+                        >
                           <Text style={detailStyle.open}>
                             {memoDetailData[0].taggedUserList[0].nickname}
                             {memoDetailData[0].taggedUserList.length - 1 !==
@@ -268,7 +282,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                     </Text>
                     {showAllTagged && (
                       <Pressable
-                        onPress={changeShowAllTagged}
+                        onPress={() => changeShowAllTagged(1)}
                         style={detailStyle.tagged}
                       >
                         {memoDetailData[0].taggedTeamList.length > 0 &&
