@@ -271,7 +271,34 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                         onPress={changeShowAllTagged}
                         style={detailStyle.tagged}
                       >
-                        <Text>테스트</Text>
+                        {memoDetailData[0].taggedTeamList.length > 0 &&
+                          memoDetailData[0].taggedTeamList.map(
+                            (team, index) => (
+                              <Text
+                                key={`team-${index}`}
+                                style={{
+                                  color: "#FFFFFF",
+                                  marginLeft: calculateDynamicWidth(8),
+                                }}
+                              >
+                                {team.nickname}
+                              </Text>
+                            )
+                          )}
+                        {memoDetailData[0].taggedUserList.length > 0 &&
+                          memoDetailData[0].taggedUserList.map(
+                            (user, index) => (
+                              <Text
+                                key={`user-${index}`}
+                                style={{
+                                  color: "#FFFFFF",
+                                  marginLeft: calculateDynamicWidth(8),
+                                }}
+                              >
+                                {user.nickname}
+                              </Text>
+                            )
+                          )}
                       </Pressable>
                     )}
                   </View>
@@ -457,7 +484,13 @@ const detailStyle = StyleSheet.create({
 
   tagged: {
     position: "absolute",
-    top: calculateDynamicWidth(14),
+    backgroundColor: "#A4B3FE",
+    zIndex: 2,
+    top: calculateDynamicWidth(22),
+    right: calculateDynamicWidth(0),
+    borderRadius: calculateDynamicWidth(5),
+    minWidth: calculateDynamicWidth(106),
+    minHeight: calculateDynamicWidth(22),
   },
 
   contentContainer: {
