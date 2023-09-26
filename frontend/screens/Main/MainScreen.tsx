@@ -197,7 +197,7 @@ const MainScreen = () => {
 
   // 메모 조회 상태관리
   // true -> false로 변경할 것!!! <-- 변경했다면? 주석지워~
-  const [memoListVisible, setMemoListVisible] = useState(true);
+  const [memoListVisible, setMemoListVisible] = useState(false);
 
   // 객체에 따른 메모 조회
   const checkMemoListHandler = () => {
