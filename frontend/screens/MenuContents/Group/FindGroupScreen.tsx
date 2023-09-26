@@ -14,6 +14,7 @@ import { RootState } from "../../../store/store";
 import { BACKEND_URL } from "../../../util/http";
 import { styles } from "./GroupStyle";
 import GroupBox from "../../../components/GroupBox";
+import AlertModal from "../../../components/Modal/AlertModal";
 
 type RootStackParamList = {
   MakeGroup: undefined;
@@ -48,6 +49,7 @@ const FindGroupScreen = () => {
   const [isAlertModalVisible, setAlertModalVisible] = useState(false);
   const [targetTeamSeq, setTargetTeamSeq] = useState(0);
   const [targetTeamPassword, setTargetTeamPassword] = useState(false);
+  const [targetTeamName, setTargetTeamName] = useState("");
   const [groupPassword, setGroupPassword] = useState("");
 
   const openAlertModal = (teamSeq: number, password: boolean) => {
@@ -61,6 +63,7 @@ const FindGroupScreen = () => {
     setAlertModalVisible(false);
   };
 
+  // 확인 버튼 눌렀을 때
   const joinConfirmHandler = () => {
     if (targetTeamPassword) {
       // 비공개 그룹
@@ -68,6 +71,7 @@ const FindGroupScreen = () => {
     } else {
       // 공개 그룹
       // 그룹 참가
+      joinGroupHandler(targetTeamSeq, "");
     }
   };
 
@@ -83,6 +87,12 @@ const FindGroupScreen = () => {
     })
       .then((res) => {
         console.log(res);
+        // 디테일로
+        navigation.navigate("GroupDetail", {
+          teamSeq: teamSeq,
+          // userSeq: userId,
+          userSeq: 30, // 더미 데이터
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -93,7 +103,8 @@ const FindGroupScreen = () => {
   const onPressGroupHandler = (
     teamSeq: number,
     participated: boolean,
-    password: boolean
+    password: boolean,
+    teamName: string
   ) => {
     // 이미 참여 중인 그룹일 때
     if (participated) {
@@ -102,6 +113,9 @@ const FindGroupScreen = () => {
         // userSeq: userId,
         userSeq: 30, // 더미 데이터
       });
+    } else {
+      setTargetTeamName(teamName);
+      openAlertModal(teamSeq, password);
     }
   };
 
@@ -158,7 +172,8 @@ const FindGroupScreen = () => {
                     onPressGroupHandler(
                       item.teamSeq,
                       item.participated,
-                      item.password
+                      item.password,
+                      item.teamName
                     )
                   }
                   teamSeq={item.teamSeq}
@@ -170,6 +185,16 @@ const FindGroupScreen = () => {
                       source={require("../../../assets/image/lock.png")}
                     />
                   </View>
+                )}
+                {/* 그룹 참가 확인 모달 */}
+                {isAlertModalVisible && (
+                  <AlertModal
+                    modalVisible={isAlertModalVisible}
+                    closeModal={closeAlertModal}
+                    onConfirm={joinConfirmHandler}
+                    contentText={`${targetTeamName} 에\n참가하시겠습니까?`}
+                    btnText="확인"
+                  />
                 )}
               </View>
             )}

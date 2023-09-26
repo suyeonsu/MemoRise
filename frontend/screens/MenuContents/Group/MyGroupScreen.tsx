@@ -54,7 +54,7 @@ const MyGroupScreen = () => {
     axios({
       method: "DELETE",
       // url: BACKEND_URL + `/teams/${exitTeamSeq}/${userId}`,
-      url: BACKEND_URL + `/teams/${exitTeamSeq}/31`,
+      url: BACKEND_URL + `/teams/${exitTeamSeq}/30`, // 더미 데이터
     })
       .then((res) => {
         console.log(res);
@@ -97,7 +97,8 @@ const MyGroupScreen = () => {
     if (!isEditGroup) {
       navigation.navigate("GroupDetail", {
         teamSeq: teamSeq,
-        userSeq: userId,
+        // userSeq: userId,
+        userSeq: 30, // 더미 데이터
       });
     }
   };
@@ -108,7 +109,8 @@ const MyGroupScreen = () => {
       try {
         const res = await axios({
           method: "GET",
-          url: BACKEND_URL + `/user/${userId}/my-teams`,
+          // url: BACKEND_URL + `/user/${userId}/my-teams`,
+          url: BACKEND_URL + `/user/30/my-teams`, // 더미 데이터
         });
         setGroupData(res.data);
         console.log(res.data);
