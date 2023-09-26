@@ -179,7 +179,7 @@ const MainScreen = () => {
 
   // 메모 조회 상태관리
   // true -> false로 변경할 것!!! <-- 변경했다면? 주석지워~
-  const [memoListVisible, setMemoListVisible] = useState(true);
+  const [memoListVisible, setMemoListVisible] = useState(false);
 
   // 객체에 따른 메모 조회
   const checkMemoListHandler = () => {
@@ -629,13 +629,13 @@ const MainScreen = () => {
       </View>
 
       {/* 메모 조회 */}
-      {memoListVisible && coordinates && (
+      {memoListVisible && (
         <>
           <Pressable style={styles.memoClose} onPress={closeMemoList} />
           <MemoList
             onMemoWritePress={checkMemoHandler}
             onMemoDetailPress={setMemoDetailModal}
-            id={coordinates?.id}
+            // id={coordinates?.id}
           />
         </>
       )}
