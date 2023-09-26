@@ -37,8 +37,27 @@ import { BACKEND_URL, S3_URL, SERVER_OFFER_URL } from "../../util/http";
 import MemoList from "../../components/Modal/Memo/MemoList";
 import { RootState } from "../../store/store";
 import MemoDetail from "../../components/Modal/Memo/MemoDetail";
+import { MemoDetailProps } from "../../components/Modal/Memo/MemoDetail";
 
 const screenHeight = Dimensions.get("window").height;
+
+type DataChannel = {
+  current: {
+    _bufferedAmount: number;
+    _id: number | null;
+    _label: string;
+    _maxPacketLifeTime?: number;
+    _maxRetransmits?: number;
+    _negotiated: boolean;
+    _ordered: boolean;
+    _peerConnectionId: number;
+    _protocol: string | null;
+    _reactTag: string;
+    _readyState: string;
+    binaryType: string;
+    bufferedAmountLowThreshold: number;
+  };
+};
 
 // 태그된 회원 타입
 type Member = {
@@ -189,6 +208,11 @@ const MainScreen = () => {
   };
 >>>>>>> Stashed changes
 
+  // 객체에 따른 메모 조회
+  const checkMemoListHandler = () => {
+    setMemoListVisible(true);
+  };
+
   // 메모모달 종료 후, 메모 작성창 띄우는 함수
   // 나중에 객체 탐지해서 메모 개수 나오면 함수 적용
   const checkMemoHandler = () => {
@@ -228,12 +252,18 @@ const MainScreen = () => {
     setIsMemoDetailVisible(false);
   };
 
+  // 메모 수정을 위한 데이터 상태관리
+  const [checkMemoDetailData, setCheckMemoDetailData] = useState<
+    MemoDetailProps[]
+  >([]);
+
   // 메모 수정
-  const setMemoUpdateHandler = () => {
+  const setMemoUpdateHandler = (data: MemoDetailProps[]) => {
     setIsMemoDetailVisible(false);
     setMemoCreateModalVisible(true);
     setIsUpdateMemoTrue(true);
     setOpenState("OPEN"); // 사용자 메모 정보에 따라 변경 예정.
+    setCheckMemoDetailData(data);
   };
 
   const memoInputHandler = (enteredText: string) => {
@@ -270,10 +300,12 @@ const MainScreen = () => {
   const MemoCreate = () => {
     if (!enteredMemo) {
       Alert.alert("내용을 입력해 주세요!"); // 나중에 수정예정
+    } else if (!coordinates) {
+      Alert.alert("객체가 제대로 등록되지 않았습니다.");
     } else {
       axios({
         method: "POST",
-        url: BACKEND_URL + `/memos/${1}`, // 물체 ID 임시로 1로 설정
+        url: BACKEND_URL + `/memos`, // 물체 ID 임시로 1로 설정
         // headers: {
         //   "Content-Type": "application/json",
         //   Authorization: "Bearer " + token,
@@ -283,6 +315,7 @@ const MainScreen = () => {
           accessType: openState,
           userId: userId,
           newFile: uploadedPic,
+          itemName: coordinates.id,
         },
       })
         .then((res) => {
@@ -489,7 +522,7 @@ const MainScreen = () => {
 
     // 데이터 채널 생성 및 메시지 수신 리스너 설정
     const dataChannel = pc.current.createDataChannel("data");
-    dataChannelRef.current = dataChannel;
+    dataChannelRef.current = { current: dataChannel };
     dataChannel.onmessage = (event: any) => {
       // 서버에서 받은 데이터 처리
 
@@ -577,8 +610,8 @@ const MainScreen = () => {
             onPress={() => {
               if (coordinates.id !== "0") {
                 // 메모 개수
-
-                Alert.alert("Notification", "메모 개수 표시하기");
+                checkMemoListHandler();
+                // Alert.alert("Notification", "메모 개수 표시하기");
               } else {
                 // 미등록 물체 알림 표시
                 setUnregisteredNotification(true);
@@ -637,10 +670,14 @@ const MainScreen = () => {
           <MemoList
             onMemoWritePress={checkMemoHandler}
             onMemoDetailPress={setMemoDetailModal}
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
             // id={coordinates?.id}
 >>>>>>> Stashed changes
+=======
+            // id={coordinates?.id}
+>>>>>>> eb71c21dc56f988d05b1750532da4a12657f3a32
           />
         </>
       )}

@@ -115,13 +115,19 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
     >
       <GoBackHeader />
       <View style={styles.container}>
-        {groupData && !groupData.owner ? (
-          // 유저 == 그룹장일 때
+        {/* 유저 == 그룹장일 때 */}
+        {groupData && !groupData.owner && (
           <>
             <View style={styles.titleContainer}>
               <Text style={styles.title}>{groupData.name}</Text>
               <Pressable
-                onPress={() => navigation.navigate("GroupSetting")}
+                onPress={() =>
+                  navigation.navigate("GroupSetting", {
+                    name: groupData.name,
+                    password: groupData.password,
+                    teamSeq: teamSeq,
+                  })
+                }
                 style={styles.settingContainer}
               >
                 <Image
@@ -161,12 +167,10 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
                   nickname={groupData.me.nickname}
                   email={groupData.me.email}
                 />
-                <Pressable>
-                  <Image
-                    style={styles.meIcon}
-                    source={require("../../../assets/image/me.png")}
-                  />
-                </Pressable>
+                <Image
+                  style={styles.meIcon}
+                  source={require("../../../assets/image/me.png")}
+                />
               </View>
               {/* 참가자 정보 */}
               {groupData.members.map((member, idx) => (
@@ -200,7 +204,53 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
               ))}
             </ScrollView>
           </>
-        ) : null}
+        )}
+        {/* 유저 == 참가자일 때 */}
+        {groupData && groupData.owner && (
+          <>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{groupData?.name}</Text>
+            </View>
+            <ScrollView>
+              {/* 내 정보 */}
+              <View style={styles.userListContainer}>
+                <UserList
+                  profileUri={groupData.me.profile}
+                  nickname={groupData.me.nickname}
+                  email={groupData.me.email}
+                />
+                <Image
+                  style={styles.biggerMeIcon}
+                  source={require("../../../assets/image/me_bigger.png")}
+                />
+              </View>
+
+              {/* 그룹장 정보 */}
+              <View style={styles.userListContainer}>
+                <UserList
+                  profileUri={groupData.owner.profile}
+                  nickname={groupData.owner.nickname}
+                  email={groupData.owner.email}
+                />
+                <Image
+                  style={styles.biggerMeIcon}
+                  source={require("../../../assets/image/owner.png")}
+                />
+              </View>
+
+              {/* 참가자 정보 */}
+              {groupData.members.map((member, idx) => (
+                <View key={idx} style={styles.userListContainer}>
+                  <UserList
+                    profileUri={member.profile}
+                    nickname={member.nickname}
+                    email={member.email}
+                  />
+                </View>
+              ))}
+            </ScrollView>
+          </>
+        )}
       </View>
     </LinearGradient>
   );
