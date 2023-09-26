@@ -184,6 +184,15 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
     }).catch((error) => console.log(error));
   };
 
+  // 태그된 사람 목록 보여주기
+  // 상태관리
+  const [showAllTagged, setShowAllTagged] = useState(false);
+
+  // 상태관리 변경함수
+  const changeShowAllTagged = () => {
+    setShowAllTagged(!showAllTagged);
+  };
+
   return (
     <>
       <View style={detailStyle.mainContainer}>
@@ -222,22 +231,45 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                 )}
                 {memoDetailData[0] && (
                   <Text style={detailStyle.open}>
-                    {memoDetailData[0].accessType === "OPEN"
-                      ? "전체공개"
-                      : memoDetailData[0].accessType === "CLOSED"
-                      ? "비공개"
-                      : memoDetailData[0].taggedTeamList.length > 0
-                      ? `${memoDetailData[0].taggedTeamList[0].nickname} ${
-                          memoDetailData[0].taggedTeamList.length - 1 === 0
-                            ? ""
-                            : `+${memoDetailData[0].taggedTeamList.length - 1}`
-                        }`
-                      : `${memoDetailData[0].taggedUserList[0].nickname} ${
-                          memoDetailData[0].taggedUserList.length - 1 === 0
-                            ? ""
-                            : `+${memoDetailData[0].taggedUserList.length - 1}`
-                        }`}
+                    {memoDetailData[0].accessType === "OPEN" ? (
+                      "전체공개"
+                    ) : memoDetailData[0].accessType === "CLOSED" ? (
+                      "비공개"
+                    ) : memoDetailData[0].taggedTeamList.length > 0 ? (
+                      <Pressable onPress={changeShowAllTagged}>
+                        <Text>
+                          {memoDetailData[0].taggedTeamList[0].nickname}
+                          {memoDetailData[0].taggedTeamList.length - 1 !==
+                            0 && (
+                            <Text style={detailStyle.plusText}>
+                              {` +${
+                                memoDetailData[0].taggedTeamList.length - 1
+                              }`}
+                            </Text>
+                          )}
+                        </Text>
+                      </Pressable>
+                    ) : (
+                      <Pressable onPress={changeShowAllTagged}>
+                        <Text style={detailStyle.open}>
+                          {memoDetailData[0].taggedUserList[0].nickname}
+                          {memoDetailData[0].taggedUserList.length - 1 !==
+                            0 && (
+                            <Text style={detailStyle.plusText}>
+                              {` +${
+                                memoDetailData[0].taggedUserList.length - 1
+                              }`}
+                            </Text>
+                          )}
+                        </Text>
+                      </Pressable>
+                    )}
                   </Text>
+                )}
+                {showAllTagged && (
+                  <Pressable onPress={changeShowAllTagged}>
+                    <Text>테스트</Text>
+                  </Pressable>
                 )}
               </View>
             </View>
@@ -409,6 +441,8 @@ const detailStyle = StyleSheet.create({
     color: "rgba(76, 106, 255, 0.6)",
     fontFamily: "Pretendard-Medium",
   },
+
+  plusText: { color: "rgba(76, 106, 255, 0.6)", fontSize: 10 },
 
   contentContainer: {
     maxHeight: calculateDynamicWidth(350),
