@@ -63,7 +63,6 @@ const MemoList: React.FC<MemoListProp> = ({
       // .get(BACKEND_URL + `/memos/${id}/list/${userId}`)
       .get(BACKEND_URL + `/memos/8ef97a8a0be/list/23`)
       .then((response) => {
-        console.log(response);
         setMemoData(response.data);
       })
       .catch((error) => {
