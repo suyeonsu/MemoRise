@@ -62,33 +62,6 @@ const MemoList: React.FC<MemoListProp> = ({
       });
   }, []);
 
-  // 북마크 처리 AXIOS 및 관리
-  const changeBookMarkHandler = (id: number) => {
-    setMemoData((prevData) =>
-      prevData.map((item) => {
-        if (item.memoSeq === id) {
-          if (item.isBookmarked) {
-            // isBookmarked가 true일 때, axios.delete 호출
-            axios
-              .delete(BACKEND_URL + `/memos/${item.memoSeq}/bookmarks/23`)
-              .catch((error) => {
-                console.error(error);
-              });
-          } else {
-            // isBookmarked가 false일 때, axios.post 호출
-            axios
-              .post(BACKEND_URL + `/memos/${item.memoSeq}/bookmarks/23`)
-              .catch((error) => {
-                console.error(error);
-              });
-          }
-          return { ...item, isBookmarked: !item.isBookmarked };
-        }
-        return item;
-      })
-    );
-  };
-
   // FlatList 사용을 위한 MemoList 정리
   const MemoList: React.FC<MemoListItemProps> = ({ item }) => (
     <View style={styles.memoContainer}>
