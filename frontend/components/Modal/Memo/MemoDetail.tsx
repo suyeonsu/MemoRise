@@ -15,6 +15,7 @@ import LinearGradient from "react-native-linear-gradient";
 
 // 컴포넌트
 import AlertModal from "../AlertModal";
+import BookMarkBtn from "../../Button/BookMarkBtn";
 
 // 스타일
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
@@ -246,7 +247,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
             </ScrollView>
           </View>
         </LinearGradient>
-        <Pressable
+        {/* <Pressable
           onPress={() => {
             if (memoSeq !== null) {
               changeIsBookMark(memoSeq);
@@ -265,7 +266,13 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
               style={detailStyle.bookmarkSize}
             />
           )}
-        </Pressable>
+        </Pressable> */}
+        <BookMarkBtn
+          memoSeq={memoSeq}
+          detailStyle={[detailStyle.bookmark, detailStyle.bookmarkSize]}
+          // 하드코딩 : false부분을 isbookmarked로 바꿀 것!
+          bookmarkType={false}
+        />
       </View>
       {isFullImageVisible && (
         <View style={[styles.background, { zIndex: 2 }]}>
