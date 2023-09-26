@@ -22,11 +22,19 @@ import { BACKEND_URL } from "../../../util/http";
 type MemoListProp = {
   onMemoWritePress: () => void;
   onMemoDetailPress: (memoSeq: number) => void;
+<<<<<<< Updated upstream
+=======
+  // id: string;
+>>>>>>> Stashed changes
 };
 
 const MemoList: React.FC<MemoListProp> = ({
   onMemoWritePress,
   onMemoDetailPress,
+<<<<<<< Updated upstream
+=======
+  // id,
+>>>>>>> Stashed changes
 }) => {
   // FlatList 사용을 위한 Type 지정
   type MemoTypeProps = {
@@ -52,6 +60,10 @@ const MemoList: React.FC<MemoListProp> = ({
     axios
       .get(BACKEND_URL + `/user/23/memos`)
       .then((response) => {
+<<<<<<< Updated upstream
+=======
+        // console.log(response);
+>>>>>>> Stashed changes
         setMemoData(response.data);
       })
       .catch((error) => {

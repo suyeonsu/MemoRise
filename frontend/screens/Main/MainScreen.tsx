@@ -179,6 +179,15 @@ const MainScreen = () => {
   // 메모 조회 상태관리
   // true -> false로 변경할 것!!! <-- 변경했다면? 주석지워~
   const [memoListVisible, setMemoListVisible] = useState(false);
+<<<<<<< Updated upstream
+=======
+
+  // 객체에 따른 메모 조회
+  const checkMemoListHandler = () => {
+    stopRTCConnection();
+    setMemoListVisible(true);
+  };
+>>>>>>> Stashed changes
 
   // 메모모달 종료 후, 메모 작성창 띄우는 함수
   // 나중에 객체 탐지해서 메모 개수 나오면 함수 적용
@@ -188,8 +197,10 @@ const MainScreen = () => {
   };
 
   // 메모 리스트 주변 클릭 시, 모달 종료
+  // 여기다가 물체 조회 추가해야함
   const closeMemoList = () => {
     setMemoListVisible(false);
+    startRTCConnection("track1");
   };
 
   // 메모 상세 모달 상태관리
@@ -206,6 +217,7 @@ const MainScreen = () => {
   // 메모 상세 주변 클릭 시, 모달 종료
   const closeMemoDetail = () => {
     setIsMemoDetailVisible(false);
+    startRTCConnection("track1");
   };
 
   // 메모 수정을 위한 상태관리
@@ -304,11 +316,13 @@ const MainScreen = () => {
 
   const openMemoCancelModal = () => {
     setMemoCancelModalVisible(true);
+    startRTCConnection("track1");
   };
 
   // 취소 버튼 눌렀을 때
   const closeMemoCancelModal = () => {
     setMemoCancelModalVisible(false);
+    startRTCConnection("track1");
   };
 
   // 확인 버튼 눌렀을 때
@@ -439,7 +453,7 @@ const MainScreen = () => {
         video: {
           width: 3840,
           height: 2160,
-          frameRate: 15,
+          frameRate: 30,
           facingMode: "environment",
         },
       });
@@ -623,6 +637,10 @@ const MainScreen = () => {
           <MemoList
             onMemoWritePress={checkMemoHandler}
             onMemoDetailPress={setMemoDetailModal}
+<<<<<<< Updated upstream
+=======
+            // id={coordinates?.id}
+>>>>>>> Stashed changes
           />
         </>
       )}
