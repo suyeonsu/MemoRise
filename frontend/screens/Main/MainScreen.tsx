@@ -270,10 +270,12 @@ const MainScreen = () => {
   const MemoCreate = () => {
     if (!enteredMemo) {
       Alert.alert("내용을 입력해 주세요!"); // 나중에 수정예정
+    } else if (!coordinates) {
+      Alert.alert("객체가 제대로 등록되지 않았습니다.");
     } else {
       axios({
         method: "POST",
-        url: BACKEND_URL + `/memos/${1}`, // 물체 ID 임시로 1로 설정
+        url: BACKEND_URL + `/memos/${coordinates.id}`, // 물체 ID 임시로 1로 설정
         // headers: {
         //   "Content-Type": "application/json",
         //   Authorization: "Bearer " + token,
