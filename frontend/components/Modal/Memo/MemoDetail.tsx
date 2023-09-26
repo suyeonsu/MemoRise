@@ -247,26 +247,6 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
             </ScrollView>
           </View>
         </LinearGradient>
-        {/* <Pressable
-          onPress={() => {
-            if (memoSeq !== null) {
-              changeIsBookMark(memoSeq);
-            }
-          }}
-          style={detailStyle.bookmark}
-        >
-          {isBookMark ? (
-            <Image
-              source={require("../../../assets/icons/bookmarkblue_fill.png")}
-              style={detailStyle.bookmarkSize}
-            />
-          ) : (
-            <Image
-              source={require("../../../assets/icons/bookmarkblue.png")}
-              style={detailStyle.bookmarkSize}
-            />
-          )}
-        </Pressable> */}
         <BookMarkBtn
           memoSeq={memoSeq}
           detailStyle={[detailStyle.bookmark, detailStyle.bookmarkSize]}
