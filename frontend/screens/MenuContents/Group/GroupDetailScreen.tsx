@@ -11,6 +11,7 @@ import { RootStackParamList } from "../../../App";
 import { styles } from "./GroupStyle";
 import { calculateDynamicWidth } from "../../../constants/dynamicSize";
 import UserList from "../../../components/UserList";
+import AlertModal from "../../../components/Modal/AlertModal";
 
 type GroupDetailScreenProps = {
   route: RouteProp<RootStackParamList, "GroupDetail">;
@@ -48,6 +49,46 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
 }) => {
   const { teamSeq, userSeq } = route.params;
   const [groupData, setGroupData] = useState<GroupData | null>(null);
+
+  // 그룹원 추방
+  const kickUserHandler = (targetSeq: number) => {
+    axios({
+      method: "DELETE",
+      url: BACKEND_URL + `/teams/${teamSeq}/kick`,
+      data: {
+        userSeq: userSeq,
+        targetSeq: targetSeq,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // 그룹원 추방 확인 모달
+  const [isAlertModalVisible, setAlertModalVisible] = useState(false);
+  const [targetUserId, setTargetUserId] = useState(0);
+  const [targetUserName, setTargetUserName] = useState("");
+
+  const openAlertModal = (targetSeq: number, targetName: string) => {
+    setAlertModalVisible(true);
+    setTargetUserId(targetSeq);
+    setTargetUserName(targetName);
+  };
+
+  // 취소 버튼 눌렀을 때
+  const closeAlertModal = () => {
+    setAlertModalVisible(false);
+  };
+
+  // 확인 버튼 눌렀을 때
+  const kickUserConfirm = () => {
+    setAlertModalVisible(false);
+    kickUserHandler(targetUserId);
+  };
 
   // 그룹 상세 데이터 가져오기
   useEffect(() => {
@@ -135,12 +176,26 @@ const GroupDetailScreen: React.FC<GroupDetailScreenProps> = ({
                     nickname={member.nickname}
                     email={member.email}
                   />
-                  <Pressable>
+                  <Pressable
+                    onPress={() =>
+                      openAlertModal(member.userSeq, member.nickname)
+                    }
+                  >
                     <Image
                       style={styles.cancelIcon}
                       source={require("../../../assets/icons/cancel_md.png")}
                     />
                   </Pressable>
+                  {/* 그룹원 추방 확인 모달 */}
+                  {isAlertModalVisible && (
+                    <AlertModal
+                      modalVisible={isAlertModalVisible}
+                      closeModal={closeAlertModal}
+                      onConfirm={kickUserConfirm}
+                      contentText={`${targetUserName}님을 \n 추방하시겠습니까?`}
+                      btnText="확인"
+                    />
+                  )}
                 </View>
               ))}
             </ScrollView>

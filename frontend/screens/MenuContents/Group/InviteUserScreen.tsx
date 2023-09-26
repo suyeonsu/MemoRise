@@ -50,7 +50,7 @@ const InviteUserScreen: React.FC<InviteUserScreenProps> = ({
     })
       .then((res) => {
         navigation.navigate("GroupDetail", {
-          teamSeq: targetSeq,
+          teamSeq: teamSeq,
           // userSeq: userId,
           userSeq: 26, // 더미 데이터
         });
