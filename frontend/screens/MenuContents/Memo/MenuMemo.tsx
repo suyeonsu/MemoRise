@@ -13,6 +13,7 @@ import { RootState } from "../../../store/store";
 // 컴포넌트
 import GoBackHeader from "../../../components/Header/GoBackHeader";
 import MemoList from "../../../components/Modal/Memo/MemoList";
+import MemoDetail from "../../../components/Modal/Memo/MemoDetail";
 
 // 스타일
 import { styles } from "./MemoStyle";
@@ -81,10 +82,25 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
   // 메모디테일 컴포넌트 상태관리
   const [isMemoDetail, setIsMemoDetail] = useState(false);
 
+  // 메모아이디 상태관리
+  const [memoId, setMemoId] = useState(0);
+
   // 메모리스트 컴포넌트 닫고, 메모디테일 컴포넌트 열기
-  const onDetailMemoHandler = () => {
+  const onDetailMemoHandler = (memoSeq: number) => {
     setIsMemoList(false);
     setIsMemoDetail(true);
+    setMemoId(memoSeq);
+  };
+
+  // 메모디테일 -> 메모 수정
+  const updateMemo = () => {
+    setIsMemoDetail(false);
+    console.log("메모 수정");
+  };
+
+  // 메모디테일 -> 메모 삭제
+  const deleteMemo = () => {
+    console.log("메모 삭제");
   };
 
   return (
@@ -111,6 +127,11 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
           {isMemoDetail && (
             <>
               <GoBackHeader />
+              <MemoDetail
+                memoSeq={memoId}
+                onMemoUpdatePress={updateMemo}
+                onMemoDeletePress={deleteMemo}
+              />
             </>
           )}
         </LinearGradient>
