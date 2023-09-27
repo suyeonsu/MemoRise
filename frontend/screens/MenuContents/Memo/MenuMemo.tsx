@@ -60,7 +60,7 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
             }`
         )
         .then((response) => {
-          console.log(response);
+          setMemoData(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -70,50 +70,58 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
   }, []);
 
   return (
-    <LinearGradient
-      colors={["#F5F5F5", "#E9E9E9"]}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 0, y: 1 }}
-      style={{ flex: 1 }}
-    >
-      <GoBackHeader />
-      {menuStatus === "saved" && (
-        <View>
-          <Text style={styles.title}>저장된 메모</Text>
-          <View style={styles.container}>
-            <Image
-              style={styles.icon}
-              source={require("../../../assets/icons/memo_empty.png")}
-            />
-            <Text style={styles.empty}>저장된 메모가 없습니다</Text>
-          </View>
-        </View>
+    <>
+      {memoData.length > 0 ? (
+        // 메모 있을 때..
+        <Text>테스트</Text>
+      ) : (
+        // 메모 없을 때..
+        <LinearGradient
+          colors={["#F5F5F5", "#E9E9E9"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={{ flex: 1 }}
+        >
+          <GoBackHeader />
+          {menuStatus === "saved" && (
+            <View>
+              <Text style={styles.title}>저장된 메모</Text>
+              <View style={styles.container}>
+                <Image
+                  style={styles.icon}
+                  source={require("../../../assets/icons/memo_empty.png")}
+                />
+                <Text style={styles.empty}>저장된 메모가 없습니다</Text>
+              </View>
+            </View>
+          )}
+          {menuStatus === "all" && (
+            <View>
+              <Text style={styles.title}>전체 메모</Text>
+              <View style={styles.container}>
+                <Image
+                  style={styles.icon}
+                  source={require("../../../assets/icons/memo_empty.png")}
+                />
+                <Text style={styles.empty}>메모가 없습니다</Text>
+              </View>
+            </View>
+          )}
+          {menuStatus === "my" && (
+            <View>
+              <Text style={styles.title}>내 메모</Text>
+              <View style={styles.container}>
+                <Image
+                  style={styles.icon}
+                  source={require("../../../assets/icons/memo_empty.png")}
+                />
+                <Text style={styles.empty}>작성한 메모가 없습니다</Text>
+              </View>
+            </View>
+          )}
+        </LinearGradient>
       )}
-      {menuStatus === "all" && (
-        <View>
-          <Text style={styles.title}>전체 메모</Text>
-          <View style={styles.container}>
-            <Image
-              style={styles.icon}
-              source={require("../../../assets/icons/memo_empty.png")}
-            />
-            <Text style={styles.empty}>메모가 없습니다</Text>
-          </View>
-        </View>
-      )}
-      {menuStatus === "my" && (
-        <View>
-          <Text style={styles.title}>내 메모</Text>
-          <View style={styles.container}>
-            <Image
-              style={styles.icon}
-              source={require("../../../assets/icons/memo_empty.png")}
-            />
-            <Text style={styles.empty}>작성한 메모가 없습니다</Text>
-          </View>
-        </View>
-      )}
-    </LinearGradient>
+    </>
   );
 };
 
