@@ -12,6 +12,7 @@ import { RootState } from "../../../store/store";
 
 // 컴포넌트
 import GoBackHeader from "../../../components/Header/GoBackHeader";
+import MemoList from "../../../components/Modal/Memo/MemoList";
 
 // 스타일
 import { styles } from "./MemoStyle";
@@ -69,11 +70,50 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
     fetchData();
   }, []);
 
+  // 메모리스트 처리를 위한 더미 함수
+  const dummyHandler = () => {
+    console.log("히히 더미 함수지롱~~");
+  };
+
+  // 메모리스트 컴포넌트 상태관리
+  const [isMemoList, setIsMemoList] = useState(true);
+
+  // 메모디테일 컴포넌트 상태관리
+  const [isMemoDetail, setIsMemoDetail] = useState(false);
+
+  // 메모리스트 컴포넌트 닫고, 메모디테일 컴포넌트 열기
+  const onDetailMemoHandler = () => {
+    setIsMemoList(false);
+    setIsMemoDetail(true);
+  };
+
   return (
     <>
       {memoData.length > 0 ? (
         // 메모 있을 때..
-        <Text>테스트</Text>
+        <LinearGradient
+          colors={["#F5F5F5", "#E9E9E9"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={{ flex: 1 }}
+        >
+          {isMemoList && (
+            <>
+              <GoBackHeader />
+              <MemoList
+                onMemoWritePress={dummyHandler}
+                onMemoDetailPress={onDetailMemoHandler}
+                id={null}
+                memoStatus={menuStatus}
+              />
+            </>
+          )}
+          {isMemoDetail && (
+            <>
+              <GoBackHeader />
+            </>
+          )}
+        </LinearGradient>
       ) : (
         // 메모 없을 때..
         <LinearGradient

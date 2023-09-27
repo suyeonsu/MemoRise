@@ -697,6 +697,7 @@ const MainScreen = () => {
             onMemoWritePress={checkMemoHandler}
             onMemoDetailPress={setMemoDetailModal}
             id={pickItem}
+            memoStatus={"main"}
           />
         </>
       )}

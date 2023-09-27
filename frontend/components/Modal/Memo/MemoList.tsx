@@ -27,13 +27,15 @@ import { RootState } from "../../../store/store";
 type MemoListProp = {
   onMemoWritePress: () => void;
   onMemoDetailPress: (memoSeq: number) => void;
-  id: string | undefined;
+  id: string | null;
+  memoStatus: string;
 };
 
 const MemoList: React.FC<MemoListProp> = ({
   onMemoWritePress,
   onMemoDetailPress,
   id,
+  memoStatus,
 }) => {
   // 유저ID
   const userId = useSelector((state: RootState) => state.userInfo.id);
@@ -59,15 +61,42 @@ const MemoList: React.FC<MemoListProp> = ({
 
   // 사용자가 작성한 or 태그된 메모 AXIOS
   useEffect(() => {
-    axios
-      .get(BACKEND_URL + `/memos/${id}/list/${userId}`)
-      // .get(BACKEND_URL + `/memos/8ef97a8a0be/list/23`)
-      .then((response) => {
-        setMemoData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (memoStatus === "main") {
+      const fetchData = async () => {
+        await axios
+          .get(BACKEND_URL + `/memos/${id}/list/${userId}`)
+          // .get(BACKEND_URL + `/memos/8ef97a8a0be/list/23`)
+          .then((response) => {
+            setMemoData(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      fetchData();
+    } else {
+      const fetchData = async () => {
+        await axios
+          .get(
+            BACKEND_URL +
+              // 쫀디기
+              `/user/23/${
+                memoStatus === "saved"
+                  ? "bookmarks"
+                  : memoStatus === "all"
+                  ? "memos"
+                  : "my-memos"
+              }`
+          )
+          .then((response) => {
+            setMemoData(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      fetchData();
+    }
   }, []);
 
   // FlatList 사용을 위한 MemoList 정리
