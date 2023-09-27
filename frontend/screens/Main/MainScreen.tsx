@@ -60,16 +60,6 @@ type DataChannel = {
   };
 };
 
-// 태그된 회원 타입
-type Member = {
-  [name: string]: string;
-};
-
-// 태그된 그룹 타입
-type Group = {
-  teamTaggedList: string[];
-};
-
 // 태그 시 유저 검색 리스트
 type UserData = {
   userSeq: number;
@@ -182,30 +172,46 @@ const MainScreen = () => {
   };
 
   // 태그된 회원 리스트
-  // 더미 데이터
-  const [taggedMember, setTaggedMember] = useState<Member[]>([]);
-  const [targetMember, setTargetMember] = useState("");
+  const [taggedMember, setTaggedMember] = useState<number[]>([]);
+  const [targetMemberId, setTargetMemberId] = useState(0);
+  const [targetMemberName, setTargetMemberName] = useState("");
+  const [taggedMemberNameList, setTaggedMemberNameList] = useState<string[]>(
+    []
+  );
 
   // 태그된 그룹 리스트
-  const [taggedGroup, setTaggedGroup] = useState<Group[]>([]);
+  const [taggedGroup, setTaggedGroup] = useState<number[]>([]);
+  const [targetGroupId, setTargetGroupId] = useState(0);
+  const [targetGroupName, setTargetGroupName] = useState("");
+  const [taggedGroupNameList, setTaggedGroupNameList] = useState<string[]>([]);
 
   // 검색 결과에서 태그할 유저 터치 시 실행
-  const addTaggedMember = () => {
-    setTaggedMember((prevData) => [
-      ...prevData,
-      { 권소정: "flfk33@naver.com" },
-    ]);
+  const addTaggedMember = (userSeq: number, userName: string) => {
+    setTargetMemberId(userSeq);
+    setTargetMemberName(userName);
+    setTaggedMember((prevData) => [...prevData, targetMemberId]);
+    setTaggedMemberNameList((prevData) => [...prevData, targetMemberName]);
     setSearchResultVisible(false);
     setTagSearchText("");
   };
 
+  // 태그할 유저에서 삭제
+  const deleteTaggedMember = () => {};
+
+  // 내 그룹 목록에서 태그할 그룹 터치 시 실행
+  const addTaggedGroup = (teamSeq: number, teamName: string) => {
+    setTargetGroupId(teamSeq);
+    setTargetGroupName(teamName);
+    setTaggedGroup((prevData) => [...prevData, targetGroupId]);
+    setTaggedGroupNameList((prevData) => [...prevData, targetGroupName]);
+  };
+
+  // 태그할 그룹에서 삭제
+  const deleteTaggedGroup = () => {};
+
   // 태그 검색 기능
   const [tagSearchText, setTagSearchText] = useState("");
   const [isSearchResultVisible, setSearchResultVisible] = useState(false);
-
-  // const tagSearchHandler = () => {
-  //   setSearchResultVisible(true);
-  // };
 
   const closeTagSearch = () => {
     setSearchResultVisible(false);
@@ -354,14 +360,14 @@ const MainScreen = () => {
   // 메모 생성 axios
   const MemoCreate = async () => {
     if (!enteredMemo) {
-      Alert.alert("내용을 입력해 주세요!"); // 나중에 수정예정
+      Alert.alert("내용을 입력해 주세요!");
     } else if (!coordinates) {
       Alert.alert("객체가 제대로 등록되지 않았습니다.");
     } else {
       console.log(enteredMemo, openState, userId, uploadedPic, pickItem);
       await axios({
         method: "POST",
-        url: BACKEND_URL + `/memos`, // 물체 ID 임시로 1로 설정
+        url: BACKEND_URL + `/memos`,
         // headers: {
         //   "Content-Type": "application/json",
         //   Authorization: "Bearer " + token,
@@ -373,6 +379,8 @@ const MainScreen = () => {
           userId: 30, // 쫀듸기
           newFile: uploadedPic,
           itemName: pickItem,
+          taggedUserList: taggedMember,
+          taggedTeamList: taggedGroup,
         },
       })
         .then((res) => {
@@ -895,7 +903,9 @@ const MainScreen = () => {
                       {groupList?.map((group, idx) => (
                         <Pressable
                           style={styles.tagResultInnerContainer}
-                          onPress={addTaggedMember}
+                          onPress={() =>
+                            addTaggedGroup(group.teamSeq, group.teamName)
+                          }
                           key={idx}
                         >
                           <Text style={styles.tagText}>
@@ -924,8 +934,7 @@ const MainScreen = () => {
               </>
             )}
             {/* 유저 태그(결과값 O) */}
-            {/* 더미 데이터 */}
-            {openState === "RESTRICT" && taggedMember[0] && (
+            {/* {openState === "RESTRICT" && taggedMember[0] | taggedGroup[0] && (
               <>
                 <ScrollView horizontal style={styles.tagResultBox}>
                   <View
@@ -941,68 +950,24 @@ const MainScreen = () => {
                       end={{ x: 0, y: 1 }}
                       style={styles.taggedMemberContainer}
                     >
-                      <Text style={styles.tagText}>
-                        @ {Object.keys(taggedMember[0])[0]}
-                      </Text>
-                      <Pressable>
-                        <Image
-                          source={require("../../assets/icons/cancel_sm.png")}
-                          style={styles.cancelIcon}
-                        />
-                      </Pressable>
-                    </LinearGradient>
-                    <LinearGradient
-                      colors={["#DDEAFF", "#C2D8FF"]}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 0, y: 1 }}
-                      style={styles.taggedMemberContainer}
-                    >
-                      <Text style={styles.tagText}>
-                        @ {Object.keys(taggedMember[0])[0]}
-                      </Text>
-                      <Pressable>
-                        <Image
-                          source={require("../../assets/icons/cancel_sm.png")}
-                          style={styles.cancelIcon}
-                        />
-                      </Pressable>
-                    </LinearGradient>
-                    <LinearGradient
-                      colors={["#DDEAFF", "#C2D8FF"]}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 0, y: 1 }}
-                      style={styles.taggedMemberContainer}
-                    >
-                      <Text style={styles.tagText}>
-                        @ {Object.keys(taggedMember[0])[0]}
-                      </Text>
-                      <Pressable>
-                        <Image
-                          source={require("../../assets/icons/cancel_sm.png")}
-                          style={styles.cancelIcon}
-                        />
-                      </Pressable>
-                    </LinearGradient>
-                    <LinearGradient
-                      colors={["#DDEAFF", "#C2D8FF"]}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 0, y: 1 }}
-                      style={styles.taggedMemberContainer}
-                    >
-                      <Text style={styles.tagText}>
-                        @ {Object.keys(taggedMember[0])[0]}
-                      </Text>
-                      <Pressable>
-                        <Image
-                          source={require("../../assets/icons/cancel_sm.png")}
-                          style={styles.cancelIcon}
-                        />
-                      </Pressable>
+                      {taggedGroupNameList.map((group, idx) => (
+                        <View key={idx}>
+                          <Text style={styles.tagText}>
+                            @ {group.toString()}
+                          </Text>
+                          <Pressable>
+                            <Image
+                              source={require("../../assets/icons/cancel_sm.png")}
+                              style={styles.cancelIcon}
+                            />
+                          </Pressable>
+                        </View>
+                      ))}
                     </LinearGradient>
                   </View>
                 </ScrollView>
               </>
-            )}
+            )} */}
             {/* 검색 결과 */}
             {isSearchResultVisible && (
               <>
@@ -1036,7 +1001,9 @@ const MainScreen = () => {
                     userList?.map((user, idx) => (
                       <Pressable
                         style={styles.tagResultInnerContainer}
-                        onPress={addTaggedMember}
+                        onPress={() =>
+                          addTaggedMember(user.userSeq, user.nickname)
+                        }
                         key={idx}
                       >
                         <Text style={styles.tagText}>
