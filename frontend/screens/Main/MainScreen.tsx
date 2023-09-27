@@ -200,10 +200,10 @@ const MainScreen = () => {
   const [memoListVisible, setMemoListVisible] = useState(false);
 
   // 객체에 따른 메모 조회
-  const checkMemoListHandler = () => {
-    stopRTCConnection();
-    setMemoListVisible(true);
-  };
+  // const checkMemoListHandler = () => {
+  //   setMemoListVisible(true);
+  //   stopRTCConnection();
+  // };
 
   // 메모모달 종료 후, 메모 작성창 띄우는 함수
   // 나중에 객체 탐지해서 메모 개수 나오면 함수 적용
@@ -291,13 +291,14 @@ const MainScreen = () => {
   };
 
   // 메모 생성 axios
-  const MemoCreate = () => {
+  const MemoCreate = async () => {
     if (!enteredMemo) {
       Alert.alert("내용을 입력해 주세요!"); // 나중에 수정예정
     } else if (!coordinates) {
       Alert.alert("객체가 제대로 등록되지 않았습니다.");
     } else {
-      axios({
+      console.log(enteredMemo, openState, userId, uploadedPic, coordinates.id);
+      await axios({
         method: "POST",
         url: BACKEND_URL + `/memos`, // 물체 ID 임시로 1로 설정
         // headers: {
@@ -604,7 +605,9 @@ const MainScreen = () => {
             onPress={() => {
               if (coordinates.id !== "0") {
                 // 메모 개수
-                checkMemoListHandler();
+                // console.log(coordinates.id);
+
+                setMemoListVisible(true);
                 // Alert.alert("Notification", "메모 개수 표시하기");
               } else {
                 // 미등록 물체 알림 표시
@@ -658,7 +661,7 @@ const MainScreen = () => {
       </View>
 
       {/* 메모 조회 */}
-      {memoListVisible && (
+      {coordinates && memoListVisible && (
         <>
           <Pressable style={styles.memoClose} onPress={closeMemoList} />
           <MemoList
