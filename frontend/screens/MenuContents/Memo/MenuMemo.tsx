@@ -1,24 +1,59 @@
 // 라이브러리
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { RouteProp } from "@react-navigation/native";
 import { View, Text, Image } from "react-native";
+import { useSelector } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 
 // 타입
 import { RootStackParamList } from "../../../App";
+import { RootState } from "../../../store/store";
 
 // 컴포넌트
 import GoBackHeader from "../../../components/Header/GoBackHeader";
 
 // 스타일
 import { styles } from "./MemoStyle";
+import { BACKEND_URL } from "../../../util/http";
 
 type MenuMemoScreenProps = {
   route: RouteProp<RootStackParamList, "MenuMemo">;
 };
 
 const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
+  // 메뉴 상태값 : saved-북마크 / all-전체 / my-내가 작성한
   const { menuStatus } = route.params;
+
+  const userId = useSelector((state: RootState) => state.userInfo.id);
+
+  // 백엔드에서 주어준 정보
+  const [memoData, setMemoData] = useState([]);
+
+  // AXIOS
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .get(
+          BACKEND_URL +
+            // 쫀디기
+            `/user/23/${
+              menuStatus === "saved"
+                ? "bookmarks"
+                : menuStatus === "all"
+                ? "memos"
+                : "my-memos"
+            }`
+        )
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    fetchData();
+  }, []);
 
   return (
     <LinearGradient
