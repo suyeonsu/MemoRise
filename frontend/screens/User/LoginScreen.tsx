@@ -10,7 +10,6 @@ import KakaoLogins, {
   getProfile,
 } from "@react-native-seoul/kakao-login";
 import LinearGradient from "react-native-linear-gradient";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // 스타일
 import { styles } from "./LoginStyle";
@@ -58,7 +57,6 @@ const LoginScreen = () => {
         if (checkUser.success === true) {
           // 유저 아이디 리덕스에 저장
           dispatch(setUserId(checkUser.userSeq));
-          AsyncStorage.setItem("USERID", checkUser.userSeq);
           dispatch(setNickname(checkUser.nickName));
           dispatch(setProfileImg(checkUser.profile));
           navigation.navigate("Main");
@@ -78,8 +76,6 @@ const LoginScreen = () => {
   const loginHandler = async () => {
     await login()
       .then((response) => {
-        // 사용자 토큰
-        AsyncStorage.setItem("LoginToken", response.accessToken);
         getProfileHandler();
       })
       .catch((error) => {
