@@ -57,37 +57,48 @@ public class MemoService {
     private static final String NO_TEAM_EXCEPTION = "해당하는 팀을 찾을 수 없습니다";
 
     @Transactional
-    public void createMemo(MemoRequest memoRequest,String itemName) throws MemoException {
+    public void createMemo(MemoRequest memoRequest, String itemName) throws MemoException {
         User user = userRepository.findByUserSeqAndIsDeletedFalse(memoRequest.getUserId())
-                    .orElseThrow(() -> new NoUserException(NO_USER_EMAIL));
-            // TODO : itemException 생성 후 exception 변경 예정
-            Item item = itemRepository.findByItemName(itemName)
-                    .orElseThrow(() -> new NullPointerException(NO_FIND_ITEM));
-            // 파일 있을 때 없을 때 저장 로직
-            if(memoRequest.getNewFile() == null) {
-                memoRepository.save(memoRequest.registToEntity(user, item));
-            }
-            else if(memoRequest.getNewFile().isBlank()){
-                memoRepository.save(memoRequest.registToEntity(user,item));
-            }
-            else {
-                memoRepository.save(memoRequest.registToEntity(user, item, memoRequest.getNewFile()));
-            }
+                .orElseThrow(() -> new NoUserException(NO_USER_EMAIL));
+        Item item = itemRepository.findByItemName(itemName)
+                .orElseThrow(() -> new NoItemException(NO_ITEM));
+        // 파일 있을 때 없을 때 저장 로직
+        if (memoRequest.getNewFile() == null) {
+            memoRepository.save(memoRequest.registToEntity(user, item));
+        } else if (memoRequest.getNewFile().isBlank()) {
+            memoRepository.save(memoRequest.registToEntity(user, item));
+        } else {
+            memoRepository.save(memoRequest.registToEntity(user, item, memoRequest.getNewFile()));
+        }
 
-            Memo memo = memoRepository.findByLastSaveData(user.getUserSeq()).orElseThrow(()->new MemoException(NO_MEMO));
-            List<Long> userList = memoRequest.getTaggedUserList();
+        Memo memo = memoRepository.findByLastSaveData(user.getUserSeq()).orElseThrow(() -> new MemoException(NO_MEMO));
+
+        firstMemoAddUserTag(memoRequest.getTaggedUserList(), memo);
+        firstMemoAddTeamTag(memoRequest.getTaggedTeamList(), memo);
+
+    }
+
+    @Transactional
+    public void firstMemoAddUserTag(List<Long> userList, Memo memo) {
+        if (userList.size() > 0) {
+            TaggedUserRequest taggedUserRequest = new TaggedUserRequest();
             for (Long userSeq : userList) {
-                User tagUser = userRepository.findByUserSeqAndIsDeletedFalse(userSeq)
-                        .orElseThrow(()-> new NoUserException(NO_USER));
-                TaggedUserRequest taggedUserRequest = new TaggedUserRequest();
-                taggedUserRepository.save(taggedUserRequest.saveUserToEntity(memo,tagUser));
+                User user = userRepository.findByUserSeqAndIsDeletedFalse(userSeq)
+                        .orElseThrow(() -> new NoUserException(NO_USER));
+                taggedUserRepository.save(taggedUserRequest.saveUserToEntity(memo, user));
             }
+        }
+    }
 
-            List<Long> teamList = memoRequest.getTaggedTeamList();
-            for (Long teamSeq : teamList) {
-                Team tagTeam = teamRepository.findByTeamSeqAndIsDeletedFalse(teamSeq).orElseThrow(() -> new NoTeamException(NO_TEAM_EXCEPTION));
+    @Transactional
+    public void firstMemoAddTeamTag(List<Long> teamList, Memo memo) {
+        if (teamList.size() > 0) {
             TaggedTeamRequest taggedTeamRequest = new TaggedTeamRequest();
-            taggedTeamRepository.save(taggedTeamRequest.saveTeamToEntity(memo,tagTeam));
+            for (Long teamSeq : teamList) {
+                Team team = teamRepository.findByTeamSeqAndIsDeletedFalse(teamSeq)
+                        .orElseThrow(() -> new NoTeamException(NO_TEAM_EXCEPTION));
+                taggedTeamRepository.save(taggedTeamRequest.saveTeamToEntity(memo, team));
+            }
         }
     }
 
