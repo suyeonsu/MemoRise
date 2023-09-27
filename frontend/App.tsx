@@ -17,9 +17,6 @@ import LoginScreen from "./screens/User/LoginScreen";
 import SignUpScreen from "./screens/User/SignUpScreen";
 import MainScreen from "./screens/Main/MainScreen";
 import MenuScreen from "./screens/Menu/MenuScreen";
-import SavedMemoScreen from "./screens/MenuContents/Memo/SavedMemoScreen";
-import AllMemoScreen from "./screens/MenuContents/Memo/AllMemoScreen";
-import MyMemoScreen from "./screens/MenuContents/Memo/MyMemoScreen";
 import MyGroupScreen from "./screens/MenuContents/Group/MyGroupScreen";
 import FindGroupScreen, {
   GroupData,
@@ -40,9 +37,6 @@ export type RootStackParamList = {
   SignUp: undefined;
   Main: undefined;
   Menu: undefined;
-  SavedMemo: undefined;
-  AllMemo: undefined;
-  MyMemo: undefined;
   MyGroup: undefined;
   FindGroup: undefined;
   ModifyInfo: undefined;
@@ -86,9 +80,6 @@ function App(): JSX.Element {
             <Stack.Screen name="Login" component={LoginScreen} />
             {/* 메뉴 */}
             <Stack.Screen name="Menu" component={MenuScreen} />
-            <Stack.Screen name="SavedMemo" component={SavedMemoScreen} />
-            <Stack.Screen name="AllMemo" component={AllMemoScreen} />
-            <Stack.Screen name="MyMemo" component={MyMemoScreen} />
             <Stack.Screen name="MyGroup" component={MyGroupScreen} />
             <Stack.Screen name="FindGroup" component={FindGroupScreen} />
             <Stack.Screen name="ModifyInfo" component={ModifyInfoScreen} />
