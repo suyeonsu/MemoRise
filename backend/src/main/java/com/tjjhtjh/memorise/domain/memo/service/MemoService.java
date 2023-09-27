@@ -124,8 +124,8 @@ public class MemoService {
         Item item = itemRepository.findByItemName(memoRequest.getItemName()).orElseThrow(() -> new NoItemException(NO_ITEM));
 
         memoRepository.save(memoRequest.deleteToEntity(memo, user, item));
-        List<Bookmark> bookmarkList = bookMarkRepository.bookmarkExistCheck(memoId,user.getUserSeq());
-        if(!bookmarkList.isEmpty()) {
+        List<Bookmark> bookmarkList = bookMarkRepository.bookmarkExistCheck(memoId, user.getUserSeq());
+        if (!bookmarkList.isEmpty()) {
             deleteBookmark(memoId, user.getUserSeq());
         }
     }
@@ -149,9 +149,9 @@ public class MemoService {
         bookMarkRepository.delete(bookmark);
     }
 
-    public List<MemoResponse> itemMemoView(String itemName , Long userSeq){
+    public List<MemoResponse> itemMemoView(String itemName, Long userSeq) {
         Item item = itemRepository.findByItemName(itemName).orElseThrow(() -> new NoItemException(NO_ITEM));
-        return memoRepository.findWrittenByMeOrOpenMemoOrTaggedMemo(item.getItemSeq(),userSeq);
+        return memoRepository.findWrittenByMeOrOpenMemoOrTaggedMemo(item.getItemSeq(), userSeq);
     }
 
     public MemoDetailResponse detailMemo(Long memoId, Long userSeq) throws MemoException {
@@ -160,7 +160,7 @@ public class MemoService {
 
         return new MemoDetailResponse().detailResponse(
                 memoDetailResponse,
-                bookMarkRepository.bookmarkBoolean(memoId,userSeq),
+                bookMarkRepository.bookmarkBoolean(memoId, userSeq),
                 taggedUserRepository.findByTaggedUserList(memoId),
                 taggedTeamRepository.findByTaggedTeamList(memoId));
     }
@@ -173,17 +173,17 @@ public class MemoService {
         return memoRepository.findByAllMyMemoIsDeletedFalse(userSeq);
     }
 
-    public List<MemoCountResponse> countOfMemoList(Long userSeq){
+    public List<MemoCountResponse> countOfMemoList(Long userSeq) {
         List<MemoCountResponse> resultList = new ArrayList<>();
         List<Long> itemSeqList = itemRepository.itemSeqList();
-        for (Long itemSeq: itemSeqList) {
+        for (Long itemSeq : itemSeqList) {
             Item item = itemRepository.findByItemSeq(itemSeq).orElseThrow(() -> new NoItemException(NO_ITEM));
-            resultList.add(new MemoCountResponse().countResponse(item.getItemName(),memoRepository.countMemoOfItem(itemSeq,userSeq)));
+            resultList.add(new MemoCountResponse().countResponse(item.getItemName(), memoRepository.countMemoOfItem(itemSeq, userSeq)));
         }
         return resultList;
     }
 
-    public List<MyMemoResponse> allBookmarkTrueList(Long userSeq){
+    public List<MyMemoResponse> allBookmarkTrueList(Long userSeq) {
         return bookMarkRepository.isBookmarkTrueList(userSeq);
     }
 }
