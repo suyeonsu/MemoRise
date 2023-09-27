@@ -17,8 +17,21 @@ import GoBackHeader from "../../../components/Header/GoBackHeader";
 import { styles } from "./MemoStyle";
 import { BACKEND_URL } from "../../../util/http";
 
+// 메뉴메모스크린 타입
 type MenuMemoScreenProps = {
   route: RouteProp<RootStackParamList, "MenuMemo">;
+};
+
+// 메모 정보 타입
+type MemoInfoType = {
+  memoSeq: number;
+  content: string;
+  accessType: string;
+  nickname: string;
+  updatedAt: string;
+  file: string | null;
+  itemImage: string | null;
+  isBookmarked: boolean;
 };
 
 const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
@@ -29,7 +42,7 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
   const userId = useSelector((state: RootState) => state.userInfo.id);
 
   // 백엔드에서 주어준 정보
-  const [memoData, setMemoData] = useState([]);
+  const [memoData, setMemoData] = useState<MemoInfoType[]>([]);
 
   // AXIOS
   useEffect(() => {
