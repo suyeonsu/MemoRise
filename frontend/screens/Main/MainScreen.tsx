@@ -202,6 +202,7 @@ const MainScreen = () => {
   const closeTagSearch = () => {
     setSearchResultVisible(false);
     setTagSearchText("");
+    setMyGroupVisible(false);
   };
 
   // 메모 조회 상태관리
@@ -312,7 +313,8 @@ const MainScreen = () => {
     try {
       const res = await axios({
         method: "GET",
-        url: BACKEND_URL + `/user/${userId}/my-teams`,
+        // url: BACKEND_URL + `/user/${userId}/my-teams`,
+        url: BACKEND_URL + `/user/30/my-teams`, // 쫀듸기
       });
       console.log("조회 성공");
       setGroupList(res.data);
@@ -338,7 +340,8 @@ const MainScreen = () => {
         data: {
           content: enteredMemo,
           accessType: openState,
-          userId: userId,
+          // userId: userId,
+          userId: 30, // 쫀듸기
           newFile: uploadedPic,
           itemName: coordinates.id,
         },
