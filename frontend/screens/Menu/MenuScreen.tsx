@@ -1,15 +1,17 @@
+import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { View, Text, Image, Pressable } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import { useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState, useEffect } from "react";
 
 import { calculateDynamicWidth } from "../../constants/dynamicSize";
 import Colors from "../../constants/colors";
 import CancelHeader from "../../components/Header/CancelHeader";
 import ProfilePic from "../../components/ProfilePic";
 import { styles } from "./MenuStyle";
-import { RootState } from "../../store/store";
+import { BACKEND_URL } from "../../util/http";
 
 type RootStackParamList = {
   SavedMemo: undefined;
@@ -21,8 +23,36 @@ type RootStackParamList = {
 };
 
 const MenuScreen = () => {
+  // 타입지정
+  type UserDataType = {
+    userSeq: number;
+    email: string;
+    nickname: string;
+    profile: string;
+  };
+
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const userInfo = useSelector((state: RootState) => state.userInfo);
+
+  const [userData, setUserData] = useState<UserDataType[]>([]);
+
+  // 사용자 ID가져와서 AXIOS를 통해 사용자 닉네임과 프로필 사진 가져오기
+  useEffect(() => {
+    const fetchData = async () => {
+      // 스토리지에 저장된 사용자 아이디 가져오기
+      const userId = await AsyncStorage.getItem("USERID");
+
+      // AXIOS
+      await axios
+        .get(BACKEND_URL + `/user/${userId}`)
+        .then((response) => {
+          setUserData([response.data]);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    fetchData();
+  }, []);
 
   return (
     <LinearGradient
@@ -36,22 +66,22 @@ const MenuScreen = () => {
         <View style={{ marginBottom: calculateDynamicWidth(4) }}>
           {/* 유저 정보 */}
           <ProfilePic />
-          {userInfo.profile_img && (
+          {userData && (
             <View style={styles.userImageContainer}>
               <Image
-                source={{ uri: userInfo.profile_img }}
+                source={{ uri: userData[0].profile }}
                 style={styles.userImage}
               />
             </View>
           )}
         </View>
-        <Text style={styles.text}>{userInfo.nickname}</Text>
+        {userData && <Text style={styles.text}>{userData[0].nickname}</Text>}
         <View style={styles.emailBox}>
           <Image
             source={require("../../assets/image/kakao_sm.png")}
             style={styles.kakao}
           />
-          <Text style={styles.email}>{userInfo.email}</Text>
+          {userData && <Text style={styles.email}>{userData[0].email}</Text>}
         </View>
         {/* 노트 이미지 */}
         <View style={{ marginTop: calculateDynamicWidth(25) }}>
