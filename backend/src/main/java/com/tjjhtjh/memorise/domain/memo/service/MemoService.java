@@ -57,7 +57,7 @@ public class MemoService {
     private static final String NO_TEAM_EXCEPTION = "해당하는 팀을 찾을 수 없습니다";
 
     @Transactional
-    public void createMemo(MemoRequest memoRequest,String itemName) {
+    public void createMemo(MemoRequest memoRequest,String itemName) throws MemoException {
         User user = userRepository.findByUserSeqAndIsDeletedFalse(memoRequest.getUserId())
                     .orElseThrow(() -> new NoUserException(NO_USER_EMAIL));
             // TODO : itemException 생성 후 exception 변경 예정
@@ -74,7 +74,7 @@ public class MemoService {
                 memoRepository.save(memoRequest.registToEntity(user, item, memoRequest.getNewFile()));
             }
 
-            Memo memo = memoRepository.findByLastSaveData().orElseThrow(()->new NoUserException(NO_USER));
+            Memo memo = memoRepository.findByLastSaveData().orElseThrow(()->new MemoException(NO_MEMO));
             List<Long> userList = memoRequest.getTaggedUserList();
             for (Long userSeq : userList) {
                 User tagUser = userRepository.findByUserSeqAndIsDeletedFalse(userSeq)
