@@ -70,6 +70,13 @@ type Group = {
   teamTaggedList: string[];
 };
 
+// 태그 시 유저 검색 리스트
+type UserData = {
+  userSeq: number;
+  nickname: string;
+  email: string;
+}[];
+
 // 첨부 이미지 크기
 const MAX_WIDTH = calculateDynamicWidth(286);
 const MAX_HEIGHT = screenHeight / 2;
@@ -177,6 +184,7 @@ const MainScreen = () => {
   // 태그된 회원 리스트
   // 더미 데이터
   const [taggedMember, setTaggedMember] = useState<Member[]>([]);
+  const [targetMember, setTargetMember] = useState("");
 
   // 태그된 그룹 리스트
   const [taggedGroup, setTaggedGroup] = useState<Group[]>([]);
@@ -195,14 +203,41 @@ const MainScreen = () => {
   const [tagSearchText, setTagSearchText] = useState("");
   const [isSearchResultVisible, setSearchResultVisible] = useState(false);
 
-  const tagSearchHandler = () => {
-    setSearchResultVisible(true);
-  };
+  // const tagSearchHandler = () => {
+  //   setSearchResultVisible(true);
+  // };
 
   const closeTagSearch = () => {
     setSearchResultVisible(false);
     setTagSearchText("");
     setMyGroupVisible(false);
+  };
+
+  // 그룹 태그 등록
+  const addGroupTag = () => {};
+
+  // 유저 검색
+  const [userList, setUserList] = useState<UserData | null>(null);
+
+  const searchUserHandler = async () => {
+    if (tagSearchText) {
+      try {
+        const res = await axios({
+          method: "GET",
+          url: BACKEND_URL + "/user/list",
+          params: {
+            keyword: tagSearchText,
+          },
+        });
+        console.log(res.data);
+        setUserList(res.data);
+        setSearchResultVisible(true);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      Alert.alert("닉네임이나 이메일을 입력해 주세요!");
+    }
   };
 
   // 메모 조회 상태관리
@@ -853,9 +888,10 @@ const MainScreen = () => {
                           value={tagSearchText}
                           onChangeText={setTagSearchText}
                           returnKeyType="search"
-                          onSubmitEditing={tagSearchHandler}
+                          onSubmitEditing={searchUserHandler}
                         />
                       </View>
+                      {/* 내 그룹 목록 */}
                       {groupList?.map((group, idx) => (
                         <Pressable
                           style={styles.tagResultInnerContainer}
@@ -992,24 +1028,28 @@ const MainScreen = () => {
                       value={tagSearchText}
                       onChangeText={setTagSearchText}
                       returnKeyType="search"
-                      onSubmitEditing={tagSearchHandler}
+                      onSubmitEditing={searchUserHandler}
                     />
                   </View>
-                  {/* 더미데이터 */}
-                  <Pressable
-                    style={styles.tagResultInnerContainer}
-                    onPress={addTaggedMember}
-                  >
-                    <Text style={styles.tagText}>
-                      권소정 <Text style={styles.email}> flfk33@naver.com</Text>
-                    </Text>
-                  </Pressable>
-                  <Pressable style={styles.tagResultInnerContainer}>
-                    <Text style={styles.tagText} onPress={addTaggedMember}>
-                      권소정{" "}
-                      <Text style={styles.email}> bijoucastle@naver.com</Text>
-                    </Text>
-                  </Pressable>
+                  {/* 유저 검색 결과 */}
+                  {Array.isArray(userList) && userList[0] ? (
+                    userList?.map((user, idx) => (
+                      <Pressable
+                        style={styles.tagResultInnerContainer}
+                        onPress={addTaggedMember}
+                        key={idx}
+                      >
+                        <Text style={styles.tagText}>
+                          {user.nickname}{" "}
+                          <Text style={styles.email}> {user.email}</Text>
+                        </Text>
+                      </Pressable>
+                    ))
+                  ) : (
+                    <View style={styles.tagResultInnerContainer}>
+                      <Text style={styles.tagText}>검색 결과가 없습니다.</Text>
+                    </View>
+                  )}
                 </View>
               </>
             )}
