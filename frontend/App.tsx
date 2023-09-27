@@ -28,13 +28,10 @@ import FindGroupScreen, {
 import ModifyInfoScreen from "./screens/User/ModifyInfoScreen";
 import { store } from "./store/store";
 import MakeGroupScreen from "./screens/MenuContents/Group/MakeGroupScreen";
-import ObjectDetection from "./screens/Main/Camera/ObjectDetection";
-import ObjectRegistration from "./screens/Main/Camera/ObjectRegistration";
 import NotFoundScreen from "./screens/NotFound/NotFoundScreen";
 import GroupDetailScreen from "./screens/MenuContents/Group/GroupDetailScreen";
 import GroupSettingScreen from "./screens/MenuContents/Group/GroupSettingScreen";
 import InviteUserScreen from "./screens/MenuContents/Group/InviteUserScreen";
-import CamTestScreen from "./screens/Main/CamTestScreen";
 import GroupSearchResultScreen from "./screens/MenuContents/Group/GroupSearchResultScreen";
 
 export type RootStackParamList = {
@@ -50,8 +47,6 @@ export type RootStackParamList = {
   FindGroup: undefined;
   ModifyInfo: undefined;
   MakeGroup: undefined;
-  ObjectDetection: undefined;
-  ObjectRegistration: undefined;
   NotFound: undefined;
   GroupDetail: {
     teamSeq: number;
@@ -66,7 +61,6 @@ export type RootStackParamList = {
     teamSeq: number;
     teamName: string;
   };
-  CamTestScreen: undefined;
   GroupSearchResult: { searchResults?: GroupData };
 };
 
@@ -91,15 +85,6 @@ function App(): JSX.Element {
               <>
                 <Stack.Screen name="Landing" component={LandingScreen} />
                 <Stack.Screen name="Main" component={MainScreen} />
-                <Stack.Screen name="CamTestScreen" component={CamTestScreen} />
-                <Stack.Screen
-                  name="ObjectDetection"
-                  component={ObjectDetection}
-                />
-                <Stack.Screen
-                  name="ObjectRegistration"
-                  component={ObjectRegistration}
-                />
                 <Stack.Screen name="SignUp" component={SignUpScreen} />
                 <Stack.Screen name="Login" component={LoginScreen} />
                 {/* 메뉴 */}
