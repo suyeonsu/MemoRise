@@ -32,6 +32,7 @@ import GroupDetailScreen from "./screens/MenuContents/Group/GroupDetailScreen";
 import GroupSettingScreen from "./screens/MenuContents/Group/GroupSettingScreen";
 import InviteUserScreen from "./screens/MenuContents/Group/InviteUserScreen";
 import GroupSearchResultScreen from "./screens/MenuContents/Group/GroupSearchResultScreen";
+import MemuMemo from "./screens/MenuContents/Memo/MenuMemo";
 
 export type RootStackParamList = {
   Landing: undefined;
@@ -47,6 +48,9 @@ export type RootStackParamList = {
   ModifyInfo: undefined;
   MakeGroup: undefined;
   NotFound: undefined;
+  MenuMemo: {
+    menuStatus: string;
+  };
   GroupDetail: {
     teamSeq: number;
     userSeq: number;
@@ -76,8 +80,8 @@ function App(): JSX.Element {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Landing" component={LandingScreen} />
             <Stack.Screen name="Main" component={MainScreen} />
+            <Stack.Screen name="Landing" component={LandingScreen} />
             <Stack.Screen name="SignUp" component={SignUpScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
             {/* 메뉴 */}
@@ -92,6 +96,7 @@ function App(): JSX.Element {
             <Stack.Screen name="GroupDetail" component={GroupDetailScreen} />
             <Stack.Screen name="GroupSetting" component={GroupSettingScreen} />
             <Stack.Screen name="InviteUser" component={InviteUserScreen} />
+            <Stack.Screen name="MenuMemo" component={MemuMemo} />
             <Stack.Screen
               name="GroupSearchResult"
               component={GroupSearchResultScreen}
