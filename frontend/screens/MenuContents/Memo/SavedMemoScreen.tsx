@@ -18,14 +18,14 @@ import { BACKEND_URL } from "../../../util/http";
 const SavedMemoScreen = () => {
   // 타입
   type BookMarkMemoProps = {
-    memoSeq: number;
-    content: string;
     accessType: string;
+    content: string;
+    file: string | null;
+    isBookmarked: boolean;
+    itemImage: string | null;
+    memoSeq: number;
     nickname: string;
     updateAt: string;
-    file: string | null;
-    itemImage: string | null;
-    isBookmarked: boolean;
   };
 
   // 유저 ID
@@ -36,7 +36,9 @@ const SavedMemoScreen = () => {
     console.log(userId);
     const fetchData = async () => {
       await axios
-        .get(BACKEND_URL + `/user/${userId}/bookmarks`)
+        // .get(BACKEND_URL + `/user/${userId}/bookmarks`)
+        // 쫀디기
+        .get(BACKEND_URL + "/user/23/bookmarks")
         .then((response) => {
           console.log(response.data);
         })
