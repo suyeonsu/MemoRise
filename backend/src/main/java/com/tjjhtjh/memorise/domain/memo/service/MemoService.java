@@ -50,7 +50,6 @@ public class MemoService {
 
     private static final String NO_USER_EMAIL = "이메일에 해당하는 유저가 없습니다";
     private static final String NO_USER = "해당하는 유저가 존재하지 않습니다";
-    private static final String NO_ITEM = "해당하는 아이템이 존재하지 않습니다";
     private static final String NO_MEMO = "해당하는 메모가 없습니다";
     private static final String NO_FIND_BOOKMARK = "해당하는 북마크를 찾을 수 없습니다";
     private static final String NO_FIND_ITEM = "해당하는 아이템을 찾을 수 없습니다";
@@ -61,7 +60,7 @@ public class MemoService {
         User user = userRepository.findByUserSeqAndIsDeletedFalse(memoRequest.getUserId())
                 .orElseThrow(() -> new NoUserException(NO_USER_EMAIL));
         Item item = itemRepository.findByItemName(itemName)
-                .orElseThrow(() -> new NoItemException(NO_ITEM));
+                .orElseThrow(() -> new NoItemException(NO_FIND_ITEM));
         // 파일 있을 때 없을 때 저장 로직
         if (memoRequest.getNewFile() == null) {
             memoRepository.save(memoRequest.registToEntity(user, item));
@@ -109,7 +108,7 @@ public class MemoService {
         User user = userRepository.findByUserSeqAndIsDeletedFalse(memo.getUser().getUserSeq())
                 .orElseThrow(() -> new NoUserException(NO_USER_EMAIL));
         Item item = itemRepository.findByItemName(itemName)
-                .orElseThrow(() -> new NoItemException(NO_ITEM));
+                .orElseThrow(() -> new NoItemException(NO_FIND_ITEM));
 
         if (memo.getFile() == null && memoRequest.getNewFile() == null) {
             memoRepository.save(memoRequest.updateToNullFileEntity(memoId, memoRequest, user, item));
@@ -129,7 +128,7 @@ public class MemoService {
                 .orElseThrow(() -> new MemoException(NO_MEMO));
         User user = userRepository.findByUserSeqAndIsDeletedFalse(memo.getUser().getUserSeq())
                 .orElseThrow(() -> new NoUserException(NO_USER_EMAIL));
-        Item item = itemRepository.findByItemName(memoRequest.getItemName()).orElseThrow(() -> new NoItemException(NO_ITEM));
+        Item item = itemRepository.findByItemName(memoRequest.getItemName()).orElseThrow(() -> new NoItemException(NO_FIND_ITEM));
 
         memoRepository.save(memoRequest.deleteToEntity(memo, user, item));
         List<Bookmark> bookmarkList = bookMarkRepository.bookmarkExistCheck(memoId, user.getUserSeq());
@@ -158,7 +157,7 @@ public class MemoService {
     }
 
     public List<MemoResponse> itemMemoView(String itemName, Long userSeq) {
-        Item item = itemRepository.findByItemName(itemName).orElseThrow(() -> new NoItemException(NO_ITEM));
+        Item item = itemRepository.findByItemName(itemName).orElseThrow(() -> new NoItemException(NO_FIND_ITEM));
         return memoRepository.findWrittenByMeOrOpenMemoOrTaggedMemo(item.getItemSeq(), userSeq);
     }
 
@@ -185,7 +184,7 @@ public class MemoService {
         List<MemoCountResponse> resultList = new ArrayList<>();
         List<Long> itemSeqList = itemRepository.itemSeqList();
         for (Long itemSeq : itemSeqList) {
-            Item item = itemRepository.findByItemSeq(itemSeq).orElseThrow(() -> new NoItemException(NO_ITEM));
+            Item item = itemRepository.findByItemSeq(itemSeq).orElseThrow(() -> new NoItemException(NO_FIND_ITEM));
             resultList.add(new MemoCountResponse().countResponse(item.getItemName(), memoRepository.countMemoOfItem(itemSeq, userSeq)));
         }
         return resultList;
