@@ -2,15 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  Pressable,
-  Image,
-  Modal,
-  Alert,
-} from "react-native";
+import { View, Text, FlatList, Image, Modal, Alert } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { useSelector } from "react-redux";
 
@@ -54,9 +46,6 @@ const FindGroupScreen = () => {
   const [groupData, setGroupData] = useState<GroupData | null>(null);
 
   // 그룹 검색
-  const [searchResultList, setSearchResultList] = useState<GroupData | null>(
-    null
-  );
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const searchInputHandler = (enteredText: string) => {
@@ -68,14 +57,11 @@ const FindGroupScreen = () => {
       try {
         const res = await axios({
           method: "GET",
-          // url: BACKEND_URL + `/teams/${userId}`,
-          url: BACKEND_URL + `/teams/30`, // 더미 데이터
+          url: BACKEND_URL + `/teams/${userId}`,
           params: {
             keyword: searchKeyword,
           },
         });
-        console.log(res.data);
-        setSearchResultList(res.data);
         setSearchKeyword("");
         navigation.navigate("GroupSearchResult", { searchResults: res.data });
       } catch (err) {
@@ -116,8 +102,6 @@ const FindGroupScreen = () => {
 
   // 비밀번호 입력
   const [groupPassword, setGroupPassword] = useState("");
-  const [enteredPassword, setEnteredPassword] = useState("");
-  const [invalid, setInvalid] = useState(false);
 
   const passwordModalHandler = () => {
     setPasswordModalVisible(true);
@@ -145,21 +129,18 @@ const FindGroupScreen = () => {
       method: "POST",
       url: BACKEND_URL + `/teams/${teamSeq}`,
       data: {
-        // userSeq: userId,
-        userSeq: 30, // 더미 데이터
+        userSeq: userId,
         password: password,
       },
     })
       .then((res) => {
-        console.log(res);
         if (res.data.message === "참여 코드가 일치하지 않습니다.") {
           Alert.alert("비밀번호가 일치하지 않습니다.");
         } else {
           // 디테일로
           navigation.navigate("GroupDetail", {
             teamSeq: teamSeq,
-            // userSeq: userId,
-            userSeq: 30, // 더미 데이터
+            userSeq: userId,
           });
         }
       })
@@ -179,8 +160,7 @@ const FindGroupScreen = () => {
     if (participated) {
       navigation.navigate("GroupDetail", {
         teamSeq: teamSeq,
-        // userSeq: userId,
-        userSeq: 30, // 더미 데이터
+        userSeq: userId,
       });
     } else {
       setTargetTeamName(teamName);
@@ -194,8 +174,7 @@ const FindGroupScreen = () => {
       try {
         const res = await axios({
           method: "GET",
-          // url: BACKEND_URL + `/teams/${userId}`,
-          url: BACKEND_URL + `/teams/30`, // 더미 데이터
+          url: BACKEND_URL + `/teams/${userId}`,
         });
         setGroupData(res.data);
       } catch (err) {
@@ -311,7 +290,7 @@ const FindGroupScreen = () => {
                 onChangeText={passwordInputHandler}
                 value={groupPassword}
                 onConfirm={passwordConfirmHandler}
-                invalid={invalid}
+                invalid={false}
               />
             </View>
           </Modal>
