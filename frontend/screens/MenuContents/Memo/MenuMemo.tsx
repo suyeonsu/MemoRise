@@ -25,6 +25,7 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
   // 메뉴 상태값 : saved-북마크 / all-전체 / my-내가 작성한
   const { menuStatus } = route.params;
 
+  // 유저 아이디 (axios 통신용)
   const userId = useSelector((state: RootState) => state.userInfo.id);
 
   // 백엔드에서 주어준 정보
