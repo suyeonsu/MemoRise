@@ -55,105 +55,26 @@ const SavedMemoScreen = () => {
       });
   }, []);
 
-  // FlatList 사용을 위한 메모 리스트 정리
-  const MemoList: React.FC<BookMarkListProps> = ({ item }) => {
-    <View style={savedmemostyles.memoContainer}>
-      <Pressable onPress={() => onMemoDetailPress(item.memoSeq)}>
-        <LinearGradient
-          colors={["#FFFFFF", "#F5F5F5"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          style={{ minHeight: calculateDynamicWidth(104) }}
-        >
-          <View style={savedmemostyles.innerContainer}>
-            <View style={savedmemostyles.calenderContainer}>
-              <Text style={savedmemostyles.calendar}>{item.updatedAt}</Text>
-            </View>
-            {item.file !== null ? (
-              <View>
-                <Text
-                  style={savedmemostyles.content}
-                  numberOfLines={2}
-                  ellipsizeMode="tail"
-                >
-                  {item.content}
-                </Text>
-                <Image
-                  source={{ uri: item.file }}
-                  style={savedmemostyles.photo}
-                />
-              </View>
-            ) : (
-              <Text
-                style={savedmemostyles.content}
-                numberOfLines={4}
-                ellipsizeMode="tail"
-              >
-                {item.content}
-              </Text>
-            )}
-            <View style={savedmemostyles.bottomContainer}>
-              <Text style={savedmemostyles.nickname}>{item.nickname}</Text>
-              <Text style={savedmemostyles.open}>
-                {item.accessType === "OPEN"
-                  ? "전체공개"
-                  : item.accessType === "RESTRICT"
-                  ? "일부공개"
-                  : "비공개"}
-              </Text>
-            </View>
-          </View>
-        </LinearGradient>
-      </Pressable>
-      <BookMarkBtn
-        memoSeq={item.memoSeq}
-        detailStyle={[savedmemostyles.bookmark, savedmemostyles.bookmarkSize]}
-        bookmarkType={item.isBookmarked}
-      />
-    </View>;
-  };
-
   return (
     <>
-      {bookmarkData ? (
-        <View style={savedmemostyles.mainContainer}>
-          <Pressable
-            style={savedmemostyles.memoWriteContainer}
-            onPress={onMemoWritePress}
-          >
+      <LinearGradient
+        colors={["#F5F5F5", "#E9E9E9"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
+        style={{ flex: 1 }}
+      >
+        <GoBackHeader />
+        <View>
+          <Text style={styles.title}>저장된 메모</Text>
+          <View style={styles.container}>
             <Image
-              source={require("../../../assets/icons/memo_write.png")}
-              style={savedmemostyles.memoWrite}
+              style={styles.icon}
+              source={require("../../../assets/icons/memo_empty.png")}
             />
-          </Pressable>
-          <View style={savedmemostyles.memoListContainer}>
-            <FlatList
-              data={bookmarkData}
-              renderItem={({ item }) => <MemoList item={item} />}
-              keyExtractor={(item) => item.memoSeq.toString()}
-            />
+            <Text style={styles.empty}>저장된 메모가 없습니다</Text>
           </View>
         </View>
-      ) : (
-        <LinearGradient
-          colors={["#F5F5F5", "#E9E9E9"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          style={{ flex: 1 }}
-        >
-          <GoBackHeader />
-          <View>
-            <Text style={styles.title}>저장된 메모</Text>
-            <View style={styles.container}>
-              <Image
-                style={styles.icon}
-                source={require("../../../assets/icons/memo_empty.png")}
-              />
-              <Text style={styles.empty}>저장된 메모가 없습니다</Text>
-            </View>
-          </View>
-        </LinearGradient>
-      )}
+      </LinearGradient>
     </>
   );
 };
