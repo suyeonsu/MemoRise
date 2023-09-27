@@ -100,17 +100,14 @@ public class MemoService {
         Item item = itemRepository.findByItemName(itemName)
                 .orElseThrow(() -> new NoItemException(NO_ITEM));
 
-        if(memo.getFile() == null && memoRequest.getNewFile() == null){
-            memoRepository.save(memoRequest.updateToNullFileEntity(memoId,memoRequest,user,item));
-        }
-        else if(memo.getFile() == null && memoRequest.getNewFile() != null) {
-            memoRepository.save(memoRequest.updateToEntity(memoId,memoRequest,user,item));
-        }
-        else if(memo.getFile() != null && memoRequest.getNewFile() == null) {
-            memoRepository.save(memoRequest.updateToNoChangeFileEntity(memoId,memoRequest,user,item,memoRequest.getNewFile()));
-        }
-        else if(memo.getFile() != null && memoRequest.getNewFile() != null) {
-            memoRepository.save(memoRequest.updateToEntity(memoId,memoRequest,user,item));
+        if (memo.getFile() == null && memoRequest.getNewFile() == null) {
+            memoRepository.save(memoRequest.updateToNullFileEntity(memoId, memoRequest, user, item));
+        } else if (memo.getFile() == null && memoRequest.getNewFile() != null) {
+            memoRepository.save(memoRequest.updateToEntity(memoId, memoRequest, user, item));
+        } else if (memo.getFile() != null && memoRequest.getNewFile() == null) {
+            memoRepository.save(memoRequest.updateToNoChangeFileEntity(memoId, memoRequest, user, item, memoRequest.getNewFile()));
+        } else if (memo.getFile() != null && memoRequest.getNewFile() != null) {
+            memoRepository.save(memoRequest.updateToEntity(memoId, memoRequest, user, item));
         }
 
     }
