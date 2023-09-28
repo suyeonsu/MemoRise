@@ -195,19 +195,13 @@ const MainScreen = () => {
     setTagSearchText("");
   };
 
-  // 태그할 유저에서 삭제
-  const deleteTaggedMember = () => {};
-
   // 내 그룹 목록에서 태그할 그룹 터치 시 실행
   const addTaggedGroup = (teamSeq: number, teamName: string) => {
-    setTargetGroupId(teamSeq);
-    setTargetGroupName(teamName);
-    setTaggedGroup((prevData) => [...prevData, targetGroupId]);
-    setTaggedGroupNameList((prevData) => [...prevData, targetGroupName]);
+    setTaggedGroup((prevData) => [...prevData, teamSeq]);
+    setTaggedGroupNameList((prevData) => [...prevData, teamName]);
   };
 
-  // 태그할 그룹에서 삭제
-  const deleteTaggedGroup = () => {};
+  console.log(taggedGroupNameList);
 
   // 태그 검색 기능
   const [tagSearchText, setTagSearchText] = useState("");
@@ -218,9 +212,6 @@ const MainScreen = () => {
     setTagSearchText("");
     setMyGroupVisible(false);
   };
-
-  // 그룹 태그 등록
-  const addGroupTag = () => {};
 
   // 유저 검색
   const [userList, setUserList] = useState<UserData | null>(null);
@@ -948,40 +939,37 @@ const MainScreen = () => {
               </>
             )}
             {/* 유저 태그(결과값 O) */}
-            {/* {openState === "RESTRICT" && taggedMember[0] | taggedGroup[0] && (
+            {openState === "RESTRICT" && (
               <>
                 <ScrollView horizontal style={styles.tagResultBox}>
-                  <View
-                    style={{
-                      justifyContent: "flex-start",
-                      alignItems: "center",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <LinearGradient
-                      colors={["#DDEAFF", "#C2D8FF"]}
-                      start={{ x: 0, y: 0 }}
-                      end={{ x: 0, y: 1 }}
-                      style={styles.taggedMemberContainer}
+                  {taggedGroupNameList.map((group, idx) => (
+                    <View
+                      style={{
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                        flexDirection: "row",
+                      }}
+                      key={idx}
                     >
-                      {taggedGroupNameList.map((group, idx) => (
-                        <View key={idx}>
-                          <Text style={styles.tagText}>
-                            @ {group.toString()}
-                          </Text>
-                          <Pressable>
-                            <Image
-                              source={require("../../assets/icons/cancel_sm.png")}
-                              style={styles.cancelIcon}
-                            />
-                          </Pressable>
-                        </View>
-                      ))}
-                    </LinearGradient>
-                  </View>
+                      <LinearGradient
+                        colors={["#DDEAFF", "#C2D8FF"]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 0, y: 1 }}
+                        style={styles.taggedMemberContainer}
+                      >
+                        <Text style={styles.tagText}>@ {group}</Text>
+                        <Pressable>
+                          <Image
+                            source={require("../../assets/icons/cancel_sm.png")}
+                            style={styles.cancelIcon}
+                          />
+                        </Pressable>
+                      </LinearGradient>
+                    </View>
+                  ))}
                 </ScrollView>
               </>
-            )} */}
+            )}
             {/* 검색 결과 */}
             {isSearchResultVisible && (
               <>
