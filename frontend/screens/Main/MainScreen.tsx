@@ -221,6 +221,17 @@ const MainScreen = () => {
   };
 
   // 그룹 태그 삭제
+  const removeTaggedGroup = (groupId: number) => {
+    setTaggedGroup((prevData) => {
+      const newData = prevData.filter((teamSeq) => teamSeq !== groupId);
+      return newData;
+    });
+
+    setTaggedGroupList((prevData) => {
+      const newData = prevData.filter((group) => group.id !== groupId);
+      return newData;
+    });
+  };
 
   // 태그 검색 기능
   const [tagSearchText, setTagSearchText] = useState("");
@@ -389,7 +400,8 @@ const MainScreen = () => {
           // userId: userId,
           userId: 30, // 쫀듸기
           newFile: uploadedPic,
-          itemName: pickItem,
+          // itemName: pickItem,
+          itemName: "8ef97a8a0be", // 쫀듸기
           taggedUserList: taggedMember,
           taggedTeamList: taggedGroup,
         },
@@ -399,6 +411,10 @@ const MainScreen = () => {
             console.log("메모 생성 성공");
             //물체 표시 생성
             setIsVisible(true);
+            setTaggedMember([]);
+            setTaggedGroup([]);
+            setTaggedMemberList([]);
+            setTaggedGroupList([]);
           }
         })
         .catch((err) => {
@@ -961,6 +977,7 @@ const MainScreen = () => {
             {openState === "RESTRICT" && (
               <>
                 <ScrollView horizontal style={styles.tagResultBox}>
+                  {/* 그룹 태그 */}
                   {taggedGroupList.map((group, idx) => (
                     <View
                       style={{
@@ -977,7 +994,7 @@ const MainScreen = () => {
                         style={styles.taggedMemberContainer}
                       >
                         <Text style={styles.tagText}>@ {group.name}</Text>
-                        <Pressable>
+                        <Pressable onPress={() => removeTaggedGroup(group.id)}>
                           <Image
                             source={require("../../assets/icons/cancel_sm.png")}
                             style={styles.cancelIcon}
@@ -986,6 +1003,7 @@ const MainScreen = () => {
                       </LinearGradient>
                     </View>
                   ))}
+                  {/* 유저 태그 */}
                   {taggedMemberList.map((member, idx) => (
                     <View
                       style={{
