@@ -169,7 +169,15 @@ const MemoList: React.FC<MemoListProp> = ({
             />
           </Pressable>
         ) : (
-          <></>
+          <>
+            {memoStatus === "saved" && (
+              <Text style={styles.title}>저장된 메모</Text>
+            )}
+            {memoStatus === "all" && (
+              <Text style={styles.title}>전체 메모</Text>
+            )}
+            {memoStatus === "my" && <Text style={styles.title}>내 메모</Text>}
+          </>
         )}
         <View style={styles.memoListContainer}>
           <FlatList
@@ -276,5 +284,13 @@ const styles = StyleSheet.create({
     color: "rgba(76, 106, 255, 0.6)",
     fontFamily: "Pretendard-Medium",
     fontSize: calculateDynamicWidth(14),
+  },
+
+  title: {
+    fontFamily: "Pretendard-Medium",
+    fontSize: calculateDynamicWidth(23),
+    color: Colors.text,
+    marginLeft: 30,
+    marginTop: 10,
   },
 });
