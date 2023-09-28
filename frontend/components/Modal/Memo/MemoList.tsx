@@ -56,30 +56,25 @@ const MemoList: React.FC<MemoListProp> = ({
     item: MemoTypeProps;
   };
 
+  // 로딩 상태관리
+  const [loading, setLoading] = useState(false);
+
   // 북마크 상태관리 및 함수
   const [memoData, setMemoData] = useState<MemoTypeProps[]>([]);
 
   // 메모 리스트 AXIOS (main이면 MainScreen / 아니면 MenuMemo)
   useEffect(() => {
-    if (memoStatus === "main") {
-      const fetchData = async () => {
-        await axios
-          .get(BACKEND_URL + `/memos/${id}/list/${userId}`)
-          // .get(BACKEND_URL + `/memos/8ef97a8a0be/list/23`)
-          .then((response) => {
-            setMemoData(response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      };
-      fetchData();
-    } else {
-      const fetchData = async () => {
-        await axios
-          .get(
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        let response;
+        if (memoStatus === "main") {
+          response = await axios.get(
+            BACKEND_URL + `/memos/${id}/list/${userId}`
+          );
+        } else {
+          response = await axios.get(
             BACKEND_URL +
-              // 쫀디기
               `/user/23/${
                 memoStatus === "saved"
                   ? "bookmarks"
@@ -87,16 +82,16 @@ const MemoList: React.FC<MemoListProp> = ({
                   ? "memos"
                   : "my-memos"
               }`
-          )
-          .then((response) => {
-            setMemoData(response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      };
-      fetchData();
-    }
+          );
+        }
+        setMemoData(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
   // FlatList 사용을 위한 MemoList 정리
@@ -156,13 +151,6 @@ const MemoList: React.FC<MemoListProp> = ({
 
   return (
     <>
-      <View>
-        {memoStatus === "saved" && (
-          <Text style={styles.title}>저장된 메모</Text>
-        )}
-        {memoStatus === "all" && <Text style={styles.title}>전체 메모</Text>}
-        {memoStatus === "my" && <Text style={styles.title}>내 메모</Text>}
-      </View>
       {/* memoStatus에 따라서 메모 작성 버튼 유무 판단 */}
       {memoStatus === "main" ? (
         <View style={styles.mainContainer_main}>
@@ -305,13 +293,5 @@ const styles = StyleSheet.create({
     color: "rgba(76, 106, 255, 0.6)",
     fontFamily: "Pretendard-Medium",
     fontSize: calculateDynamicWidth(14),
-  },
-
-  title: {
-    fontFamily: "Pretendard-Medium",
-    fontSize: calculateDynamicWidth(23),
-    color: Colors.text,
-    marginLeft: calculateDynamicWidth(30),
-    marginTop: calculateDynamicWidth(10),
   },
 });
