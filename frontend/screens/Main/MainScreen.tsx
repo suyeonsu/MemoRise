@@ -173,35 +173,40 @@ const MainScreen = () => {
 
   // 태그된 회원 리스트
   const [taggedMember, setTaggedMember] = useState<number[]>([]);
-  const [targetMemberId, setTargetMemberId] = useState(0);
-  const [targetMemberName, setTargetMemberName] = useState("");
   const [taggedMemberNameList, setTaggedMemberNameList] = useState<string[]>(
     []
   );
 
   // 태그된 그룹 리스트
   const [taggedGroup, setTaggedGroup] = useState<number[]>([]);
-  const [targetGroupId, setTargetGroupId] = useState(0);
-  const [targetGroupName, setTargetGroupName] = useState("");
   const [taggedGroupNameList, setTaggedGroupNameList] = useState<string[]>([]);
 
   // 검색 결과에서 태그할 유저 터치 시 실행
   const addTaggedMember = (userSeq: number, userName: string) => {
-    setTargetMemberId(userSeq);
-    setTargetMemberName(userName);
-    setTaggedMember((prevData) => [...prevData, targetMemberId]);
-    setTaggedMemberNameList((prevData) => [...prevData, targetMemberName]);
+    setTaggedMember((prevData) => [...prevData, userSeq]);
+    setTaggedMemberNameList((prevData) => [...prevData, userName]);
     setSearchResultVisible(false);
     setTagSearchText("");
   };
 
   // 내 그룹 목록에서 태그할 그룹 터치 시 실행
   const addTaggedGroup = (teamSeq: number, teamName: string) => {
-    setTaggedGroup((prevData) => [...prevData, teamSeq]);
-    setTaggedGroupNameList((prevData) => [...prevData, teamName]);
-  };
+    setTaggedGroup((prevData) => {
+      if (!prevData.includes(teamSeq)) {
+        // teamSeq가 prevData에 없을 경우에만 추가
+        return [...prevData, teamSeq];
+      }
+      return prevData; // 이미 존재하면 prevData 반환
+    });
 
-  console.log(taggedGroupNameList);
+    setTaggedGroupNameList((prevData) => {
+      if (!prevData.includes(teamName)) {
+        // teamName이 prevData에 없을 경우에만 추가
+        return [...prevData, teamName];
+      }
+      return prevData; // 이미 존재하면 prevData 반환
+    });
+  };
 
   // 태그 검색 기능
   const [tagSearchText, setTagSearchText] = useState("");
