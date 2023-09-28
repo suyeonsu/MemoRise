@@ -233,6 +233,19 @@ const MainScreen = () => {
     });
   };
 
+  // 유저 태그 삭제
+  const removeTaggedMember = (memberId: number) => {
+    setTaggedMember((prevData) => {
+      const newData = prevData.filter((userSeq) => userSeq !== memberId);
+      return newData;
+    });
+
+    setTaggedMemberList((prevData) => {
+      const newData = prevData.filter((user) => user.id !== memberId);
+      return newData;
+    });
+  };
+
   // 태그 검색 기능
   const [tagSearchText, setTagSearchText] = useState("");
   const [isSearchResultVisible, setSearchResultVisible] = useState(false);
@@ -1020,7 +1033,9 @@ const MainScreen = () => {
                         style={styles.taggedMemberContainer}
                       >
                         <Text style={styles.tagText}>@ {member.name}</Text>
-                        <Pressable>
+                        <Pressable
+                          onPress={() => removeTaggedMember(member.id)}
+                        >
                           <Image
                             source={require("../../assets/icons/cancel_sm.png")}
                             style={styles.cancelIcon}
