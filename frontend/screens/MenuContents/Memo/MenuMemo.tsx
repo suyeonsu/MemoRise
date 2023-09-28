@@ -112,6 +112,12 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
     setIsMemoList(true);
   };
 
+  // 메모수정 컴포넌트 닫고, 메모디테일 컴포넌트 열기
+  const closeCreateOpenDetail = () => {
+    setIsMemoCreate(false);
+    setIsMemoDetail(true);
+  };
+
   // 메모디테일 -> 메모 수정
   const updateMemo = () => {
     setIsMemoDetail(false);
@@ -176,9 +182,16 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
                 </>
               )}
               {isMemoCreate && (
-                <View>
-                  <Text>메모 생성을 해보장호!</Text>
-                </View>
+                <>
+                  <GoBackHeader />
+                  <Pressable
+                    onPress={closeCreateOpenDetail}
+                    style={menumemostyles.back}
+                  />
+                  <View>
+                    <Text>메모 생성을 해보장호!</Text>
+                  </View>
+                </>
               )}
             </LinearGradient>
           ) : (
