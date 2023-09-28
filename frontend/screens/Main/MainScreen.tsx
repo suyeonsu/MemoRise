@@ -183,8 +183,22 @@ const MainScreen = () => {
 
   // 검색 결과에서 태그할 유저 터치 시 실행
   const addTaggedMember = (userSeq: number, userName: string) => {
-    setTaggedMember((prevData) => [...prevData, userSeq]);
-    setTaggedMemberNameList((prevData) => [...prevData, userName]);
+    setTaggedMember((prevData) => {
+      if (!prevData.includes(userSeq)) {
+        // userSeq가 prevData에 없을 경우에만 추가
+        return [...prevData, userSeq];
+      }
+      return prevData; // 이미 존재하면 prevData 반환
+    });
+
+    setTaggedMemberNameList((prevData) => {
+      if (!prevData.includes(userName)) {
+        // userName이 prevData에 없을 경우에만 추가
+        return [...prevData, userName];
+      }
+      return prevData; // 이미 존재하면 prevData 반환
+    });
+
     setSearchResultVisible(false);
     setTagSearchText("");
   };
