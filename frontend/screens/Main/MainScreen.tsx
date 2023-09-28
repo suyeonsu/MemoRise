@@ -25,6 +25,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { launchImageLibrary } from "react-native-image-picker";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import * as Progress from "react-native-progress";
 
 import MainHeader from "../../components/Header/MainHeader";
 import { styles } from "./MainStyle";
@@ -582,6 +583,7 @@ const MainScreen = () => {
     await negotiate(trackType); // trackType을 negotiate 함수로 전달
 
     setIsConnected(true);
+    setIsVisible(true);
   };
 
   // WebRTC 연결 종료
@@ -599,6 +601,7 @@ const MainScreen = () => {
 
     pc.current?.close();
     setCoordinates([]);
+    setIsVisible(false);
   };
 
   useEffect(() => {
@@ -667,12 +670,26 @@ const MainScreen = () => {
               </View>
             </TouchableOpacity>
           ))}
+        {/* 물체 학습화면 로직 구현중 */}
         {/* <View style={styles.focusBox}>
           <Image
             source={require("../../assets/focus/focus2new.png")}
             style={styles.focusImg}
           />
+        </View>
+        <View style={styles.descriptionBox}>
+          <Progress.Bar
+            progress={0.4}
+            width={300}
+            height={10}
+            borderRadius={10}
+            borderColor="white"
+          />
+          <Text style={styles.descriptionText}>
+            물체를 다각도로 촬영해주세요!
+          </Text>
         </View> */}
+
         <AlertModal
           modalVisible={unregisteredNotification}
           closeModal={cancelObjectRegister}

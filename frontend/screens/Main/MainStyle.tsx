@@ -359,12 +359,23 @@ export const styles = StyleSheet.create({
     top: "50%",
     left: "50%",
     transform: [
-      { translateY: -calculateDynamicWidth(80) / 2 },
-      { translateX: -calculateDynamicWidth(80) / 2 },
+      { translateY: -calculateDynamicWidth(240) / 2 },
+      { translateX: -calculateDynamicWidth(240) / 2 },
     ],
   },
   focusImg: {
-    width: calculateDynamicWidth(80),
-    height: calculateDynamicWidth(80),
+    width: calculateDynamicWidth(240),
+    height: calculateDynamicWidth(240),
+  },
+  descriptionBox: {
+    position: "absolute",
+    top: "20%",
+    width: "100%",
+    alignItems: "center",
+  },
+  descriptionText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
   },
 });
