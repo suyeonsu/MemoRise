@@ -78,7 +78,7 @@ const MemoList: React.FC<MemoListProp> = ({
         if (memoStatus === "main") {
           response = await axios.get(
             // BACKEND_URL + `/memos/${id}/list/${userId}`
-            BACKEND_URL + `/memos/8ef97a8a0be/list/23` // 쫀듸기
+            BACKEND_URL + `/memos/8ef97a8a0be/list/30` // 쫀듸기
           );
         } else {
           response = await axios.get(
@@ -123,7 +123,9 @@ const MemoList: React.FC<MemoListProp> = ({
                 >
                   {item.content}
                 </Text>
-                <Image source={{ uri: item.file }} style={styles.photo} />
+                {item.file && (
+                  <Image source={{ uri: item.file }} style={styles.photo} />
+                )}
               </View>
             ) : (
               <Text

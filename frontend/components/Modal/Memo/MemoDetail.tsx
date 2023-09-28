@@ -46,14 +46,19 @@ export type MemoDetailProps = {
   taggedUserList: [
     {
       nickname: string;
+      taggedUserSeq: number;
+      userSeq: number;
     }
   ];
   taggedTeamList: [
     {
-      nickname: string;
+      name: string;
+      taggedTeamSeq: number;
+      teamSeq: number;
     }
   ];
   updatedAt: string;
+  memoSeq: number;
 };
 
 // 메인페이지 상태관리를 위한 타입 지정
@@ -99,9 +104,13 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
       try {
         const res = await axios.get(
           // BACKEND_URL + `/memos/${memoSeq}/${userId}`
-          BACKEND_URL + `/memos/${memoSeq}/23` // 쫀듸기
+          BACKEND_URL + `/memos/${memoSeq}/30` // 쫀듸기
         );
-        setMemoDetailData([res.data]);
+        const dataWithMemoSeq = {
+          ...res.data,
+          memoSeq: memoSeq,
+        };
+        setMemoDetailData([dataWithMemoSeq]);
         setMemoPic(res.data.file);
         setThumbnail(res.data.itemImage);
         setMemoDetailCalendar(formatData(res.data.updatedAt));
@@ -286,7 +295,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                           }
                         >
                           <Text>
-                            {memoDetailData[0].taggedTeamList[0].nickname}
+                            {memoDetailData[0].taggedTeamList[0].name}
                             {memoDetailData[0].taggedTeamList.length - 1 !==
                               0 && (
                               <Text style={detailStyle.plusText}>
@@ -337,7 +346,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
                                   fontSize: calculateDynamicWidth(14),
                                 }}
                               >
-                                {team.nickname}
+                                {team.name}
                               </Text>
                             ))}
                         {memoDetailData[0].taggedUserList.length > 0 &&
