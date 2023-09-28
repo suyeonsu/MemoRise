@@ -597,9 +597,7 @@ const MainScreen = () => {
 
   const getObjMemoCount = async () => {
     try {
-      const response = await axios.get(
-        `http://j9b106.p.ssafy.io:8000/memos/all/${userId}`
-      );
+      const response = await axios.get(`${BACKEND_URL}/memos/all/${userId}`);
 
       setObjMemoCount(response.data);
     } catch (error) {
