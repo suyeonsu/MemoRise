@@ -22,6 +22,7 @@ import { BACKEND_URL } from "../../../util/http";
 // 컴포넌트
 import BookMarkBtn from "../../Button/BookMarkBtn";
 import { RootState } from "../../../store/store";
+import LoadingOverlay from "../../LoadingOverlay";
 
 // 메인페이지 상태관리를 위한 타입 지정
 type MemoListProp = {
@@ -56,16 +57,12 @@ const MemoList: React.FC<MemoListProp> = ({
     item: MemoTypeProps;
   };
 
-  // 로딩 상태관리
-  const [loading, setLoading] = useState(false);
-
   // 북마크 상태관리 및 함수
   const [memoData, setMemoData] = useState<MemoTypeProps[]>([]);
 
   // 메모 리스트 AXIOS (main이면 MainScreen / 아니면 MenuMemo)
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       try {
         let response;
         if (memoStatus === "main") {
@@ -87,8 +84,6 @@ const MemoList: React.FC<MemoListProp> = ({
         setMemoData(response.data);
       } catch (error) {
         console.log(error);
-      } finally {
-        setLoading(false);
       }
     };
     fetchData();
