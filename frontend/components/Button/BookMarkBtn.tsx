@@ -1,6 +1,6 @@
 // 라이브러리
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Pressable, Image } from "react-native";
 import { useSelector } from "react-redux";
 
@@ -27,6 +27,10 @@ const BookMarkBtn: React.FC<BookMarkProps> = ({
 
   // 북마크 상태관리
   const [isBookMark, setIsBookMark] = useState<boolean>(bookmarkType);
+
+  useEffect(() => {
+    setIsBookMark(bookmarkType);
+  }, [bookmarkType]);
 
   const changeIsBookMark = (id: number) => {
     if (isBookMark) {
