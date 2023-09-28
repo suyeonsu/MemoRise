@@ -163,9 +163,9 @@ const MemoList: React.FC<MemoListProp> = ({
         {memoStatus === "all" && <Text style={styles.title}>전체 메모</Text>}
         {memoStatus === "my" && <Text style={styles.title}>내 메모</Text>}
       </View>
-      <View style={styles.mainContainer}>
-        {/* memoStatus에 따라서 메모 작성 버튼 유무 판단 */}
-        {memoStatus === "main" && (
+      {/* memoStatus에 따라서 메모 작성 버튼 유무 판단 */}
+      {memoStatus === "main" ? (
+        <View style={styles.mainContainer_main}>
           <Pressable
             style={styles.memoWriteContainer}
             onPress={onMemoWritePress}
@@ -175,15 +175,25 @@ const MemoList: React.FC<MemoListProp> = ({
               style={styles.memoWrite}
             />
           </Pressable>
-        )}
-        <View style={styles.memoListContainer}>
-          <FlatList
-            data={memoData}
-            renderItem={({ item }) => <MemoList item={item} />}
-            keyExtractor={(item) => item.memoSeq.toString()}
-          />
+          <View style={styles.memoListContainer}>
+            <FlatList
+              data={memoData}
+              renderItem={({ item }) => <MemoList item={item} />}
+              keyExtractor={(item) => item.memoSeq.toString()}
+            />
+          </View>
         </View>
-      </View>
+      ) : (
+        <View style={styles.mainContainer_menu}>
+          <View style={styles.memoListContainer}>
+            <FlatList
+              data={memoData}
+              renderItem={({ item }) => <MemoList item={item} />}
+              keyExtractor={(item) => item.memoSeq.toString()}
+            />
+          </View>
+        </View>
+      )}
     </>
   );
 };
@@ -191,9 +201,19 @@ const MemoList: React.FC<MemoListProp> = ({
 export default MemoList;
 
 const styles = StyleSheet.create({
-  mainContainer: {
+  mainContainer_main: {
     position: "absolute",
     top: "50%",
+    left: "50%",
+    transform: [
+      { translateY: -calculateDynamicWidth(350) / 2 },
+      { translateX: -calculateDynamicWidth(306) / 2 },
+    ],
+  },
+
+  mainContainer_menu: {
+    position: "absolute",
+    top: "43%",
     left: "50%",
     transform: [
       { translateY: -calculateDynamicWidth(350) / 2 },
@@ -287,7 +307,6 @@ const styles = StyleSheet.create({
     fontFamily: "Pretendard-Medium",
     fontSize: calculateDynamicWidth(23),
     color: Colors.text,
-    marginBottom: calculateDynamicWidth(31),
     marginLeft: calculateDynamicWidth(30),
     marginTop: calculateDynamicWidth(10),
   },
