@@ -157,12 +157,20 @@ const MemoList: React.FC<MemoListProp> = ({
   return (
     <>
       <View style={styles.mainContainer}>
-        <Pressable style={styles.memoWriteContainer} onPress={onMemoWritePress}>
-          <Image
-            source={require("../../../assets/icons/memo_write.png")}
-            style={styles.memoWrite}
-          />
-        </Pressable>
+        {/* memoStatus에 따라서 메모 작성 버튼 유무 판단 */}
+        {memoStatus === "main" ? (
+          <Pressable
+            style={styles.memoWriteContainer}
+            onPress={onMemoWritePress}
+          >
+            <Image
+              source={require("../../../assets/icons/memo_write.png")}
+              style={styles.memoWrite}
+            />
+          </Pressable>
+        ) : (
+          <></>
+        )}
         <View style={styles.memoListContainer}>
           <FlatList
             data={memoData}
