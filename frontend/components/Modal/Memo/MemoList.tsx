@@ -156,9 +156,16 @@ const MemoList: React.FC<MemoListProp> = ({
 
   return (
     <>
+      <View>
+        {memoStatus === "saved" && (
+          <Text style={styles.title}>저장된 메모</Text>
+        )}
+        {memoStatus === "all" && <Text style={styles.title}>전체 메모</Text>}
+        {memoStatus === "my" && <Text style={styles.title}>내 메모</Text>}
+      </View>
       <View style={styles.mainContainer}>
         {/* memoStatus에 따라서 메모 작성 버튼 유무 판단 */}
-        {memoStatus === "main" ? (
+        {memoStatus === "main" && (
           <Pressable
             style={styles.memoWriteContainer}
             onPress={onMemoWritePress}
@@ -168,16 +175,6 @@ const MemoList: React.FC<MemoListProp> = ({
               style={styles.memoWrite}
             />
           </Pressable>
-        ) : (
-          <>
-            {memoStatus === "saved" && (
-              <Text style={styles.title}>저장된 메모</Text>
-            )}
-            {memoStatus === "all" && (
-              <Text style={styles.title}>전체 메모</Text>
-            )}
-            {memoStatus === "my" && <Text style={styles.title}>내 메모</Text>}
-          </>
         )}
         <View style={styles.memoListContainer}>
           <FlatList
@@ -290,7 +287,8 @@ const styles = StyleSheet.create({
     fontFamily: "Pretendard-Medium",
     fontSize: calculateDynamicWidth(23),
     color: Colors.text,
-    marginLeft: 30,
-    marginTop: 10,
+    marginBottom: calculateDynamicWidth(31),
+    marginLeft: calculateDynamicWidth(30),
+    marginTop: calculateDynamicWidth(10),
   },
 });
