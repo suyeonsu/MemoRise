@@ -2,7 +2,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { RouteProp } from "@react-navigation/native";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Pressable, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import LinearGradient from "react-native-linear-gradient";
 
@@ -103,6 +103,12 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
     setMemoId(memoSeq);
   };
 
+  // 메모디테일 컴포넌트 닫고, 메모리스트 컴포넌트 열기
+  const closeDetailOpenList = () => {
+    setIsMemoDetail(false);
+    setIsMemoList(true);
+  };
+
   // 메모디테일 -> 메모 수정
   const updateMemo = () => {
     setIsMemoDetail(false);
@@ -154,6 +160,10 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
               {isMemoDetail && (
                 <>
                   <GoBackHeader />
+                  <Pressable
+                    onPress={closeDetailOpenList}
+                    style={menumemostyles.back}
+                  />
                   <MemoDetail
                     memoSeq={memoId}
                     onMemoUpdatePress={updateMemo}
@@ -221,3 +231,16 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
 };
 
 export default MemuMemo;
+
+const menumemostyles = StyleSheet.create({
+  back: {
+    backgroundColor: "transparent",
+    position: "absolute",
+    width: 15,
+    height: 25,
+    marginLeft: 15,
+    left: 5,
+    top: 36,
+    padding: 10,
+  },
+});
