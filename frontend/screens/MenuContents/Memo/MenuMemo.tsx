@@ -18,6 +18,8 @@ import LoadingOverlay from "../../../components/LoadingOverlay";
 
 // 스타일
 import { styles } from "./MemoStyle";
+
+// 통신
 import { BACKEND_URL } from "../../../util/http";
 
 // 메뉴메모스크린 타입
