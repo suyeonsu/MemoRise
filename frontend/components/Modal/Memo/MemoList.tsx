@@ -77,7 +77,8 @@ const MemoList: React.FC<MemoListProp> = ({
         let response;
         if (memoStatus === "main") {
           response = await axios.get(
-            BACKEND_URL + `/memos/${id}/list/${userId}`
+            // BACKEND_URL + `/memos/${id}/list/${userId}`
+            BACKEND_URL + `/memos/8ef97a8a0be/list/23` // 쫀듸기
           );
         } else {
           response = await axios.get(
