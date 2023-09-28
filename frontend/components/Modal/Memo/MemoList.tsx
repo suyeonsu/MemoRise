@@ -59,7 +59,7 @@ const MemoList: React.FC<MemoListProp> = ({
   // 북마크 상태관리 및 함수
   const [memoData, setMemoData] = useState<MemoTypeProps[]>([]);
 
-  // 사용자가 작성한 or 태그된 메모 AXIOS
+  // 메모 리스트 AXIOS (main이면 MainScreen / 아니면 MenuMemo)
   useEffect(() => {
     if (memoStatus === "main") {
       const fetchData = async () => {
