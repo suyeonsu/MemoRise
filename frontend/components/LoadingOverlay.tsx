@@ -1,9 +1,13 @@
+// 라이브러리
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+
+// 스타일
+import Colors from "../constants/colors";
 
 const LoadingOverlay = () => {
   return (
     <View style={styles.Container}>
-      <ActivityIndicator size="large" color="#2C2C2C" />
+      <ActivityIndicator size="large" color={Colors.text} />
     </View>
   );
 };
