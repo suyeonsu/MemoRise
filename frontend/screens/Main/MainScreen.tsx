@@ -173,13 +173,15 @@ const MainScreen = () => {
 
   // 태그된 회원 리스트
   const [taggedMember, setTaggedMember] = useState<number[]>([]);
-  const [taggedMemberNameList, setTaggedMemberNameList] = useState<string[]>(
-    []
-  );
+  const [taggedMemberList, setTaggedMemberList] = useState<
+    { id: number; name: string }[]
+  >([]);
 
   // 태그된 그룹 리스트
   const [taggedGroup, setTaggedGroup] = useState<number[]>([]);
-  const [taggedGroupNameList, setTaggedGroupNameList] = useState<string[]>([]);
+  const [taggedGroupList, setTaggedGroupList] = useState<
+    { id: number; name: string }[]
+  >([]);
 
   // 검색 결과에서 태그할 유저 터치 시 실행
   const addTaggedMember = (userSeq: number, userName: string) => {
@@ -191,16 +193,12 @@ const MainScreen = () => {
       return prevData; // 이미 존재하면 prevData 반환
     });
 
-    setTaggedMemberNameList((prevData) => {
-      if (!prevData.includes(userName)) {
-        // userName이 prevData에 없을 경우에만 추가
-        return [...prevData, userName];
+    setTaggedMemberList((prevData) => {
+      if (!prevData.some((user) => user.id === userSeq)) {
+        return [...prevData, { id: userSeq, name: userName }];
       }
       return prevData; // 이미 존재하면 prevData 반환
     });
-
-    setSearchResultVisible(false);
-    setTagSearchText("");
   };
 
   // 내 그룹 목록에서 태그할 그룹 터치 시 실행
@@ -213,14 +211,16 @@ const MainScreen = () => {
       return prevData; // 이미 존재하면 prevData 반환
     });
 
-    setTaggedGroupNameList((prevData) => {
-      if (!prevData.includes(teamName)) {
-        // teamName이 prevData에 없을 경우에만 추가
-        return [...prevData, teamName];
+    setTaggedGroupList((prevData) => {
+      // teamSeq가 prevData에 없을 경우에만 추가
+      if (!prevData.some((group) => group.id === teamSeq)) {
+        return [...prevData, { id: teamSeq, name: teamName }];
       }
       return prevData; // 이미 존재하면 prevData 반환
     });
   };
+
+  // 그룹 태그 삭제
 
   // 태그 검색 기능
   const [tagSearchText, setTagSearchText] = useState("");
@@ -961,7 +961,7 @@ const MainScreen = () => {
             {openState === "RESTRICT" && (
               <>
                 <ScrollView horizontal style={styles.tagResultBox}>
-                  {taggedGroupNameList.map((group, idx) => (
+                  {taggedGroupList.map((group, idx) => (
                     <View
                       style={{
                         justifyContent: "flex-start",
@@ -976,7 +976,32 @@ const MainScreen = () => {
                         end={{ x: 0, y: 1 }}
                         style={styles.taggedMemberContainer}
                       >
-                        <Text style={styles.tagText}>@ {group}</Text>
+                        <Text style={styles.tagText}>@ {group.name}</Text>
+                        <Pressable>
+                          <Image
+                            source={require("../../assets/icons/cancel_sm.png")}
+                            style={styles.cancelIcon}
+                          />
+                        </Pressable>
+                      </LinearGradient>
+                    </View>
+                  ))}
+                  {taggedMemberList.map((member, idx) => (
+                    <View
+                      style={{
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                        flexDirection: "row",
+                      }}
+                      key={idx}
+                    >
+                      <LinearGradient
+                        colors={["#DDEAFF", "#C2D8FF"]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 0, y: 1 }}
+                        style={styles.taggedMemberContainer}
+                      >
+                        <Text style={styles.tagText}>@ {member.name}</Text>
                         <Pressable>
                           <Image
                             source={require("../../assets/icons/cancel_sm.png")}
