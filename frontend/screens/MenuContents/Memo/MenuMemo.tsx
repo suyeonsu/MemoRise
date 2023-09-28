@@ -14,6 +14,7 @@ import { RootState } from "../../../store/store";
 import GoBackHeader from "../../../components/Header/GoBackHeader";
 import MemoList from "../../../components/Modal/Memo/MemoList";
 import MemoDetail from "../../../components/Modal/Memo/MemoDetail";
+import LoadingOverlay from "../../../components/LoadingOverlay";
 
 // 스타일
 import { styles } from "./MemoStyle";
@@ -49,8 +50,10 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
   // AXIOS
   useEffect(() => {
     const fetchData = async () => {
-      await axios
-        .get(
+      setLoading(true);
+      let response;
+      try {
+        response = await axios.get(
           BACKEND_URL +
             // 쫀디기
             `/user/23/${
@@ -60,13 +63,13 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
                 ? "memos"
                 : "my-memos"
             }`
-        )
-        .then((response) => {
-          setMemoData(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        );
+        setMemoData(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData();
   }, []);
@@ -75,6 +78,9 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
   const dummyHandler = () => {
     console.log("히히 더미 함수지롱~~");
   };
+
+  // 로딩
+  const [loading, setLoading] = useState(false);
 
   // 메모리스트 컴포넌트 상태관리
   const [isMemoList, setIsMemoList] = useState(true);
@@ -109,98 +115,104 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
 
   return (
     <>
-      {memoData.length > 0 ? (
-        // 메모 있을 때..
-        <LinearGradient
-          colors={["#F5F5F5", "#E9E9E9"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          style={{ flex: 1 }}
-        >
-          {isMemoList && (
-            <>
-              <GoBackHeader />
-              <View>
-                {menuStatus === "saved" && (
-                  <Text style={styles.title}>저장된 메모</Text>
-                )}
-                {menuStatus === "all" && (
-                  <Text style={styles.title}>전체 메모</Text>
-                )}
-                {menuStatus === "my" && (
-                  <Text style={styles.title}>내 메모</Text>
-                )}
-              </View>
-              <MemoList
-                onMemoWritePress={dummyHandler}
-                onMemoDetailPress={onDetailMemoHandler}
-                id={null}
-                memoStatus={menuStatus}
-              />
-            </>
-          )}
-          {isMemoDetail && (
-            <>
-              <GoBackHeader />
-              <MemoDetail
-                memoSeq={memoId}
-                onMemoUpdatePress={updateMemo}
-                onMemoDeletePress={deleteMemo}
-              />
-            </>
-          )}
-          {isMemoCreate && (
-            <View>
-              <Text>메모 생성을 해보장호!</Text>
-            </View>
-          )}
-        </LinearGradient>
+      {loading ? (
+        <LoadingOverlay />
       ) : (
-        // 메모 없을 때..
-        <LinearGradient
-          colors={["#F5F5F5", "#E9E9E9"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          style={{ flex: 1 }}
-        >
-          <GoBackHeader />
-          {menuStatus === "saved" && (
-            <View>
-              <Text style={styles.title}>저장된 메모</Text>
-              <View style={styles.container}>
-                <Image
-                  style={styles.icon}
-                  source={require("../../../assets/icons/memo_empty.png")}
-                />
-                <Text style={styles.empty}>저장된 메모가 없습니다</Text>
-              </View>
-            </View>
+        <>
+          {memoData.length > 0 ? (
+            // 메모 있을 때..
+            <LinearGradient
+              colors={["#F5F5F5", "#E9E9E9"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 1 }}
+              style={{ flex: 1 }}
+            >
+              {isMemoList && (
+                <>
+                  <GoBackHeader />
+                  <View>
+                    {menuStatus === "saved" && (
+                      <Text style={styles.title}>저장된 메모</Text>
+                    )}
+                    {menuStatus === "all" && (
+                      <Text style={styles.title}>전체 메모</Text>
+                    )}
+                    {menuStatus === "my" && (
+                      <Text style={styles.title}>내 메모</Text>
+                    )}
+                  </View>
+                  <MemoList
+                    onMemoWritePress={dummyHandler}
+                    onMemoDetailPress={onDetailMemoHandler}
+                    id={null}
+                    memoStatus={menuStatus}
+                  />
+                </>
+              )}
+              {isMemoDetail && (
+                <>
+                  <GoBackHeader />
+                  <MemoDetail
+                    memoSeq={memoId}
+                    onMemoUpdatePress={updateMemo}
+                    onMemoDeletePress={deleteMemo}
+                  />
+                </>
+              )}
+              {isMemoCreate && (
+                <View>
+                  <Text>메모 생성을 해보장호!</Text>
+                </View>
+              )}
+            </LinearGradient>
+          ) : (
+            // 메모 없을 때..
+            <LinearGradient
+              colors={["#F5F5F5", "#E9E9E9"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 0, y: 1 }}
+              style={{ flex: 1 }}
+            >
+              <GoBackHeader />
+              {menuStatus === "saved" && (
+                <View>
+                  <Text style={styles.title}>저장된 메모</Text>
+                  <View style={styles.container}>
+                    <Image
+                      style={styles.icon}
+                      source={require("../../../assets/icons/memo_empty.png")}
+                    />
+                    <Text style={styles.empty}>저장된 메모가 없습니다</Text>
+                  </View>
+                </View>
+              )}
+              {menuStatus === "all" && (
+                <View>
+                  <Text style={styles.title}>전체 메모</Text>
+                  <View style={styles.container}>
+                    <Image
+                      style={styles.icon}
+                      source={require("../../../assets/icons/memo_empty.png")}
+                    />
+                    <Text style={styles.empty}>메모가 없습니다</Text>
+                  </View>
+                </View>
+              )}
+              {menuStatus === "my" && (
+                <View>
+                  <Text style={styles.title}>내 메모</Text>
+                  <View style={styles.container}>
+                    <Image
+                      style={styles.icon}
+                      source={require("../../../assets/icons/memo_empty.png")}
+                    />
+                    <Text style={styles.empty}>작성한 메모가 없습니다</Text>
+                  </View>
+                </View>
+              )}
+            </LinearGradient>
           )}
-          {menuStatus === "all" && (
-            <View>
-              <Text style={styles.title}>전체 메모</Text>
-              <View style={styles.container}>
-                <Image
-                  style={styles.icon}
-                  source={require("../../../assets/icons/memo_empty.png")}
-                />
-                <Text style={styles.empty}>메모가 없습니다</Text>
-              </View>
-            </View>
-          )}
-          {menuStatus === "my" && (
-            <View>
-              <Text style={styles.title}>내 메모</Text>
-              <View style={styles.container}>
-                <Image
-                  style={styles.icon}
-                  source={require("../../../assets/icons/memo_empty.png")}
-                />
-                <Text style={styles.empty}>작성한 메모가 없습니다</Text>
-              </View>
-            </View>
-          )}
-        </LinearGradient>
+        </>
       )}
     </>
   );
