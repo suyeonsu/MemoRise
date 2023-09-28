@@ -49,6 +49,9 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
   // 백엔드에서 주어준 정보
   const [memoData, setMemoData] = useState<MemoInfoType[]>([]);
 
+  // 메모리스트 컴포넌트 상태관리
+  const [isMemoList, setIsMemoList] = useState(true);
+
   // AXIOS
   useEffect(() => {
     const fetchData = async () => {
@@ -73,8 +76,11 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
         setLoading(false);
       }
     };
-    fetchData();
-  }, []);
+
+    if (isMemoList) {
+      fetchData();
+    }
+  }, [isMemoList]);
 
   // 메모리스트 처리를 위한 더미 함수
   const dummyHandler = () => {
@@ -83,9 +89,6 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
 
   // 로딩
   const [loading, setLoading] = useState(false);
-
-  // 메모리스트 컴포넌트 상태관리
-  const [isMemoList, setIsMemoList] = useState(true);
 
   // 메모디테일 컴포넌트 상태관리
   const [isMemoDetail, setIsMemoDetail] = useState(false);
