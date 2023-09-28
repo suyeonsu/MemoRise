@@ -270,7 +270,6 @@ const MainScreen = () => {
             keyword: tagSearchText,
           },
         });
-        console.log(res.data);
         setUserList(res.data);
         setSearchResultVisible(true);
       } catch (err) {
