@@ -120,6 +120,17 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
           {isMemoList && (
             <>
               <GoBackHeader />
+              <View>
+                {menuStatus === "saved" && (
+                  <Text style={styles.title}>저장된 메모</Text>
+                )}
+                {menuStatus === "all" && (
+                  <Text style={styles.title}>전체 메모</Text>
+                )}
+                {menuStatus === "my" && (
+                  <Text style={styles.title}>내 메모</Text>
+                )}
+              </View>
               <MemoList
                 onMemoWritePress={dummyHandler}
                 onMemoDetailPress={onDetailMemoHandler}
