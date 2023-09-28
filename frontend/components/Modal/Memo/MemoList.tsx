@@ -175,7 +175,7 @@ const MemoList: React.FC<MemoListProp> = ({
               style={styles.memoWrite}
             />
           </Pressable>
-          <View style={styles.memoListContainer}>
+          <View style={styles.memoListContainer_main}>
             <FlatList
               data={memoData}
               renderItem={({ item }) => <MemoList item={item} />}
@@ -185,7 +185,7 @@ const MemoList: React.FC<MemoListProp> = ({
         </View>
       ) : (
         <View style={styles.mainContainer_menu}>
-          <View style={styles.memoListContainer}>
+          <View style={styles.memoListContainer_menu}>
             <FlatList
               data={memoData}
               renderItem={({ item }) => <MemoList item={item} />}
@@ -231,8 +231,12 @@ const styles = StyleSheet.create({
     height: calculateDynamicWidth(38),
   },
 
-  memoListContainer: {
+  memoListContainer_main: {
     height: calculateDynamicWidth(350),
+  },
+
+  memoListContainer_menu: {
+    height: calculateDynamicWidth(570),
   },
 
   memoContainer: {
