@@ -38,7 +38,7 @@ const MAX_HEIGHT = screenHeight / 2;
 export type MemoDetailProps = {
   accessType: string;
   content: string;
-  file: string;
+  file: string | null;
   isBookmarked: boolean;
   itemImage: string;
   itemName: string;
@@ -111,7 +111,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
   }, []);
 
   // 이미지 비율 축소를 위한 상태관리
-  const [memoPic, setMemoPic] = useState("");
+  const [memoPic, setMemoPic] = useState<string | null>(null);
   const [imageWidth, setImageWidth] = useState(MAX_WIDTH);
   const [imageHeight, setImageHeight] = useState(MAX_HEIGHT);
 
@@ -323,7 +323,7 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
               </View>
             </View>
             <ScrollView style={detailStyle.contentContainer}>
-              {memoPic !== "" ? (
+              {memoPic ? (
                 <>
                   <Pressable onPress={openFullImage}>
                     <Image
@@ -399,20 +399,22 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
               />
             </Pressable>
             {/* 첨부 사진 */}
-            <Image
-              source={{ uri: memoPic }}
-              style={[
-                styles.uploadedFullImg,
-                {
-                  width: imageWidth,
-                  height: imageHeight,
-                  transform: [
-                    { translateY: -imageHeight / 2 },
-                    { translateX: -imageWidth / 2 },
-                  ],
-                },
-              ]}
-            />
+            {memoPic && (
+              <Image
+                source={{ uri: memoPic }}
+                style={[
+                  styles.uploadedFullImg,
+                  {
+                    width: imageWidth,
+                    height: imageHeight,
+                    transform: [
+                      { translateY: -imageHeight / 2 },
+                      { translateX: -imageWidth / 2 },
+                    ],
+                  },
+                ]}
+              />
+            )}
           </Modal>
         </View>
       )}
