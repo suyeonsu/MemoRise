@@ -118,7 +118,8 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
 
   // 메모디테일 -> 메모 삭제
   const deleteMemo = () => {
-    console.log("메모 삭제");
+    setIsMemoDetail(false);
+    setIsMemoList(true);
   };
 
   return (
