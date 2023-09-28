@@ -57,6 +57,16 @@ const MemoList: React.FC<MemoListProp> = ({
     item: MemoTypeProps;
   };
 
+  //날짜 변경 함수
+  const formatData = (inputData: string) => {
+    const date = new Date(inputData);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}. ${month}. ${day}`;
+  };
+
   // 북마크 상태관리 및 함수
   const [memoData, setMemoData] = useState<MemoTypeProps[]>([]);
 
@@ -101,7 +111,7 @@ const MemoList: React.FC<MemoListProp> = ({
         >
           <View style={styles.innerContainer}>
             <View style={styles.calenderContainer}>
-              <Text style={styles.calendar}>{item.updatedAt}</Text>
+              <Text style={styles.calendar}>{formatData(item.updatedAt)}</Text>
             </View>
             {item.file !== null ? (
               <View>
