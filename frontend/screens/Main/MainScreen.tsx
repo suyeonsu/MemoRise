@@ -540,12 +540,15 @@ const MainScreen = () => {
 
   // 확인 버튼 눌렀을 때
   const memoCancelConfirm = () => {
+    if (isUpdateMemoTrue) {
+      setIsUpdateMemoTrue(false);
+      setIsMemoDetailVisible(true);
+    }
     setEnteredMemo("");
     setOpenState("OPEN");
     setToggleOpen(false);
     setMemoCancelModalVisible(false);
     setMemoCreateModalVisible(false);
-    setIsUpdateMemoTrue(false);
     setTagSearchText("");
     setTaggedMember([]);
     setMyGroupVisible(false);
@@ -1412,15 +1415,24 @@ const MainScreen = () => {
       )}
 
       {/* 메모 작성 중 취소 확인 모달 */}
-      {isMemoCancelModalVisible && (
-        <AlertModal
-          modalVisible={isMemoCancelModalVisible}
-          closeModal={closeMemoCancelModal}
-          onConfirm={memoCancelConfirm}
-          contentText="메모 작성을 취소하시겠습니까?"
-          btnText="확인"
-        />
-      )}
+      {isMemoCancelModalVisible &&
+        (isUpdateMemoTrue ? (
+          <AlertModal
+            modalVisible={isMemoCancelModalVisible}
+            closeModal={closeMemoCancelModal}
+            onConfirm={memoCancelConfirm}
+            contentText="메모 수정을 취소하시겠습니까?"
+            btnText="확인"
+          />
+        ) : (
+          <AlertModal
+            modalVisible={isMemoCancelModalVisible}
+            closeModal={closeMemoCancelModal}
+            onConfirm={memoCancelConfirm}
+            contentText="메모 작성을 취소하시겠습니까?"
+            btnText="확인"
+          />
+        ))}
     </View>
   );
 };
