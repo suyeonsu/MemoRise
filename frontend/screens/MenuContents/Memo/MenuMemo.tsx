@@ -289,6 +289,7 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
     setIsMemoDetail(false);
     setIsMemoCreate(true);
     setMemoDetailData(data);
+    console.log(data);
   };
 
   // 메모디테일 -> 메모 삭제
@@ -507,6 +508,8 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
     setTaggedGroup([]);
     setTaggedMemberList([]);
     setTaggedGroupList([]);
+    setIsMemoCreate(false);
+    setIsMemoDetail(true);
   };
 
   return (
