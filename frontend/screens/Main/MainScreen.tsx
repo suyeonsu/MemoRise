@@ -583,7 +583,7 @@ const MainScreen = () => {
   const [isVisible, setIsVisible] = useState(true);
 
   // 물체 학습 화면 표시 여부
-  const [objectRegisterShow, setObjectRegisterShow] = useState(false);
+  const [objectRegisterShow, setObjectRegisterShow] = useState(true);
 
   // 물체 등록 진행 상태
   const [progress, setProgress] = useState(0);
