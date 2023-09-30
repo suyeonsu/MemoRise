@@ -282,7 +282,7 @@ const MainScreen = () => {
 
   // 메모 조회 상태관리
   // true -> false로 변경할 것!!! <-- 변경했다면? 주석지워~
-  const [memoListVisible, setMemoListVisible] = useState(true); //쫀듸기
+  const [memoListVisible, setMemoListVisible] = useState(false); //쫀듸기
 
   // 메모모달 종료 후, 메모 작성창 띄우는 함수
   // 나중에 객체 탐지해서 메모 개수 나오면 함수 적용
@@ -413,8 +413,8 @@ const MainScreen = () => {
     try {
       const res = await axios({
         method: "GET",
-        // url: BACKEND_URL + `/user/${userId}/my-teams`,
-        url: BACKEND_URL + `/user/30/my-teams`, // 쫀듸기
+        url: BACKEND_URL + `/user/${userId}/my-teams`,
+        // url: BACKEND_URL + `/user/30/my-teams`, // 쫀듸기
       });
       setGroupList(res.data);
     } catch (err) {
@@ -440,11 +440,11 @@ const MainScreen = () => {
           data: {
             content: enteredMemo,
             accessType: openState,
-            // userId: userId,
-            userId: 30, // 쫀듸기
+            userId: userId,
+            // userId: 30, // 쫀듸기
             newFile: uploadedPic,
-            // itemName: pickItem,
-            itemName: "8ef97a8a0be", // 쫀듸기
+            itemName: pickItem,
+            // itemName: "8ef97a8a0be", // 쫀듸기
             taggedUserList: taggedMember,
             taggedTeamList: taggedGroup,
           },
@@ -477,11 +477,11 @@ const MainScreen = () => {
           data: {
             content: enteredMemo,
             accessType: openState,
-            // userId: userId,
-            userId: 30, // 쫀듸기
+            userId: userId,
+            // userId: 30, // 쫀듸기
             newFile: uploadedPic,
-            // itemName: pickItem,
-            itemName: "8ef97a8a0be", // 쫀듸기
+            itemName: pickItem,
+            // itemName: "8ef97a8a0be", // 쫀듸기
             taggedUserList: taggedMember,
             taggedTeamList: taggedGroup,
           },
