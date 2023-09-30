@@ -582,13 +582,13 @@ const MainScreen = () => {
   >([]);
 
   // 선택 된 객체 ID 값 저장
-  const [pickItem, setPickItem] = useState("");
+  const [pickItem, setPickItem] = useState("65180fb9e5875189022978b2");
 
   // 메모 조회 시 객체 표시 가리기
   const [isVisible, setIsVisible] = useState(false);
 
   // 물체 학습 화면 표시 여부
-  const [objectRegisterShow, setObjectRegisterShow] = useState(true);
+  const [objectRegisterShow, setObjectRegisterShow] = useState(false);
 
   // 물체 등록 진행 상태
   const [progress, setProgress] = useState(0);
@@ -614,6 +614,14 @@ const MainScreen = () => {
 
   // 물체 등록 후 메모 생성 여부 확인
   const [confirmMemoCreate, setConfirmMemoCreate] = useState(false);
+
+  //  memoListVisible 참조
+  const memoListVisibleRef = useRef(memoListVisible);
+
+  // memoListVisible 값이 변경될 때마다 useRef 업데이트
+  useEffect(() => {
+    memoListVisibleRef.current = memoListVisible;
+  }, [memoListVisible]);
 
   // 물체 등록 후 메모 생성 취소
   const cancelConfirmMemoCreate = () => {
@@ -785,15 +793,13 @@ const MainScreen = () => {
         setProgress(0);
         stopRTCConnection();
         setConfirmMemoCreate(true);
-
-        console.log(newId);
       }
 
-      // 기존의 로직을 유지합니다
       if (
         trackType != "track2" &&
         receivedData.objects &&
-        Array.isArray(receivedData.objects)
+        Array.isArray(receivedData.objects) &&
+        !memoListVisibleRef.current
       ) {
         const newCoordinates = receivedData.objects.map((obj: any) => ({
           id: obj.id,
@@ -966,7 +972,7 @@ const MainScreen = () => {
             disabled={!isConnected}
           />
         </View>
-        <Pressable
+        {/* <Pressable
           style={styles.btnContainer}
           onPress={() => setMemoBtnModalVisible(true)}
         >
@@ -974,7 +980,7 @@ const MainScreen = () => {
             source={require("../../assets/image/mainbtn.png")}
             style={styles.addBtn}
           />
-        </Pressable>
+        </Pressable> */}
       </View>
 
       {/* 메모 조회 */}
