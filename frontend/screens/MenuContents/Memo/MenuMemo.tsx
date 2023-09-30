@@ -208,6 +208,9 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
     }
   };
 
+  // 선택 된 객체 ID 값 저장
+  const [pickItem, setPickItem] = useState("");
+
   // 유저 검색 상태관리
   const [userList, setUserList] = useState<UserData | null>(null);
 
@@ -310,6 +313,7 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
     memoUpdateTaggedHandler(data);
     setUploadedPic(data[0].file);
     setEnteredMemo(data[0].content);
+    setPickItem(data[0].itemName);
   };
 
   // 메모디테일 -> 메모 삭제
@@ -350,8 +354,8 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
     try {
       const res = await axios({
         method: "GET",
-        // url: BACKEND_URL + `/user/${userId}/my-teams`,
-        url: BACKEND_URL + `/user/30/my-teams`, // 쫀듸기
+        url: BACKEND_URL + `/user/${userId}/my-teams`,
+        // url: BACKEND_URL + `/user/30/my-teams`, // 쫀듸기
       });
       setGroupList(res.data);
     } catch (err) {
@@ -477,11 +481,11 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
         data: {
           content: enteredMemo,
           accessType: openState,
-          // userId: userId,
-          userId: 30, // 쫀듸기
+          userId: userId,
+          // userId: 30, // 쫀듸기
           newFile: uploadedPic,
-          // itemName: pickItem,
-          itemName: "8ef97a8a0be", // 쫀듸기
+          itemName: pickItem,
+          // itemName: "8ef97a8a0be", // 쫀듸기
           taggedUserList: taggedMember,
           taggedTeamList: taggedGroup,
         },
