@@ -103,8 +103,8 @@ const MemoDetail: React.FC<MemoDetailProp> = ({
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          // BACKEND_URL + `/memos/${memoSeq}/${userId}`
-          BACKEND_URL + `/memos/${memoSeq}/23` // 쫀듸기
+          BACKEND_URL + `/memos/${memoSeq}/${userId}`
+          // BACKEND_URL + `/memos/${memoSeq}/23` // 쫀듸기
         );
         const dataWithMemoSeq = {
           ...res.data,
