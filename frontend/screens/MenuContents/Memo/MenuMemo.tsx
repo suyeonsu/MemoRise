@@ -278,10 +278,27 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
     setIsMemoList(true);
   };
 
-  // 메모수정 컴포넌트 닫고, 메모디테일 컴포넌트 열기
-  const closeCreateOpenDetail = () => {
-    setIsMemoCreate(false);
-    setIsMemoDetail(true);
+  // 메모수정을 위한 태그된 팀 & 유저 함수
+  const memoUpdateTaggedHandler = (data: MemoDetailProps[]) => {
+    const userIds: number[] = [];
+    const userNicknamesAndIds: { id: number; name: string }[] = [];
+    const teamIds: number[] = [];
+    const teamNicknamesAndIds: { id: number; name: string }[] = [];
+
+    data[0].taggedUserList.forEach((user) => {
+      userIds.push(user.userSeq);
+      userNicknamesAndIds.push({ id: user.userSeq, name: user.nickname });
+    });
+
+    data[0].taggedTeamList.forEach((team) => {
+      teamIds.push(team.teamSeq);
+      teamNicknamesAndIds.push({ id: team.teamSeq, name: team.name });
+    });
+
+    setTaggedMember(userIds);
+    setTaggedMemberList(userNicknamesAndIds);
+    setTaggedGroup(teamIds);
+    setTaggedGroupList(teamNicknamesAndIds);
   };
 
   // 메모디테일 -> 메모 수정
@@ -289,7 +306,10 @@ const MemuMemo: React.FC<MenuMemoScreenProps> = ({ route }) => {
     setIsMemoDetail(false);
     setIsMemoCreate(true);
     setMemoDetailData(data);
-    console.log(data);
+    setOpenState(data[0].accessType);
+    memoUpdateTaggedHandler(data);
+    setUploadedPic(data[0].file);
+    setEnteredMemo(data[0].content);
   };
 
   // 메모디테일 -> 메모 삭제
