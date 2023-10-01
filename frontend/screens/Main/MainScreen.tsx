@@ -995,6 +995,15 @@ const MainScreen = () => {
             />
           </Pressable>
         )}
+        {/* <Pressable
+          style={styles.btnContainer}
+          onPress={() => setMemoBtnModalVisible(true)}
+        >
+          <Image
+            source={require("../../assets/image/mainbtn.png")}
+            style={styles.addBtn}
+          />
+        </Pressable> */}
       </View>
 
       {/* 메모 조회 */}
