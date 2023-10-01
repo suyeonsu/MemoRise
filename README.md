@@ -107,7 +107,7 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 # 📺서비스 상세 내용
 
 <details>
-<summary> 📲주요 기능(임시 이미지)</summary>
+<summary> 📲주요 기능(수정 예정!)</summary>
 <br/>
 <p align="center"> <img src="https://github.com/PEEKPICK/PEEKPICK/assets/70866410/7910c4c8-7ef2-4f23-a044-add6efdae963"> </p>
 
