@@ -27,6 +27,7 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 
 ## 👨‍👨‍👧‍👧 팀 구성
 
+<div align="center">
 <table>
   <tr>
         <td height="140px" align="center"> <img src="https://github.com/Semibro/TIL/assets/71372469/03cb29f5-31e0-4c7e-b5d2-d27b4871033b" height="140px" width="140px" /> </td>
@@ -53,6 +54,7 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
         <td align="center">Backend <br/>Infra  </td>
     </tr>
 </table>
+</div>
 
 ### 📅 진행 기간
 
@@ -109,12 +111,12 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 <details>
 <summary> 📲주요 기능(수정 예정!)</summary>
 <br/>
-<p align="center"> <img src="https://github.com/PEEKPICK/PEEKPICK/assets/70866410/7910c4c8-7ef2-4f23-a044-add6efdae963"> </p>
+<div align="center"> <img src="https://github.com/PEEKPICK/PEEKPICK/assets/70866410/7910c4c8-7ef2-4f23-a044-add6efdae963"> </div>
 
 - <b> 익명 채팅 </b>
   - 현재 위치를 기반으로 타인(이하 `피커`)과 일대일 채팅을 할 수 있습니다. 이 때, 채팅방은 `10분간` 유지되는 휘발성 채팅방입니다. <br/> <br/>
 
-<p align="center"> <img src="https://github.com/PEEKPICK/PEEKPICK/assets/70866410/7910c4c8-7ef2-4f23-a044-add6efdae963"> </p>
+<div align="center"> <img src="https://github.com/PEEKPICK/PEEKPICK/assets/70866410/7910c4c8-7ef2-4f23-a044-add6efdae963"> </div>
 
 - <b> 익명 메시지 </b>
   - 현재 위치를 기반으로 메시지(이하 `피크`)를 남길 수 있습니다
@@ -130,13 +132,13 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 
 ### 📗 시스템 구성도
 
-<p align="center">
-<img src="https://github.com/Semibro/TIL/assets/71372469/a91cbc58-1edf-40b5-9d88-3d61c06ec110"> </p>
+<div align="center">
+<img src="https://github.com/Semibro/TIL/assets/71372469/a91cbc58-1edf-40b5-9d88-3d61c06ec110"> </div>
 
 ### 📘 ER Diagram
 
-<p align="center">
-<img src="https://github.com/Semibro/TIL/assets/71372469/66cfec1e-2af7-4f22-baa2-3bdbe4628306"> </p>
+<div align="center">
+<img src="https://github.com/Semibro/TIL/assets/71372469/66cfec1e-2af7-4f22-baa2-3bdbe4628306"> </div>
 
 ### 📙[API 명세서](https://steady-volcano-b48.notion.site/API-fcb5fa4e9c084008b4e68510fd0de23b?pvs=4)
 
@@ -150,8 +152,8 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 
 ### 🔏 Notion
 
-<p align="center">
-<img src="https://github.com/Semibro/TIL/assets/71372469/b1d14f8c-92fc-4b03-a2bf-b80ac7b0dd4a"> </p>
+<div align="center">
+<img src="https://github.com/Semibro/TIL/assets/71372469/b1d14f8c-92fc-4b03-a2bf-b80ac7b0dd4a"> </div>
 
 ### 🔑 Commit Comvention
 
