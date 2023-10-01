@@ -963,27 +963,24 @@ const MainScreen = () => {
           contentText={`미등록된 물체입니다.\n등록해주세요!`}
           btnText="확인"
         />
-        <View style={styles.rtcButton}>
-          <Button
-            title="Start"
+        {isConnected ? (
+          <Pressable style={styles.btnContainer} onPress={stopRTCConnection}>
+            <Image
+              source={require("../../assets/image/camerabtn_stop.png")}
+              style={styles.addBtn}
+            />
+          </Pressable>
+        ) : (
+          <Pressable
+            style={styles.btnContainer}
             onPress={() => startRTCConnection("track1")}
-            disabled={isConnected}
-          />
-          <Button
-            title="Stop"
-            onPress={stopRTCConnection}
-            disabled={!isConnected}
-          />
-        </View>
-        {/* <Pressable
-          style={styles.btnContainer}
-          onPress={() => setMemoBtnModalVisible(true)}
-        >
-          <Image
-            source={require("../../assets/image/mainbtn.png")}
-            style={styles.addBtn}
-          />
-        </Pressable> */}
+          >
+            <Image
+              source={require("../../assets/image/camerabtn.png")}
+              style={styles.addBtn}
+            />
+          </Pressable>
+        )}
       </View>
 
       {/* 메모 조회 */}
