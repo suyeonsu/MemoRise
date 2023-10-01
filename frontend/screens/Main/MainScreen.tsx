@@ -8,7 +8,6 @@ import {
   ScrollView,
   Dimensions,
   Alert,
-  Button,
   TouchableOpacity,
 } from "react-native";
 import {
@@ -900,8 +899,8 @@ const MainScreen = () => {
             >
               <View style={styles.imageContainer}>
                 <Image
-                  source={require("../../assets/focus/star.png")}
-                  style={styles.ObjImg}
+                  source={require("../../assets/focus/memo.png")}
+                  style={[styles.ObjImg, { opacity: 0.7 }]}
                 />
                 <View style={styles.textContainer}>
                   <Text style={styles.ObjCircleText}>
