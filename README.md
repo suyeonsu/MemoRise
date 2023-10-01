@@ -45,14 +45,28 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
         <td align="center"> <a href="https://github.com/Fizioo0102"> 최경인 </a></td>
     </tr>
     <tr>
-        <td align="center">AOS <br/>Leader </td>
-        <td align="center">AOS <br/>Design </td>
-        <td align="center">AOS <br/>AI </td>
-        <td align="center">Backend <br/>Security </td>
-        <td align="center">Backend <br/>AI  </td>
-        <td align="center">Backend <br/>Infra  </td>
+        <td align="center">AOS</td>
+        <td align="center">AOS</td>
+        <td align="center">AOS</td>
+        <td align="center">Backend</td>
+        <td align="center">Backend</td>
+        <td align="center">Backend</td>
     </tr>
 </table>
+
+<b>Frontend</b>
+
+- 김장호 :
+- 권소정 :
+- 김준형 :
+
+<br/>
+
+<b>Backend</b>
+
+- 김수연 :
+- 이준용 :
+- 최경인 :
 
 ### 📅 진행 기간
 
