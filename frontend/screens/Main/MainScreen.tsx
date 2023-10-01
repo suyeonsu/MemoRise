@@ -850,6 +850,20 @@ const MainScreen = () => {
     };
   }, []);
 
+  const [checkMemoLengthZero, setCheckMemoLengthZero] = useState(false);
+
+  const checkMemoLength = (checker: boolean) => {
+    setCheckMemoLengthZero(checker);
+  };
+
+  const noLengthModalClose = () => {
+    setCheckMemoLengthZero(false);
+  };
+
+  const noLengthModalOpenCreate = () => {
+    setMemoCreateModalVisible(true);
+  };
+
   return (
     <View style={{ flex: 1 }}>
       {!isNotificationModalVisible && (
@@ -992,6 +1006,7 @@ const MainScreen = () => {
             id={pickItem}
             memoStatus={"main"}
             memoListStatus={memoListVisible}
+            onMemoZeroLength={checkMemoLength}
           />
         </>
       )}
@@ -1442,6 +1457,17 @@ const MainScreen = () => {
             btnText="확인"
           />
         ))}
+
+      {/* 메모가 없을 때, 메모 작성 모달 */}
+      {checkMemoLengthZero && (
+        <AlertModal
+          modalVisible={checkMemoLengthZero}
+          closeModal={noLengthModalClose}
+          onConfirm={noLengthModalOpenCreate}
+          contentText={`물체에 저장된 메모가 없습니다.\n메모를 작성하시겠습니까?`}
+          btnText="확인"
+        />
+      )}
     </View>
   );
 };
