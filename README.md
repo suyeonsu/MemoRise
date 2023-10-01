@@ -104,7 +104,7 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 - `Axios` : 1.5.0 <br/>
 </details> <br/><br/>
 
-# 📺서비스 상세 내용
+# 📺 서비스 상세 내용
 
 <details>
 <summary> 📲주요 기능(수정 예정!)</summary>
@@ -126,14 +126,14 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 
 <br/><br/>
 
-# 📚산출물
+# 📚 산출물
 
-### 📗시스템 구성도
+### 📗 시스템 구성도
 
 <p align="center">
 <img src="https://github.com/Semibro/TIL/assets/71372469/a91cbc58-1edf-40b5-9d88-3d61c06ec110"> </p>
 
-### 📘ER Diagram
+### 📘 ER Diagram
 
 <p align="center">
 <img src="https://github.com/Semibro/TIL/assets/71372469/66cfec1e-2af7-4f22-baa2-3bdbe4628306"> </p>
@@ -146,14 +146,14 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 
 <br/>
 
-# 🤝협업
+# 🤝 협업
 
-### 🔏Notion
+### 🔏 Notion
 
 <p align="center">
 <img src="https://github.com/Semibro/TIL/assets/71372469/b1d14f8c-92fc-4b03-a2bf-b80ac7b0dd4a"> </p>
 
-### 🔑Commit Comvention
+### 🔑 Commit Comvention
 
 |   태그   |                 설명                 |               예시                |
 | :------: | :----------------------------------: | :-------------------------------: |
@@ -166,7 +166,7 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 |   Test   |                테스트                |       Test: 회원가입 테스트       |
 |  Chore   |            기타 변경사항             |         Chore: 공백 제거          |
 
-### 🔑Branch
+### 🔑 Branch
 
 - develop/be : 백엔드 프로젝트 배포<br>
 - develop/fe : 프론트엔드 프로젝트 배포<br>
