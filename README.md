@@ -1,7 +1,7 @@
 # MemoRise
 
 <p align="center">
-  <img src="https://github.com/Semibro/TIL/assets/71372469/a38ba54b-a8f7-4f58-9f28-56c83ab05b8f" height="200px" width="200px" />
+<img src="https://github.com/Semibro/TIL/assets/71372469/a38ba54b-a8f7-4f58-9f28-56c83ab05b8f" height="200px" width="200px" />
 </p>
 
 # 📌소개
