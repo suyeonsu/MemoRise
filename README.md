@@ -31,7 +31,7 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
   <tr>
         <td height="140px" align="center"> <img src="https://github.com/Semibro/TIL/assets/71372469/03cb29f5-31e0-4c7e-b5d2-d27b4871033b" height="140px" width="140px" /> </td>
         <td height="140px" align="center">  <img src="https://github.com/Semibro/TIL/assets/71372469/fba440d3-7680-4e85-a4c1-3eea67f3d146" height="140px" width="140px" /> </td>
-        <td height="140px" align="center">  <img src="https://github.com/SSAFY9-CLASS6-Team7/Enjoy_Trip_Team7/assets/70866410/38d14030-c01e-4179-98ad-35830548ebb9" height="140px" width="140px" /> </td>
+        <td height="140px" align="center">  <img src="https://github.com/Semibro/TIL/assets/71372469/6c405aee-52c0-4192-9a04-42fb6e75eee8" height="140px" width="140px" /> </td>
         <td height="140px" align="center">  <img src="https://github.com/Semibro/TIL/assets/71372469/44aec5fe-33ee-42e8-b67c-dd1460a09474" height="140px" width="140px" /> </td>
         <td height="140px" align="center"> <img src="https://github.com/Semibro/TIL/assets/71372469/2be89b23-0c0c-4c64-a1ab-f8d367741852" height="140px" width="140px" /> </td>
         <td height="140px" align="center">  <img src="https://github.com/Semibro/TIL/assets/71372469/0e52f792-e2b8-4fc4-8617-3b05728f8e3b" height="140px" width="140px" /> </td>
