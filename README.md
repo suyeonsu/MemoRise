@@ -27,7 +27,6 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 
 ## 👨‍👨‍👧‍👧 팀 구성
 
-<div align="center">
 <table>
   <tr>
         <td height="140px" align="center"> <img src="https://github.com/Semibro/TIL/assets/71372469/03cb29f5-31e0-4c7e-b5d2-d27b4871033b" height="140px" width="140px" /> </td>
@@ -54,7 +53,6 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
         <td align="center">Backend <br/>Infra  </td>
     </tr>
 </table>
-</div>
 
 ### 📅 진행 기간
 
