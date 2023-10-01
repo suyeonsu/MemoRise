@@ -151,7 +151,7 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 ### 🔏Notion
 
 <p align="center">
-<img src="https://github.com/meoldae/Algorithm/assets/70866410/05fe75df-e345-418e-8250-9748789e9ede"> </p>
+<img src="https://github.com/Semibro/TIL/assets/71372469/b1d14f8c-92fc-4b03-a2bf-b80ac7b0dd4a"> </p>
 
 ### 🔑Commit Comvention
 
