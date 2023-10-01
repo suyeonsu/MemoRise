@@ -180,6 +180,8 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 <div align="center">
 <img src="https://github.com/Semibro/TIL/assets/71372469/b1d14f8c-92fc-4b03-a2bf-b80ac7b0dd4a"> </div>
 
+<br/>
+
 ### 🔑 Commit Comvention
 
 |   태그   |                 설명                 |               예시                |
@@ -192,6 +194,8 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 | Refactor |            코드 리팩토링             | Refactor: 메모 등록 로직 리팩토링 |
 |   Test   |                테스트                |       Test: 회원가입 테스트       |
 |  Chore   |            기타 변경사항             |         Chore: 공백 제거          |
+
+<br/>
 
 ### 🔑 Branch
 
