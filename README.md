@@ -138,11 +138,11 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 <p align="center">
 <img src="https://github.com/meoldae/Algorithm/assets/70866410/071b83cd-9b4b-45b9-a1e2-6d29f4bb6c93"> </p>
 
-### 📙[API 명세](https://warm-care-7c5.notion.site/PeekPick-API-42f409b269504938bc89b940f62580dd)
+### 📙[API 명세서](https://steady-volcano-b48.notion.site/API-fcb5fa4e9c084008b4e68510fd0de23b?pvs=4)
 
-### 📒[화면 정의서 & 와이어프레임](https://www.figma.com/file/3u64uYwzIQviGqX6J5ZWiX/PeekPick?type=design&node-id=0-1&mode=design)
+### 📒[화면 정의서 & 와이어프레임](https://www.figma.com/file/2syMIcMUQbohcNmcXERyNM/MemoRise?type=design&node-id=262%3A3856&mode=design&t=Ih2depWsldhISZJz-1)
 
-### 📕[요구사항 정의서](https://warm-care-7c5.notion.site/PeekPick-fd95c4cce9164def86c0aa69f43148af?pvs=4)
+### 📕[프로그램 명세서](https://steady-volcano-b48.notion.site/f6447850ed2c4e11bedbf91db0fd9401?pvs=4)
 
 <br/>
 
