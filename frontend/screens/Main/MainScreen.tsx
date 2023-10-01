@@ -42,7 +42,7 @@ import { GroupData } from "../MenuContents/Group/MyGroupScreen";
 
 const screenHeight = Dimensions.get("window").height;
 
-type DataChannel = {
+export type DataChannel = {
   current: {
     _bufferedAmount: number;
     _id: number | null;
