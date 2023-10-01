@@ -131,12 +131,12 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 ### 📗시스템 구성도
 
 <p align="center">
-<img src="https://github.com/meoldae/Algorithm/assets/70866410/d9a927b6-7d1b-41de-81b9-400385444969"> </p>
+<img src="https://github.com/Semibro/TIL/assets/71372469/a91cbc58-1edf-40b5-9d88-3d61c06ec110"> </p>
 
 ### 📘ER Diagram
 
 <p align="center">
-<img src="https://github.com/meoldae/Algorithm/assets/70866410/071b83cd-9b4b-45b9-a1e2-6d29f4bb6c93"> </p>
+<img src="https://github.com/Semibro/TIL/assets/71372469/66cfec1e-2af7-4f22-baa2-3bdbe4628306"> </p>
 
 ### 📙[API 명세서](https://steady-volcano-b48.notion.site/API-fcb5fa4e9c084008b4e68510fd0de23b?pvs=4)
 
