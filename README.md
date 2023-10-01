@@ -45,9 +45,9 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
         <td align="center"> <a href="https://github.com/Fizioo0102"> 최경인 </a></td>
     </tr>
     <tr>
-        <td align="center">Leader <br/>Frontend </td>
-        <td align="center">Frontend </td>
-        <td align="center">Frontend <br/>AI </td>
+        <td align="center">Leader <br/>AOS </td>
+        <td align="center">AOS </td>
+        <td align="center">AOS <br/>AI </td>
         <td align="center">Backend </td>
         <td align="center">Backend <br/>AI  </td>
         <td align="center">Backend <br/>Infra  </td>
