@@ -1406,6 +1406,7 @@ const MainScreen = () => {
                       multiline={true}
                       onChangeText={memoInputHandler}
                       value={enteredMemo}
+                      autoFocus
                     />
                   </ScrollView>
                 </View>
