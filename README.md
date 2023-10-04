@@ -163,7 +163,7 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 ### 📗 시스템 구성도
 
 <div align="center">
-<img src="https://github.com/Semibro/Semibro/assets/71372469/f24bd946-194b-437a-9f12-c145502e1055"> </div> <br/>
+<img src="https://github.com/Semibro/Semibro/assets/71372469/5749c6c1-bf62-4636-829f-63a78059bd23"> </div> <br/>
 
 ### 📘 ER Diagram
 
