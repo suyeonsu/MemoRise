@@ -383,6 +383,7 @@ const MainScreen = () => {
     setEnteredMemo("");
     setOpenState("OPEN");
     MemoCreate();
+    setUploadedPic("");
 
     if (check) {
       startRTCConnection("track1");
