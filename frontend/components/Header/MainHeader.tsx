@@ -32,7 +32,7 @@ const MainHeader: React.FC<HeaderProps> = ({ openModal, stopRTC }) => {
           />
         </View>
       </Pressable>
-      <Pressable onPress={() => navigation.navigate("Main")}>
+      <Pressable onPress={() => navigation.replace("Main")}>
         <Image
           source={require("../../assets/image/logo/logowhite.png")}
           style={styles.logo}
