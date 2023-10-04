@@ -735,11 +735,11 @@ const MainScreen = () => {
   const initializeCamera = async (): Promise<void> => {
     try {
       const stream = await mediaDevices.getUserMedia({
-        audio: true,
+        audio: false,
         video: {
-          width: 3840,
-          height: 2160,
-          frameRate: 30,
+          width: 1280,
+          height: 720,
+          frameRate: 20,
           facingMode: "environment",
         },
       });
@@ -766,7 +766,7 @@ const MainScreen = () => {
           rid: "h",
           maxBitrate: 900000,
           minBitrate: 300000,
-          maxFramerate: 30,
+          maxFramerate: 20,
         },
       ],
     };
@@ -849,6 +849,12 @@ const MainScreen = () => {
       stopRTCConnection();
     };
   }, []);
+
+  useEffect(() => {
+    if (localStream) {
+      startRTCConnection("track1");
+    }
+  }, [localStream]);
 
   const [checkMemoLengthZero, setCheckMemoLengthZero] = useState(false);
 
