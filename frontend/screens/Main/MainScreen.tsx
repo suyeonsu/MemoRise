@@ -878,6 +878,7 @@ const MainScreen = () => {
           <MainHeader
             openModal={() => {
               setNotificationModalVisible(true);
+              stopRTCConnection();
             }}
           />
         </View>
