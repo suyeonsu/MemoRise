@@ -130,10 +130,10 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 <summary>버전 상세 정보</summary>
 
 - `Python` : 3.9.16 <br/>
-- `Pytorch` : 수정 <br/>
+- `Pytorch` : 2.0.1+cu118 <br/>
 - `Anaconda` : 23.7.2 <br/>
 - `MongoDB` : 4.4.24 <br/>
-- `WebRTC` : 수정 <br/>
+- `WebRTC(aiortc)` : 1.5.0 <br/>
 </details> <br/><br/>
 
 # 📺 서비스 상세 내용
