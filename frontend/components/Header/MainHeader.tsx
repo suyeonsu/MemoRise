@@ -40,7 +40,10 @@ const MainHeader: React.FC<HeaderProps> = ({ openModal, stopRTC }) => {
       </Pressable>
       <Pressable
         style={styles.menuContainer}
-        onPress={() => navigation.navigate("Menu")}
+        onPress={() => {
+          navigation.navigate("Menu");
+          stopRTC();
+        }}
       >
         <View style={styles.padding}>
           <View style={styles.menu}></View>
