@@ -92,9 +92,10 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 <summary>버전 상세 정보</summary>
 
 - `Ubuntu` : 20.04 LTS <br/>
-- `Jenkins` : 2.417 <br/>
-- `Docker` : 24.0.5 <br/>
-- `Prometheus` : 1.9.13 <br/>
+- `Jenkins` : 2.422 <br/>
+- `Docker` : 24.0.6 <br/>
+- `Prometheus` : 2.37 <br/>
+- `Grafana` : 10.1.4 <br/>
 </details> <br/>
 
 <b>백엔드</b> : <img src="https://img.shields.io/badge/Java-000000?style=flat-square&logo=java&logoColor=744e3b"/> <img src="https://img.shields.io/badge/Spring-000000?style=flat-square&logo=spring&logoColor=6DB33F"/> <img src="https://img.shields.io/badge/Springboot-000000?style=flat-square&logo=springboot&logoColor=6DB33F"/> <img src="https://img.shields.io/badge/Springsecurity-000000?style=flat-square&logo=springsecurity&logoColor=6DB33F"/> <img src="https://img.shields.io/badge/Gradle-000000?style=flat-square&logo=gradle&logoColor=02303A"/> <img src="https://img.shields.io/badge/MySQL-000000?style=flat-square&logo=mysql&logoColor=4479A1"/> <img src="https://img.shields.io/badge/JPA-000000?style=flat-square&logo=JPA&logoColor=DC382D"/>
@@ -102,12 +103,12 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 <details>
 <summary>버전 상세 정보</summary>
 
-- `Java` : OpenJDK 11.0.1 <br/>
-- `Spring` : 5.3.29 <br/>
-- `Spring Boot` : 2.7.14 <br/>
-- `Spring Security` : 5.7.10 <br/>
+- `Java` : OpenJDK 17.0.3 <br/>
+- `Spring Boot` : 3.1.3 <br/>
+- `QueryDsl` : 5.0.0 <br/>
+- `Spring Security` : 6.1.3 <br/>
 - `MySQL` : 8.0.33 <br/>
-- `Gradle` : 8.1.1 <br/>
+- `Gradle` : 8.2.1 <br/>
 </details> <br/>
 
 <b>프론트엔드</b> : <img src="https://img.shields.io/badge/JavaScript-000000?style=flat-square&logo=javascript&logoColor=F7DF1E"/> <img src="https://img.shields.io/badge/ReactNative-000000?style=flat-square&logo=react&logoColor=61DAFB"/> <img src="https://img.shields.io/badge/Redux-000000?style=flat-square&logo=redux&logoColor=764ABC"/> <img src="https://img.shields.io/badge/npm-000000?style=flat-square&logo=npm&logoColor=CB3837"/> <img src="https://img.shields.io/badge/Axios-000000?style=flat-square&logo=Axios&logoColor=5A29E4"/> <img src="https://img.shields.io/badge/WebRTC-000000?style=flat-square&logo=webrtc&logoColor=333333"/><br/>
@@ -131,7 +132,7 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 - `Python` : 3.9.16 <br/>
 - `Pytorch` : 수정 <br/>
 - `Anaconda` : 23.7.2 <br/>
-- `MongoDB` : 수정 <br/>
+- `MongoDB` : 4.4.24 <br/>
 - `WebRTC` : 수정 <br/>
 </details> <br/><br/>
 
