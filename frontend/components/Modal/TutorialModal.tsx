@@ -16,9 +16,14 @@ import ConfirmBtn from "../Button/ConfirmBtn";
 type ModalProps = {
   modalVisible: boolean;
   closeModal: (event: GestureResponderEvent) => void;
+  onlyCloseModal: (event: GestureResponderEvent) => void;
 };
 
-const TutorialModal: React.FC<ModalProps> = ({ modalVisible, closeModal }) => {
+const TutorialModal: React.FC<ModalProps> = ({
+  modalVisible,
+  closeModal,
+  onlyCloseModal,
+}) => {
   return (
     <View style={styles.background}>
       <Modal
@@ -35,12 +40,12 @@ const TutorialModal: React.FC<ModalProps> = ({ modalVisible, closeModal }) => {
               style={styles.logo}
             />
           </Pressable>
-          {/* <Pressable style={styles.cancelContainer} onPress={closeModal}>
+          <Pressable style={styles.cancelContainer} onPress={onlyCloseModal}>
             <Image
               source={require("../../assets/icons/cancelwhite.png")}
               style={styles.cancel}
             />
-          </Pressable> */}
+          </Pressable>
         </View>
 
         <View style={styles.modalEmptyContainer}>
