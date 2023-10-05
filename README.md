@@ -17,7 +17,7 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 
 - 소셜 로그인
   - 카카오
-- 객체인식 기반 메모 작성
+- 물체인식 기반 메모 작성
 - 물체인식 기반 메모 조회
 - 물체 공개 여부
   - 전체공개
@@ -145,12 +145,12 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 <div align="center"> <img src="https://github.com/Semibro/Semibro/assets/71372469/c0b1116f-0364-4245-9206-6eae9ae47d12"> </div>
 
 - <b> 메모 조회 / 작성 </b>
-  - `객체 인식`을 통해 저장된 물체인지를 인식하고, 해당 물체에 남겨진 메모를 `조회` 및 새로운 `메모를 작성`할 수 있습니다. <br/> <br/>
+  - `물체 인식`을 통해 저장된 물체인지를 인식하고, 해당 물체에 남겨진 메모를 `조회` 및 새로운 `메모를 작성`할 수 있습니다. <br/> <br/>
 
 <div align="center"> <img src="https://github.com/Semibro/Semibro/assets/71372469/d2d52d0b-094c-44d7-96e4-328664b87ab2"> </div>
 
-- <b> 객체 인식 </b>
-  - 사용자에게 객체 인식 방법에 대해서 간단한 `설명을 제공`합니다.
+- <b> 물체 인식 </b>
+  - 사용자에게 물체 인식 방법에 대해서 간단한 `설명을 제공`합니다.
   - `Progress Bar`를 통해 사용자에게 객체 인식의 진행도를 `시각적`으로 제공합니다. <br/> <br/>
 
 <div align="center"> <img src="https://github.com/Semibro/Semibro/assets/71372469/29c001fa-4b4a-4cd9-b43d-b268df5b1c11"> </div>
