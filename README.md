@@ -225,8 +225,8 @@ MemoRise 는 `물체인식` 기반을 바탕으로 물체에 `메모`를 남겨 
 
 ### 🔑 Branch
 
-- develop : 서비스 배포<br>
-- feature/be/[기능명] : 백엔드 기능 개발<br>
-- feature/fe/[기능명] : 프론트엔드 기능 개발<br>
-- hotfix/be/[기능명] : 급한 백엔드 에러 수정<br>
-- hotfix/fe/[기능명] : 급한 프론트엔드 에러 수정<br>
+- develop : 서비스 배포<br/>
+- back/be/feat000-[기능명] : 백엔드 기능 개발<br/>
+- front/fe/feat000-[기능명] : 프론트엔드 기능 개발<br/>
+- back/be/hotfix : 백엔드 에러 수정<br/>
+- front/fe/hotfix: 프론트엔드 에러 수정<br/>
