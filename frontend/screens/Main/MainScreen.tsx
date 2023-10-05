@@ -913,7 +913,7 @@ const MainScreen = () => {
             >
               <View style={styles.imageContainer}>
                 <Image
-                  source={require("../../assets/focus/memo.png")}
+                  source={require("../../assets/focus/heart.png")}
                   style={[styles.ObjImg, { opacity: 0.7 }]}
                 />
                 <View style={styles.textContainer}>

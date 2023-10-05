@@ -359,11 +359,11 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   ObjCircleText: {
-    color: Colors.text,
-    // color: "white",
+    // color: Colors.text,
+    color: "white",
     fontSize: 30,
     fontWeight: "bold",
-    opacity: 0.6,
+    // opacity: 0.6,
     fontFamily: "Pretendard-SemiBold",
   },
   memoClose: {
