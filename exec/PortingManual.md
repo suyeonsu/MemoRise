@@ -158,7 +158,7 @@ cloud:
 
 ### Database ERD
 
-link : (ERDCLOUD LINK)[https://steady-volcano-b48.notion.site/ERD-f830550e31ca4aa984efb8c5fe98e65c?pvs=4]
+link : [ERDCLOUD LINK](https://steady-volcano-b48.notion.site/ERD-f830550e31ca4aa984efb8c5fe98e65c?pvs=4)
 
 ## Docker : Dockerfile
 
@@ -215,8 +215,8 @@ services:
 
 ## Jenkins
 
-jenkins admin ID : memorise-b106-teuk
-jenkins admin password : wlrmatlrks3@tl@40qns@dhgn
+- jenkins admin ID : memorise-b106-teuk
+- jenkins admin password : wlrmatlrks3@tl@40qns@dhgn
 
 ### Jenkins Job
 
