@@ -451,7 +451,6 @@ const MainScreen = () => {
         })
           .then((res) => {
             if (res.request.status === 200) {
-              console.log("메모 생성 성공");
               //물체 표시 생성
               setTaggedMember([]);
               setTaggedGroup([]);
@@ -481,7 +480,6 @@ const MainScreen = () => {
         })
           .then((res) => {
             if (res.request.status === 200) {
-              console.log("메모 수정 성공");
               //물체 표시 생성
               setTaggedMember([]);
               setTaggedGroup([]);
