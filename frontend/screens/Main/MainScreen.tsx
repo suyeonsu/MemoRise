@@ -857,41 +857,8 @@ const MainScreen = () => {
     setCheckMemoLengthZero(false);
   };
 
-  // 서비스 이미지 부분 (다시 수정 예정..!)
-  const service_images: { [key: number]: any } = {
-    1: require("../../assets/service/service_use1.png"),
-    2: require("../../assets/service/service_use2.png"),
-    3: require("../../assets/service/service_use3.png"),
-    4: require("../../assets/service/service_use4.png"),
-    5: require("../../assets/service/service_use5.png"),
-    6: require("../../assets/service/service_use6.png"),
-    7: require("../../assets/service/service_use7.png"),
-    8: require("../../assets/service/service_use8.png"),
-    9: require("../../assets/service/service_use9.png"),
-  };
-
-  const [serviceCount, setServiceCount] = useState(1);
-  const [showServiceImg, setShowServiceImg] = useState(true);
-
-  const service_img = () => {
-    if (serviceCount >= Object.keys(service_images).length) {
-      setShowServiceImg(false); // 이미지를 숨김
-    } else {
-      setServiceCount((prevCount) => prevCount + 1); // 이미지 인덱스 증가
-    }
-  };
-
   return (
     <View style={{ flex: 1 }}>
-      {/* 서비스 소개 이미지 */}
-      {showServiceImg && (
-        <Pressable onPress={service_img}>
-          <Image
-            source={service_images[serviceCount]}
-            style={styles.serviceImage}
-          />
-        </Pressable>
-      )}
       {!isNotificationModalVisible && (
         <View style={styles.headerContainer}>
           <MainHeader
