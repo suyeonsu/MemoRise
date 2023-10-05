@@ -554,6 +554,7 @@ const MainScreen = () => {
 
   const closeNotificationModal = () => {
     setNotificationModalVisible(false);
+    startRTCConnection("track2");
   };
 
   // 추가 버튼 모달
@@ -980,7 +981,7 @@ const MainScreen = () => {
         ) : (
           <Pressable
             style={styles.btnContainer}
-            onPress={() => startRTCConnection("track1")}
+            onPress={() => setNotificationModalVisible(true)}
           >
             <Image
               source={require("../../assets/image/camerabtn.png")}
