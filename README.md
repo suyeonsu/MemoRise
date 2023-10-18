@@ -57,20 +57,6 @@ MemoRise 는 `물체인식` 을 기반으로 물체에 `메모`를 남겨 편하
     </tr>
 </table>
 
-<b>AOS</b>
-
-- 김장호 :
-- 권소정 :
-- 김준형 : OAUTH(카카오) 소셜 로그인 구현 / 메모 조회, 수정, 삭제 기능 구현 / 인공지능 환경설정 / YOLO 모델 학습
-
-<br/>
-
-<b>Backend</b>
-
-- 김수연 : API 구현 (회원, 물체, 파일 서버, 그룹) / DB 설계
-- 이준용 :
-- 최경인 : AWS 서버 구축 / REST API 구현 (메모, 태그) / DB 설계
-
 <br/>
 
 ### 📅 진행 기간
@@ -197,13 +183,6 @@ MemoRise 는 `물체인식` 을 기반으로 물체에 `메모`를 남겨 편하
 
 # 🤝 협업
 
-### 🔏 Notion
-
-<div align="center">
-<img src="https://github.com/Semibro/TIL/assets/71372469/b1d14f8c-92fc-4b03-a2bf-b80ac7b0dd4a"> </div>
-
-<br/>
-
 ### 🔑 Commit Convention
 
 |   태그   |                   설명                    |               예시                |
@@ -226,7 +205,7 @@ MemoRise 는 `물체인식` 을 기반으로 물체에 `메모`를 남겨 편하
 
 ### 🔑 Branch
 
-- develop : 서비스 배포<br/>
+- main : 서비스 배포<br/>
 - back/be/feat000-[기능명] : 백엔드 기능 개발<br/>
 - front/fe/feat000-[기능명] : 프론트엔드 기능 개발<br/>
 - back/be/hotfix : 백엔드 에러 수정<br/>
